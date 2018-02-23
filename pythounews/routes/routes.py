@@ -1,7 +1,7 @@
 from flask import render_template, request, flash, redirect
 
 
-from .app import app, login
+from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 
 

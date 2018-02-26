@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8"/>
+            <title>Boatlas {%block titre %}{%endblock%}</title>
+            {% include "partials/css.html" %}
+            {% include "partials/metadata.html" %}
+    </head>
+    <body>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-3" class="container">
+                <p style="font-size:0.8em; color:grey">Ce projet a été crée dans le cadre du cours de Python dispensé à l'ENC, et développé par Fanny Mézard, Amandine Heathcote, Marie-Gaëlle Gourio, Anne-Laure Huet et Alexandre Gaudin.</p>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3" class="container">
+                <ul>
+                    <li><a href="{{ url_for('accueil') }}" style="font-size:0.8em">Accueil</a></li>
+                    <li><a href="{{ url_for('inscription') }}" style="font-size:0.8em">Inscription</a></li>
+                    <li><a href="{{ url_for('connexion') }}" style="font-size:0.8em">Connexion</a></li>
+                    <li><a href="{{ url_for('tnah') }}" style="font-size:0.8em">About TNAH</a></li>
+                </ul>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+    </body>
+</html>

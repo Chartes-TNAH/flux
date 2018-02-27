@@ -21,7 +21,7 @@ app = Flask(
 
 app.config['SECRET_KEY'] = SECRET_KEY
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pythounews_user:password@localhost/pythounews'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pythounews:pythounews@localhost/pythounews'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)

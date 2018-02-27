@@ -14,3 +14,7 @@ def tnah():
 @app.route("/")
 def connexion():
 	return render_template("pages/connexion.html")
+    
+@app.route("/")
+def inscription():
+    return render_template("pages/inscription.html")

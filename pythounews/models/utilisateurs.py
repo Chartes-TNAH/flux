@@ -8,7 +8,7 @@ class User(UserMixin, db.Model):
     user_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     user_nom = db.Column(db.Text, nullable=False)
     user_bio = db.Column(db.Text, nullable=True)
-    user_promo = db.Integer(db.Integer, nullable=False)
+    user_promo = db.Column(db.Integer, nullable=True)
     user_login = db.Column(db.String(45), nullable=False, unique=True)
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
@@ -28,7 +28,7 @@ class User(UserMixin, db.Model):
         return None
 
     @staticmethod
-    def creer(login, email, nom, motdepasse):
+    def creer(login, email, nom, motdepasse, bio, promo, spe):
         """ Crée un compte utilisateur-rice. Retourne un tuple (booléen, User ou liste).
         Si il y a une erreur, la fonction renvoie False suivi d'une liste d'erreur
         Sinon, elle renvoie True suivi de la donnée enregistrée
@@ -67,7 +67,8 @@ class User(UserMixin, db.Model):
             user_email=email,
             user_password=generate_password_hash(motdepasse),
             user_bio=bio,
-            user_promo=promo
+            user_promo=promo,
+            user_spe=spe,
         )
 
         try:

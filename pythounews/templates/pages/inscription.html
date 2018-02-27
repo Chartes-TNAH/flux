@@ -3,24 +3,49 @@
 <h1>Inscription</h1>
 <p>Complétez le formulaire puis cliquez sur "S'inscrire".</p>
 <form class="form" method="POST" action="{{url_for("inscription")}}">
+
   <div class="form-group row">
-    <label for="register-login" class="col-sm-2 col-form-label">Login</label>
+    <label for="login" class="col-sm-2 col-form-label">Login</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="register-login" name="login" placeholder="Nom d'utilisateur pour se connecter">
+      <input type="text" class="form-control" id="login" name="login" placeholder="Nom d'utilisateur pour se connecter">
     </div>
   </div>
+
   <div class="form-group row">
-    <label for="register-email" class="col-sm-2 col-form-label">Email</label>
+    <label for="bio" class="col-sm-2 col-form-label">Etudes réalisées</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="register-email" placeholder="email@example.com" name="email">
+      <input type="text" class="form-control" id="bio" name="bio" placeholder="Petite biographie depuis la licence">
     </div>
   </div>
+
   <div class="form-group row">
-    <label for="register-password" class="col-sm-2 col-form-label">Password</label>
+    <label for="login" class="col-sm-2 col-form-label">Promo</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="register-password" placeholder="Mot de passe" name="motdepasse">
+      <input type="integer" class="form-control" id="promo" name="promo" placeholder="Année d'obtention du diplôme. Ex : 2018">
     </div>
   </div>
+
+  <div class="form-group row">
+    <label for="login" class="col-sm-2 col-form-label">Spécialité</label>
+    <div class="col-sm-10">
+      <input type="integer" class="form-control" id="spe" name="spe" placeholder="Archives, Livres et médias ou Histoire de l'art">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="email" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="motdepasse" class="col-sm-2 col-form-label">Mot de passe</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="motdepasse" name="motdepasse" placeholder="Mot de passe">
+    </div>
+  </div>
+
   <div>
     <button type="submit" class="btn btn-primary">S'inscrire</button>
   </div>

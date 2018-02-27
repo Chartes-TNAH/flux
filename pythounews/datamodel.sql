@@ -17,7 +17,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 DROP SCHEMA IF EXISTS `pythounews`;
 
 CREATE SCHEMA IF NOT EXISTS `pythounews` DEFAULT CHARACTER SET utf8 ;
-USE `pythounewsuser` ;
+USE `pythounews` ;
 
 
 -- -----------------------------------------------------
@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`user` (
   `user_nom` TINYTEXT NOT NULL,
   `user_login` VARCHAR(45) NOT NULL,
   `user_bio` MEDIUMTEXT NULL,
-  `user_promo`INT(4) NULL, 
+  `user_promo`INT(4) NULL,
+  `user_spe` TEXT NULL,
   `user_email` TINYTEXT NULL,
   `user_password` VARCHAR(64) NULL,
   PRIMARY KEY (`user_id`),

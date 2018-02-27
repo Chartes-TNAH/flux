@@ -9,7 +9,6 @@ statics = os.path.join(chemin_actuel, "static")
 
 # On initie l'extension
 db = SQLAlchemy()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pythounews_user:password@localhost/pythounews'
 
 # On met en place la gestion d'utilisateur-rice-s
 login = LoginManager()
@@ -19,6 +18,8 @@ app = Flask(
     template_folder=templates,
     static_folder=statics
 )
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pythounews_user:password@localhost/pythounews'
 
 from .routes import routes
 

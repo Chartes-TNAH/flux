@@ -11,10 +11,14 @@ def tnah():
     """
     return render_template("pages/tnah.html", nom="A propos")
 
-@app.route("/")
+@app.route("/connexion")
 def connexion():
 	return render_template("pages/connexion.html")
     
-@app.route("/")
+@app.route("/inscription")
 def inscription():
     return render_template("pages/inscription.html")
+
+@app.route("/")
+def accueil():
+    return render_template("pages/accueil.html")

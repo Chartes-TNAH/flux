@@ -1,3 +1,18 @@
 {% include "partials/header.html" %}
 <h1>Bienvenue !</h1>
+<body>
+  <div class="container-fluid" rowspan="30">
+  <p>{{titre}}</br>
+    {{sujet}}</br>
+    <a href="{{lien}}">Lien vers la page</a></br>
+    {{date}}
+  </p>
+  <p>{{titre1}}</br>
+    {{sujet1}}</br>
+    <a href="{{lien1}}">Lien vers la page</a></br>
+    {{date1}}
+  </p>
+  <a class="twitter-timeline" data-lang="fr" data-width="300" data-height="300" data-theme="light" data-link-color="#2B7BB9" href="https://twitter.com/laBnF?ref_src=twsrc%5Etfw">Tweets by laBnF</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+</body>
 {% include "partials/footer.html" %}

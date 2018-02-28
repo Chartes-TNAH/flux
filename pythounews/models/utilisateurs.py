@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     user_login = db.Column(db.String(45), nullable=False, unique=True)
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
+    user_spe = db.Column(db.Text, nullable=True)
 
     @staticmethod
     def identification(login, motdepasse):
@@ -70,7 +71,8 @@ class User(UserMixin, db.Model):
             user_promo=promo,
             user_spe=spe,
         )
-
+        print(utilisateur)
+        print(erreurs)
         try:
             # On l'ajoute au transport vers la base de données
             db.session.add(utilisateur)

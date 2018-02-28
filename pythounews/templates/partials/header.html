@@ -16,12 +16,18 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('tnah') }}">A propos</a>
       </li>
+      {% if not current_user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('connexion') }}">Connexion</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('inscription') }}">Inscription</a>
       </li>
+      {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for("deconnexion")}}">Déconnexion ({{current_user.user_nom}})</a>
+              </li>
+            {% endif %}
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

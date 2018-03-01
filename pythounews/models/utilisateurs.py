@@ -102,23 +102,3 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def trouver_utilisateur_via_id(identifiant):
     return User.query.get(int(identifiant))
-
-@staticmethod
-def profil(id, nom, login, bio, promo, spe, email):
-    """ Affiche le profil de l'utilisateur.
-    :param nom: Prénom et nom de l'utilisateur
-    :param login: Login de l'utilisateur
-    :param bio: petite biographie de l'utilisateur
-    :param promo: année de promotion de l'utilisateur
-    :param spe: spécialité suivie en master par l'utilisateur
-    :param email: email de l'utilisateur
-    """
-
-    utilisateur = User.query.get(id)
-
-    utilisateur.nom = nom
-    utilisateur.login = login
-    utilisateur.bio = bio
-    utilisateur.promo = promo
-    utilisateur.spe = spe
-    utilisateur.email = email

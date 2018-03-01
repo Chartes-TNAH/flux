@@ -73,9 +73,7 @@ def deconnexion():
 def accueil():
     return render_template("pages/accueil.html")
 
-@app.route("/profil", methods=["POST", "GET"])
+@app.route("/profil")
 @login_required
 def profil():
-    if current_user.is_authenticated is True:
-        logout_user()
     return render_template("pages/profil.html")

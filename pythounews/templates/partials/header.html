@@ -16,12 +16,18 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('tnah') }}">A propos</a>
       </li>
+      {% if not current_user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('connexion') }}">Connexion</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('inscription') }}">Inscription</a>
       </li>
+      {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for("deconnexion")}}">Déconnexion ({{current_user.user_nom}})</a>
+              </li>
+            {% endif %}
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -29,6 +35,18 @@
     </form>
   </div>
 </nav>
-
+{% block afternav %}{%endblock%}
+      <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="row">
+              <div class="col">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+                {% endfor %}
+              </div>
+          </div>
+          {% endif %}
+        {% endwith %}
 </body>
 </html>

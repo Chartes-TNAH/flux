@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`user` (
   `user_promo`INT(4) NULL,
   `user_spe` TEXT NULL,
   `user_email` TINYTEXT NULL,
-  `user_password` VARCHAR(64) NULL,
+  `user_password` VARCHAR(100) NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC))
 ENGINE = InnoDB;

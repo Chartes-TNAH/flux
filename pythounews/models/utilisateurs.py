@@ -12,11 +12,11 @@ class User(UserMixin, db.Model):
     user_login = db.Column(db.String(45), nullable=False, unique=True)
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
+    user_spe = db.Column(db.Text, nullable=True)
 
     @staticmethod
     def identification(login, motdepasse):
         """ Identifie un utilisateur. Si cela fonctionne, renvoie les données de l'utilisateurs.
-
         :param login: Login de l'utilisateur
         :param motdepasse: Mot de passe envoyé par l'utilisateur
         :returns: Si réussite, données de l'utilisateur. Sinon None
@@ -32,12 +32,10 @@ class User(UserMixin, db.Model):
         """ Crée un compte utilisateur-rice. Retourne un tuple (booléen, User ou liste).
         Si il y a une erreur, la fonction renvoie False suivi d'une liste d'erreur
         Sinon, elle renvoie True suivi de la donnée enregistrée
-
         :param login: Login de l'utilisateur-rice
         :param email: Email de l'utilisateur-rice
         :param nom: Nom de l'utilisateur-rice
         :param motdepasse: Mot de passe de l'utilisateur-rice (Minimum 6 caractères)
-
         """
         erreurs = []
         if not login:
@@ -70,7 +68,8 @@ class User(UserMixin, db.Model):
             user_promo=promo,
             user_spe=spe,
         )
-
+        print(utilisateur)
+        print(erreurs)
         try:
             # On l'ajoute au transport vers la base de données
             db.session.add(utilisateur)
@@ -84,7 +83,6 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         """ Retourne l'id de l'objet actuellement utilisé
-
         :returns: ID de l'utilisateur
         :rtype: int
         """
@@ -92,7 +90,6 @@ class User(UserMixin, db.Model):
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
-
         :return:
         """
         return {
@@ -105,3 +102,23 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def trouver_utilisateur_via_id(identifiant):
     return User.query.get(int(identifiant))
+
+@staticmethod
+def profil(id, nom, login, bio, promo, spe, email):
+    """ Affiche le profil de l'utilisateur.
+    :param nom: Prénom et nom de l'utilisateur
+    :param login: Login de l'utilisateur
+    :param bio: petite biographie de l'utilisateur
+    :param promo: année de promotion de l'utilisateur
+    :param spe: spécialité suivie en master par l'utilisateur
+    :param email: email de l'utilisateur
+    """
+
+    utilisateur = User.query.get(id)
+
+    utilisateur.nom = nom
+    utilisateur.login = login
+    utilisateur.bio = bio
+    utilisateur.promo = promo
+    utilisateur.spe = spe
+    utilisateur.email = email

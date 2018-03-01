@@ -1,6 +1,4 @@
 from flask import render_template, request, flash, redirect
-
-
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
@@ -30,14 +28,14 @@ def connexion():
             login_user(utilisateur)
             return redirect("/")
         else:
-            flash("Les identifiants n'ont pas été reconnus", "error")
+            flash("Les identifiants n'ont pas été reconnus", "alert")
 
     return render_template("pages/connexion.html")
 
 login.login_view = 'connexion'
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/inscription", methods=["GET", "POST"])
 def inscription():
     """ Route gérant les inscriptions
     """
@@ -46,17 +44,20 @@ def inscription():
         statut, donnees = User.creer(
             login=request.form.get("login", None),
             email=request.form.get("email", None),
-            nom=request.form.get("nom", None),
             bio=request.form.get("bio", None),
+            nom=request.form.get("nom", None),
             spe=request.form.get("spe", None),
             promo=request.form.get("promo", None),
             motdepasse=request.form.get("motdepasse", None)
         )
+        print("donnee",donnees)
+        print("statut", statut)
+
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "alert")
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")
@@ -71,3 +72,10 @@ def deconnexion():
 @app.route("/")
 def accueil():
     return render_template("pages/accueil.html")
+
+@app.route("/profil", methods=["POST", "GET"])
+@login_required
+def profil():
+    if current_user.is_authenticated is True:
+        logout_user()
+    return render_template("pages/profil.html")

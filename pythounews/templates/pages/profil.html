@@ -1,0 +1,20 @@
+{% include "partials/header.html" %}
+
+<h1>Mon profil</h1>
+
+<p>
+  <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
+</p>
+
+<p>{{nom}}</p>
+<p>{{login}}</p>
+<p>{{bio}}</p>
+<p>{{promo}}</p>
+<p>{{spe}}</p>
+<p>{{email}}</p>
+
+<div>
+  <button type="submit" class="btn btn-primary" href="{{url_for("profil")}}">Modifier mon profil</button>
+</div>
+
+{% include "partials/footer.html" %}

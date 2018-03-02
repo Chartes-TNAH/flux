@@ -72,3 +72,8 @@ def deconnexion():
 @app.route("/")
 def accueil():
     return render_template("pages/accueil.html")
+
+@app.route("/profil")
+@login_required
+def profil():
+    return render_template("pages/profil.html")

@@ -17,7 +17,6 @@ class User(UserMixin, db.Model):
     @staticmethod
     def identification(login, motdepasse):
         """ Identifie un utilisateur. Si cela fonctionne, renvoie les données de l'utilisateurs.
-
         :param login: Login de l'utilisateur
         :param motdepasse: Mot de passe envoyé par l'utilisateur
         :returns: Si réussite, données de l'utilisateur. Sinon None
@@ -33,12 +32,10 @@ class User(UserMixin, db.Model):
         """ Crée un compte utilisateur-rice. Retourne un tuple (booléen, User ou liste).
         Si il y a une erreur, la fonction renvoie False suivi d'une liste d'erreur
         Sinon, elle renvoie True suivi de la donnée enregistrée
-
         :param login: Login de l'utilisateur-rice
         :param email: Email de l'utilisateur-rice
         :param nom: Nom de l'utilisateur-rice
         :param motdepasse: Mot de passe de l'utilisateur-rice (Minimum 6 caractères)
-
         """
         erreurs = []
         if not login:
@@ -86,7 +83,6 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         """ Retourne l'id de l'objet actuellement utilisé
-
         :returns: ID de l'utilisateur
         :rtype: int
         """
@@ -94,7 +90,6 @@ class User(UserMixin, db.Model):
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
-
         :return:
         """
         return {

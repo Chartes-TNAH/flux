@@ -32,7 +32,7 @@ def connexion():
 
     return render_template("pages/connexion.html")
 
-login.login_view = 'connexion'
+    login.login_view = 'connexion'
 
 
 @app.route("/inscription", methods=["GET", "POST"])
@@ -64,6 +64,11 @@ def inscription():
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
+    """
+    Route permettant à l'utilisateur de se déconnecter
+    :return:
+
+    """
     if current_user.is_authenticated is True:
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
@@ -72,6 +77,30 @@ def deconnexion():
 @app.route("/")
 def accueil():
     return render_template("pages/accueil.html")
+
+@app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
+@login_required
+def modif_profil(user_id) :
+    """
+    Route permettant à l'utilisateur de modifier les informations de son profil
+    """
+    statut, donnees = User.modif_profil(
+        user_id=user_id,
+        email=request.form.get("email", None),
+        login=request.form.get("login", None),
+        nom=request.form.get("nom", None),
+        bio=request.form.get("bio", None),
+        spe=request.form.get("spe", None),
+        promo=request.form.get("promo", None)
+    )
+    if statut is True:
+        flash("Votre modification a bien été acceptée", "success")
+        return redirect("/")  # vers le lieu qu'il vient de créer.
+
+    else:
+        flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+        nouvel_utilisateur = User.query.get(user_id)
+        return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
 
 @app.route("/profil")
 @login_required

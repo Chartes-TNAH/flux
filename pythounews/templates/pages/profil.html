@@ -14,7 +14,7 @@
 <p><div style="font-weight:bold">Mon email : </div>{{current_user.user_email}}</p>
 
 <div>
-  <button type="submit" class="btn btn-primary" href="{{url_for("profil")}}">Modifier mon profil</button>
+  <a class="nav-link" href="{{url_for('modif_profil', user_id=current_user.user_id)}}">Modifier le profil</a>
 </div>
 
 {% include "partials/footer.html" %}

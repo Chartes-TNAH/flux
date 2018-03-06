@@ -1,4 +1,8 @@
 from flask import render_template, request, flash, redirect
+from pythounews.modules import flux_rss
+from pythounews.modules.flux_rss import read_rss
+from feedparser import parse
+
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
@@ -76,7 +80,9 @@ def deconnexion():
 
 @app.route("/")
 def accueil():
-    return render_template("pages/accueil.html")
+    titre, sujet, lien, date = flux_rss.read_rss("http://www.chartes.psl.eu/fr/rss")
+    titre_1, sujet_1, lien_1, date_1 = flux_rss.read_rss("http://www.chartes.psl.eu/fr/rss")
+    return render_template("pages/accueil.html", titre=titre, sujet=sujet, lien=lien, date=date, titre1=titre_1, sujet1=sujet_1, lien1=lien_1, date1=date_1)
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
 @login_required
@@ -106,3 +112,4 @@ def modif_profil(user_id) :
 @login_required
 def profil():
     return render_template("pages/profil.html")
+

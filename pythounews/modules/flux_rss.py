@@ -1,11 +1,12 @@
 from feedparser import parse
 
 def read_rss(address):
-    """ Read a RSS feed and returns a simpler format
+    """ Lit un flux RSS et les retourne sous un format simplifié (titre, sujet, date, lien)
 
-    :param address: URI Address of the RSS Feed
+    :param address: Adresse URI du flux RSS
     :type address: str
-    :yields: Tuple of (Title, Summary, Link, Published)
+    :return: Tuple constitué du Titre, Sujet, Lien, Date
+    :type titre, sujet, lien, date: str
     """
     liste=[]
     feed = parse(address)
@@ -14,7 +15,7 @@ def read_rss(address):
         sujet = (item["summary_detail"]["value"])
         lien = (item["link"])
         date = (item["published"])
-        rss = titre, sujet, lien, date
+        rss = titre, sujet, lien,  date
         liste.append(rss)
-    rss_final = liste[0]
-    return rss_final
+    titre, sujet, lien, date = liste[0]
+    return titre, sujet, lien, date

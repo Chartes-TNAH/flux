@@ -32,14 +32,14 @@ def connexion():
             login_user(utilisateur)
             return redirect("/")
         else:
-            flash("Les identifiants n'ont pas été reconnus", "error")
+            flash("Les identifiants n'ont pas été reconnus", "alert")
 
     return render_template("pages/connexion.html")
 
 login.login_view = 'connexion'
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/inscription", methods=["GET", "POST"])
 def inscription():
     """ Route gérant les inscriptions
     """
@@ -48,17 +48,20 @@ def inscription():
         statut, donnees = User.creer(
             login=request.form.get("login", None),
             email=request.form.get("email", None),
-            nom=request.form.get("nom", None),
             bio=request.form.get("bio", None),
+            nom=request.form.get("nom", None),
             spe=request.form.get("spe", None),
             promo=request.form.get("promo", None),
             motdepasse=request.form.get("motdepasse", None)
         )
+        print("donnee",donnees)
+        print("statut", statut)
+
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "alert")
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")
@@ -75,3 +78,9 @@ def accueil():
     titre, sujet, lien, date = flux_rss.read_rss("http://www.chartes.psl.eu/fr/rss")
     titre_1, sujet_1, lien_1, date_1 = flux_rss.read_rss("http://www.chartes.psl.eu/fr/rss")
     return render_template("pages/accueil.html", titre=titre, sujet=sujet, lien=lien, date=date, titre1=titre_1, sujet1=sujet_1, lien1=lien_1, date1=date_1)
+
+@app.route("/profil")
+@login_required
+def profil():
+    return render_template("pages/profil.html")
+

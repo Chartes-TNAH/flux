@@ -1,18 +1,40 @@
 {% include "partials/header.html" %}
 <h1>Bienvenue !</h1>
 <body>
-  <div class="container-fluid" rowspan="30">
-  <p>{{titre}}</br>
-    {{sujet}}</br>
-    <a href="{{lien}}">Lien vers la page</a></br>
-    {{date}}
+  <div class="container-fluid">
+  <div colspan="30">
+  <p><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> Ecole des Chartes</br>
+    {{titre_chartes}}</br>
+    {{sujet_chartes}}</br>
+    <a href="{{lien_chartes}}">En savoir plussss</a></br>
+    {{date_chartes}}
   </p>
-  <p>{{titre1}}</br>
-    {{sujet1}}</br>
-    <a href="{{lien1}}">Lien vers la page</a></br>
-    {{date1}}
+  <p>
+    <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> INHA </br>
+    {{titre_inha}}</br>
+    {{sujet_inha}}
+    <img src="{{image_inha}}"/></br>
+    <a href="{{lien_inha}}">En savoir plussss</a></br>
+    {{date_inha}}
+  </p>
+  <p>
+    <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités de la bibliothèque </br>
+    {{titre_bnf}}</br>
+    {{sujet_bnf}}
+    <img src="{{image_bnf}}"/></br>
+    <a href="{{lien_bnf}}">En savoir plussss</a></br>
+    {{date_bnf}}
+  </p>
+  <p>
+    <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités professionnelles </br>
+    {{titre_bnf_1}}</br>
+    {{sujet_bnf_1}}
+    <img src="{{image_bnf_1}}"/></br>
+    <a href="{{lien_bnf_1}}">En savoir plussss</a></br>
+    {{date_bnf_1}}
   </p>
   <a class="twitter-timeline" data-lang="fr" data-width="300" data-height="300" data-theme="light" data-link-color="#2B7BB9" href="https://twitter.com/laBnF?ref_src=twsrc%5Etfw">Tweets by laBnF</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
 </div>
 </body>
 {% include "partials/footer.html" %}

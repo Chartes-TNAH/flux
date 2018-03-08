@@ -48,9 +48,7 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`publication` (
     `publication_texte` TEXT NULL,
     PRIMARY KEY (`publication_id`))
 ENGINE = InnoDB;
-  UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC))
   
-    ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `pythounews`.`fluxrss`
@@ -86,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`sujet_fluxrss` (
     ENGINE = InnoDB;
     
 -- -----------------------------------------------------
--- Table `pythounews`.`sujet_motscles`
+-- Table `pythounews`.`motscles`
 -- -----------------------------------------------------
     
 DROP TABLE IF EXISTS `pythounews`.`motscles`;
@@ -110,8 +108,14 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`sujet_publi` (
     CONSTRAINT `fk_publication_id`
 		FOREIGN KEY (`sujet_publi_publication_id`)
         REFERENCES publication(`publication_id`),
-	CONSTRAINT `fk_motscles_id`
+	CONSTRAINT `fk_motscles2_id`
 		FOREIGN KEY (`sujet_publi_motscles_id`)
-        REFERENCES motscles(`motsclefs_id`))
+        REFERENCES motscles(`motscles_id`))
 ENGINE = InnoDB;
 
+
+
+
+
+
+	

@@ -7,6 +7,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+
 DROP SCHEMA IF EXISTS `pythounews`;
 
 CREATE SCHEMA IF NOT EXISTS `pythounews` DEFAULT CHARACTER SET utf8 ;
@@ -20,7 +21,7 @@ DROP TABLE IF EXISTS `pythounews`.`user` ;
 CREATE TABLE IF NOT EXISTS `pythounews`.`user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `user_nom` TINYTEXT NOT NULL,
-  `user_login` VARCHAR(45) NOT NULL,
+  `user_login`VARCHAR(45) NOT NULL,
   `user_bio` MEDIUMTEXT NULL,
   `user_promo`INT(4) NULL,
   `user_spe` TEXT NULL,
@@ -47,6 +48,54 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`publication` (
     `publication_texte` TEXT NULL,
     PRIMARY KEY (`publication_id`))
 ENGINE = InnoDB;
+  UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC))
+  
+    ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `pythounews`.`fluxrss`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `pythounews`.`fluxrss` ;
+
+CREATE TABLE IF NOT EXISTS `pythounews`.`fluxrss` (
+	`fluxrss_id` INT NOT NULL AUTO_INCREMENT,
+	`fluxrss_lien` MEDIUMTEXT NOT NULL ,
+
+  PRIMARY KEY (`fluxrss_id`))
+    ENGINE = InnoDB;
+    
+-- -----------------------------------------------------
+-- Table `pythounews`.`sujet_fluxrss`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `pythounews`.`sujet_fluxrss` ;
+
+CREATE TABLE IF NOT EXISTS `pythounews`.`sujet_fluxrss` (
+	`sujet_fluxrss_id` INT NOT NULL AUTO_INCREMENT,
+    `sujet_fluxrss_fluxrss_id` INT NOT NULL,
+    `sujet_fluxrss_motscles_id` INT NOT NULL,
+    PRIMARY KEY (`sujet_fluxrss_id`),
+    CONSTRAINT `fk_fluxrss_id`
+		FOREIGN KEY (`sujet_fluxrss_fluxrss_id`)
+		REFERENCES fluxrss(`fluxrss_id`),
+	 CONSTRAINT `fk_motscles_id`
+		FOREIGN KEY (`sujet_fluxrss_motscles_id`)
+		REFERENCES motscles(`motscles_id`))
+		
+    ENGINE = InnoDB;
+    
+-- -----------------------------------------------------
+-- Table `pythounews`.`sujet_motscles`
+-- -----------------------------------------------------
+    
+DROP TABLE IF EXISTS `pythounews`.`motscles`;
+
+CREATE TABLE IF NOT EXISTS `pythounews`.`motscles` (
+	`motscles_id` INT NOT NULL AUTO_INCREMENT,
+    `sujet_nom` VARCHAR(20),
+    PRIMARY KEY (`motscles_id`))
+    ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `pythounews`.`sujet_publi`

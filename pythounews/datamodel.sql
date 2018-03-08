@@ -13,7 +13,6 @@ DROP SCHEMA IF EXISTS `pythounews`;
 CREATE SCHEMA IF NOT EXISTS `pythounews` DEFAULT CHARACTER SET utf8 ;
 USE `pythounews` ;
 
-
 -- -----------------------------------------------------
 -- Table `pythounews`.`user`
 -- -----------------------------------------------------
@@ -28,7 +27,27 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`user` (
   `user_spe` TEXT NULL,
   `user_email` TINYTEXT NULL,
   `user_password` VARCHAR(100) NULL,
+  `user_publication_id` INT NOT NULL,
   PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC),
+  CONSTRAINT `fk_publication2_id`
+	FOREIGN KEY (`user_publication_id`)
+    REFERENCES publication(`publication_id`))
+ENGINE = InnoDB;	
+
+-- -----------------------------------------------------
+-- Table `pythounews`.`publication`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pythounews`.`publication` ;
+
+CREATE TABLE IF NOT EXISTS `pythounews`.`publication` (
+	`publication_id` INT NOT NULL AUTO_INCREMENT,
+    `publication_date` DATETIME NULL,
+    `publication_nom` VARCHAR(40) NOT NULL,
+    `publication_lien` MEDIUMTEXT NOT NULL,
+    `publication_texte` TEXT NULL,
+    PRIMARY KEY (`publication_id`))
+ENGINE = InnoDB;
   UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC))
   
     ENGINE = InnoDB;
@@ -77,15 +96,22 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`motscles` (
     `sujet_nom` VARCHAR(20),
     PRIMARY KEY (`motscles_id`))
     ENGINE = InnoDB;
-	
 
+-- -----------------------------------------------------
+-- Table `pythounews`.`sujet_publi`
+-- -----------------------------------------------------    
+DROP TABLE IF EXISTS `pythounews`.`sujet_publi` ;
 
-
-
-
-
-
-
-
-
+CREATE TABLE IF NOT EXISTS `pythounews`.`sujet_publi` (
+	`sujet_publi_id` INT NOT NULL AUTO_INCREMENT,
+    `sujet_publi_publication_id` INT NOT NULL,
+    `sujet_publi_motscles_id` INT NOT NULL,
+    PRIMARY KEY (`sujet_publi_id`),
+    CONSTRAINT `fk_publication_id`
+		FOREIGN KEY (`sujet_publi_publication_id`)
+        REFERENCES publication(`publication_id`),
+	CONSTRAINT `fk_motscles_id`
+		FOREIGN KEY (`sujet_publi_motscles_id`)
+        REFERENCES motscles(`motsclefs_id`))
+ENGINE = InnoDB;
 

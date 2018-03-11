@@ -117,3 +117,26 @@ def modif_profil(user_id) :
 @login_required
 def profil():
     return render_template("pages/profil.html")
+
+@app.route("/publication", methods=["GET", "POST"])
+@login_required
+def publication():
+    """ Route gérant les publications
+    """
+    # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    if request.method == "POST":
+        statut, donnees = User.publication( 
+            publication=request.form.get("publication", None),
+            theme=request.form.get("theme", None)
+        )
+        print("donnee",donnees)
+        print("statut", statut)
+
+        if statut is True:
+            flash("Publication effectuée.", "success")
+            return redirect("/")
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), " alert ")
+            return render_template("pages/post.html")
+    else:
+        return render_template("pages/post.html")

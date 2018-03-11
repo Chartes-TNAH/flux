@@ -1,0 +1,24 @@
+{% include "partials/header.html" %}
+<h1> POST </h1>
+<body>
+  <div class="container-fluid">
+  <div colspan="30">
+  <p></p>
+  <form class="form" method="POST" action="{{url_for("publication")}}">
+
+  <div class="form-group row">
+    <label for="publication" class="col-sm-2 col-form-label"> Publication </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="publication" name="publication">
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary"> Post it ! </button>
+  </div>
+</form>
+</div>
+</div>
+</body>
+
+{% include "partials/footer.html" %}

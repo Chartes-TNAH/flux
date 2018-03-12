@@ -139,4 +139,4 @@ def publication():
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), " alert ")
             return render_template("pages/publication.html")
     else:
-        return render_template("pages/pulication.html")
+        return render_template("pages/publication.html")

@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`user` (
   `user_spe` TEXT NULL,
   `user_email` TINYTEXT NULL,
   `user_password` VARCHAR(100) NULL,
-  `user_publication_id` INT NOT NULL,
+  `user_publication_id` INT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC),
   CONSTRAINT `fk_publication2_id`

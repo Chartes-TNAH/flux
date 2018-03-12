@@ -23,7 +23,7 @@ def connexion():
         return redirect("/")
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
-        utilisateur = User.identification(
+        utilisateur=User.identification(
             login=request.form.get("login", None),
             motdepasse=request.form.get("motdepasse", None)
         )
@@ -32,8 +32,8 @@ def connexion():
             login_user(utilisateur)
             return redirect("/")
         else:
-            flash("Les identifiants n'ont pas été reconnus", "alert")
-
+            flash("Les identifiants n'ont pas été reconnus", "danger")
+            return render_template("pages/connexion.html")
     return render_template("pages/connexion.html")
 
     login.login_view = 'connexion'
@@ -61,7 +61,7 @@ def inscription():
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "alert")
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "danger")
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")

@@ -1,12 +1,11 @@
-from .. app import db, login
+from .. app import db
 
-class publication(UserMixin, db.Model):
+class publication( db.Model):
     publication_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     publication_date = db.Column(db.Text, nullable=False)
     publication_nom = db.Column(db.String(40), nullable=True)
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
-
 
 	@staticmethod
     def creer_publication(titre, date, lien, texte):
@@ -19,17 +18,29 @@ class publication(UserMixin, db.Model):
         :returns: Si réussite, publication de l'utilisateur. Sinon None
         :rtype: Publication or None
         """
-        
+        erreurs = []
 
+        if not titre :
+        	erreurs.append("Le titre de votre publication n'est pas renseigné")
+        if not date : 
+        	erreurs.append("La date du jour doit être renseignée")
+        if not lien : 
+        	erreurs.append("Veuillez ajouter un lien à votre publication")
         
-        titre = publication.query.filter(publication.publication_nom == titre).all()
-        print(titre)
-        date = publication.query.filter(publication.publication_date == date).all()
-        print(date)
-        lien = publication.query.filter(publication.publication_nom == titre).all()
-        print(titre)
-        print(motdepasse)
-        print(utilisateur.user_password)
-        if utilisateur and check_password_hash(utilisateur.user_password, motdepasse):
-            return utilisateur
-        return None
+        if len(erreurs) > 0: 
+        	print("Votre publication n'a pas été validée car nous avons rencontré les erreurs suivantes :" + erreurs)
+        
+        publication = Publication(
+        	publication_nom = titre,
+        	publication_date = date,
+        	publication_lien = lien,
+        	publication_texte = texte)
+
+        try : 
+        	db.session.add(publication)
+        	db.session.commit()
+
+            return True, publication
+
+        except Exception as erreur : 
+        	return False, [str(erreur)]

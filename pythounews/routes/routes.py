@@ -121,13 +121,16 @@ def profil():
 @app.route("/publication", methods=["GET", "POST"])
 @login_required
 def publication():
+    print(request.form)
     """ Route gérant les publications
     """
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
-        statut, donnees = User.publication( 
-            publication=request.form.get("publication", None),
-            theme=request.form.get("theme", None)
+        statut, donnees = publication.creer_publication( 
+            titre=request.form.get("titre", None),
+            date=request.form.get("date", None),
+            lien=request.form.get("lien", None),
+            texte=request.form.get("texte", None)
         )
         print("donnee",donnees)
         print("statut", statut)
@@ -136,7 +139,7 @@ def publication():
             flash("Publication effectuée.", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), " alert ")
+            flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), " error ")
             return render_template("pages/publication.html")
     else:
         return render_template("pages/publication.html")

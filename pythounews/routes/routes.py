@@ -23,7 +23,7 @@ def connexion():
         return redirect("/")
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
-        utilisateur = User.identification(
+        utilisateur=User.identification(
             login=request.form.get("login", None),
             motdepasse=request.form.get("motdepasse", None)
         )
@@ -33,7 +33,7 @@ def connexion():
             return redirect("/")
         else:
             flash("Les identifiants n'ont pas été reconnus", "alert")
-
+            return render_template("pages/connexion.html")
     return render_template("pages/connexion.html")
 
     login.login_view = 'connexion'

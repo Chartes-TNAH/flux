@@ -1,39 +1,49 @@
 {% include "partials/header.html" %}
 <h1>Bienvenue !</h1>
 <body>
-  <div class="container-fluid">
-  <div colspan="30">
+  <div>
+  <div class="row">
+  <div class="col-7">
   <p><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> Ecole des Chartes</br>
-    {{titre_chartes}}</br>
+    <span style="font-size:0.9em;">{{titre_chartes}}</br>
     {{sujet_chartes}}</br>
-    <a href="{{lien_chartes}}">En savoir plussss</a></br>
-    {{date_chartes}}
+    <a href="{{lien_chartes}}" class="text-success">En savoir plussss</a></br>
+    {{date_chartes}}</span>
   </p>
   <p>
     <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> INHA </br>
-    {{titre_inha}}</br>
+    <span style="font-size:0.9em">{{titre_inha}}</br>
     {{sujet_inha}}
     <img src="{{image_inha}}"/></br>
-    <a href="{{lien_inha}}">En savoir plussss</a></br>
-    {{date_inha}}
+    <a href="{{lien_inha}}" class="text-success">En savoir plussss</a></br>
+    {{date_inha}}</span>
   </p>
   <p>
     <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités de la bibliothèque </br>
-    {{titre_bnf}}</br>
+    <span style="font-size:0.9em">{{titre_bnf}}</br>
     {{sujet_bnf}}
     <img src="{{image_bnf}}"/></br>
-    <a href="{{lien_bnf}}">En savoir plussss</a></br>
-    {{date_bnf}}
+    <a href="{{lien_bnf}}" class="text-success">En savoir plussss</a></br>
+    {{date_bnf}}</span>
   </p>
   <p>
     <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités professionnelles </br>
-    {{titre_bnf_1}}</br>
-    {{sujet_bnf_1}}
+    <span style="font-size:0.9em">{{titre_bnf_1}}</br>
+    {{sujet_bnf_1}}</br>
     <img src="{{image_bnf_1}}"/></br>
-    <a href="{{lien_bnf_1}}">En savoir plussss</a></br>
-    {{date_bnf_1}}
+    <a href="{{lien_bnf_1}}" class="text-success">En savoir plussss</a></br>
+    {{date_bnf_1}}</span>
   </p>
-  <a class="twitter-timeline" data-lang="fr" data-width="300" data-height="300" data-theme="light" data-link-color="#2B7BB9" href="https://twitter.com/laBnF?ref_src=twsrc%5Etfw">Tweets by laBnF</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+<div class="col-1">
+</div>
+<div class="col-4">
+  <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/ademec_enc?ref_src=twsrc%5Etfw">Tweets by ademec_enc</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/PonteIneptique?ref_src=twsrc%5Etfw">Tweets by PonteIneptique</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/lespetitescases?ref_src=twsrc%5Etfw">Tweets by Gautier Poupeau</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-timeline" data-width="300" data-height="300" href="https://twitter.com/seeksanusername?ref_src=twsrc%5Etfw">Tweets by seeksanusername</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-timeline" data-width="300" data-height="300" href="https://twitter.com/RemiMathis?ref_src=twsrc%5Etfw">Tweets by RemiMathis</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
 </div>
 </div>
 </body>

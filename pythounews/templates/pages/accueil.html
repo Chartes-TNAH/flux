@@ -6,14 +6,14 @@
   <div class="col-7">
   <p><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> Ecole des Chartes</br>
     <span style="font-size:0.9em;">{{titre_chartes}}</br>
-    {{sujet_chartes}}</br>
+    {{sujet_chartes|safe}}</br>
     <a href="{{lien_chartes}}" class="text-success">En savoir plussss</a></br>
     {{date_chartes}}</span>
   </p>
   <p>
     <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> INHA </br>
     <span style="font-size:0.9em">{{titre_inha}}</br>
-    {{sujet_inha}}
+    {{sujet_inha|safe}}
     <img src="{{image_inha}}"/></br>
     <a href="{{lien_inha}}" class="text-success">En savoir plussss</a></br>
     {{date_inha}}</span>
@@ -21,7 +21,7 @@
   <p>
     <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités de la bibliothèque </br>
     <span style="font-size:0.9em">{{titre_bnf}}</br>
-    {{sujet_bnf}}
+    {{sujet_bnf|safe}}
     <img src="{{image_bnf}}"/></br>
     <a href="{{lien_bnf}}" class="text-success">En savoir plussss</a></br>
     {{date_bnf}}</span>
@@ -29,7 +29,7 @@
   <p>
     <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités professionnelles </br>
     <span style="font-size:0.9em">{{titre_bnf_1}}</br>
-    {{sujet_bnf_1}}</br>
+    {{sujet_bnf_1|safe}}</br>
     <img src="{{image_bnf_1}}"/></br>
     <a href="{{lien_bnf_1}}" class="text-success">En savoir plussss</a></br>
     {{date_bnf_1}}</span>

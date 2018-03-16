@@ -6,6 +6,7 @@ from feedparser import parse
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
+from ..models.publications import Publication
 
 
 @app.route("/tnah")
@@ -32,7 +33,7 @@ def connexion():
             login_user(utilisateur)
             return redirect("/")
         else:
-            flash("Les identifiants n'ont pas été reconnus", "alert")
+            flash("Les identifiants n'ont pas été reconnus", "danger")
 
     return render_template("pages/connexion.html")
 
@@ -61,7 +62,7 @@ def inscription():
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "alert")
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "danger")
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")
@@ -95,6 +96,7 @@ def modif_profil(user_id) :
     """
     Route permettant à l'utilisateur de modifier les informations de son profil
     """
+
     statut, donnees = User.modif_profil(
         user_id=user_id,
         email=request.form.get("email", None),
@@ -109,7 +111,7 @@ def modif_profil(user_id) :
         return redirect("/")  # vers le lieu qu'il vient de créer.
 
     else:
-        flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+        flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "danger")
         nouvel_utilisateur = User.query.get(user_id)
         return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
 
@@ -121,12 +123,11 @@ def profil():
 @app.route("/publication", methods=["GET", "POST"])
 @login_required
 def publication():
-    print(request.form)
     """ Route gérant les publications
     """
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
-        statut, donnees = publication.creer_publication( 
+        statut, donnees = Publication.creer_publication(
             titre=request.form.get("titre", None),
             date=request.form.get("date", None),
             lien=request.form.get("lien", None),
@@ -139,7 +140,7 @@ def publication():
             flash("Publication effectuée.", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), " error ")
+            flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
             return render_template("pages/publication.html")
     else:
         return render_template("pages/publication.html")

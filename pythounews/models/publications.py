@@ -1,13 +1,13 @@
 from .. app import db
 
-class publication( db.Model):
+class Publication(db.Model):
     publication_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     publication_date = db.Column(db.Text, nullable=False)
     publication_nom = db.Column(db.String(40), nullable=True)
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
 
-	@staticmethod
+    @staticmethod
     def creer_publication(titre, date, lien, texte):
         """ Crée une nouvelle publication et renvoie les informations rentrées par l'utilisateur.
 
@@ -20,27 +20,27 @@ class publication( db.Model):
         """
         erreurs = []
 
-        if not titre :
-        	erreurs.append("Le titre de votre publication n'est pas renseigné")
-        if not date : 
-        	erreurs.append("La date du jour doit être renseignée")
-        if not lien : 
-        	erreurs.append("Veuillez ajouter un lien à votre publication")
+        if not titre:
+            erreurs.append("Le titre de votre publication n'est pas renseigné")
+        if not date:
+            erreurs.append("La date du jour doit être renseignée")
+        if not lien:
+            erreurs.append("Veuillez ajouter un lien à votre publication")
         
         if len(erreurs) > 0: 
-        	print("Votre publication n'a pas été validée car nous avons rencontré les erreurs suivantes :" + erreurs)
+            return False, erreurs
         
         publication = Publication(
-        	publication_nom = titre,
-        	publication_date = date,
-        	publication_lien = lien,
-        	publication_texte = texte)
+            publication_nom=titre,
+            publication_date=date,
+            publication_lien=lien,
+            publication_texte=texte)
 
-        try : 
-        	db.session.add(publication)
-        	db.session.commit()
+        try :
+            db.session.add(publication)
+
+            db.session.commit()
 
             return True, publication
-
-        except Exception as erreur : 
-        	return False, [str(erreur)]
+        except Exception as erreur :
+            return False, [str(erreur)]

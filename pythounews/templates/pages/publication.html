@@ -4,29 +4,29 @@
   <div class="container-fluid">
   <div colspan="30">
   <p></p>
-  <form class="form" method="POST" action="{{url_for("publication")}}">
+  <form class="form" method="POST" action="{{url_for('publication')}}">
 
   <div class="form-group row">
-    <label for="publication" class="col-sm-2 col-form-label"> Titre </label>
+    <label for="titre" class="col-sm-2 col-form-label"> Titre </label>
     <div class="col-sm-10">
       <input type="text" class="form-control" id="titre" name="titre" placeholder="Entrez le titre de votre publication">
     </div>
   </div>
   <div class="form-group row">
-    <label for="publication" class="col-sm-2 col-form-label"> Date </label>
+    <label for="date" class="col-sm-2 col-form-label"> Date </label>
     <div class="col-sm-10">
       <input type="datetime" class="form-control" id="date" name="date" placeholder="Entrez la date">
     </div>
   </div>
   
   <div class="form-group row">
-    <label for="publication" class="col-sm-2 col-form-label"> Lien </label>
+    <label for="lien" class="col-sm-2 col-form-label"> Lien </label>
     <div class="col-sm-10">
       <input type="url" class="form-control" id="lien" name="lien" placeholder="Entrez une URL"></input>
     </div>
   </div>
  <div class="form-group row">
-  <label for="publication" class="col-sm-2 col-form-label"> Texte </label>
+  <label for="texte" class="col-sm-2 col-form-label"> Texte </label>
   <textarea type="text" class="col-sm-10 form-control" id="texte" name="texte" placeholder="Entrez votre texte"></textarea>
 </div>
   <div class="div text-center">

@@ -6,6 +6,8 @@ from feedparser import parse
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
+from ..models.publications import Publication
+
 
 
 @app.route("/tnah")
@@ -117,3 +119,29 @@ def modif_profil(user_id) :
 @login_required
 def profil():
     return render_template("pages/profil.html")
+
+
+@app.route("/publication", methods=["GET", "POST"])
+@login_required
+def publication():
+    """ Route gérant les publications
+    """
+    # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    if request.method == "POST":
+        statut, donnees = Publication.creer_publication(
+            titre=request.form.get("titre", None),
+            date=request.form.get("date", None),
+            lien=request.form.get("lien", None),
+            texte=request.form.get("texte", None)
+        )
+        print("donnee",donnees)
+        print("statut", statut)
+
+        if statut is True:
+            flash("Publication effectuée.", "success")
+            return redirect("/")
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
+            return render_template("pages/publication.html")
+    else:
+        return render_template("pages/publication.html")

@@ -1,12 +1,12 @@
 from flask import render_template, request, flash, redirect
-from pythounews.modules import flux_rss
-from pythounews.modules.flux_rss import read_rss
+from ..models import fluxrss
 from feedparser import parse
 
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
 from ..models.publications import Publication
+from ..models.fluxrss import Fluxrss
 
 
 
@@ -82,14 +82,8 @@ def deconnexion():
 
 @app.route("/")
 def accueil():
-    titre_chartes, sujet_chartes, image_chartes, lien_chartes, date_chartes = flux_rss.read_rss("http://www.chartes.psl.eu/fr/rss")
-    titre_inha, sujet_inha, image_inha, lien_inha, date_inha = flux_rss.read_rss("https://www.inha.fr/_plugins/web/inha/fr/filter/INHA-news/rss.xml")
-    titre_bnf, sujet_bnf, image_bnf, lien_bnf, date_bnf = flux_rss.read_rss_bnf("http://www.bnf.fr/Satellite?c=Page&cid=1237374444944&locale=1194947514616&p=1237374444944&pagename=bnf_dev%2FRss&typeRss=Biblio")
-    titre_bnf_1, sujet_bnf_1, image_bnf_1, lien_bnf_1, date_bnf_1 = flux_rss.read_rss_bnf("http://www.bnf.fr/Satellite?c=Page&cid=1237374444944&locale=1194947514616&p=1237374444944&pagename=bnf_dev%2FRss&typeRss=professionnelles")
-    return render_template("pages/accueil.html", titre_chartes=titre_chartes, sujet_chartes=sujet_chartes, lien_chartes=lien_chartes, date_chartes=date_chartes,
-        titre_inha=titre_inha, sujet_inha=sujet_inha, image_inha=image_inha, lien_inha=lien_inha, date_inha=date_inha,
-        titre_bnf=titre_bnf, sujet_bnf=sujet_bnf, image_bnf=image_bnf, lien_bnf=lien_bnf, date_bnf=date_bnf,
-        titre_bnf_1=titre_bnf_1, sujet_bnf_1=sujet_bnf_1, image_bnf_1=image_bnf_1, lien_bnf_1=lien_bnf_1, date_bnf_1=date_bnf_1)
+    liste_rss = Fluxrss.read_rss()
+    return render_template ("pages/accueil.html", liste_rss=liste_rss)
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
 @login_required

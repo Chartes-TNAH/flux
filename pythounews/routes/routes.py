@@ -12,7 +12,7 @@ from ..models.fluxrss import Fluxrss
 
 @app.route("/tnah")
 def tnah():
-    """Route permettant l'affichage de la page 'A propos du master et du projet'
+    """ Route permettant l'affichage de la page 'A propos du master et du projet'
     """
     return render_template("pages/tnah.html", nom="A propos")
 
@@ -70,10 +70,7 @@ def inscription():
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
-    """
-    Route permettant à l'utilisateur de se déconnecter
-    :return:
-
+    """ Route permettant à l'utilisateur de se déconnecter
     """
     if current_user.is_authenticated is True:
         logout_user()
@@ -88,8 +85,7 @@ def accueil():
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
 @login_required
 def modif_profil(user_id) :
-    """
-    Route permettant à l'utilisateur de modifier les informations de son profil
+    """ Route permettant à l'utilisateur de modifier les informations de son profil
     """
     statut, donnees = User.modif_profil(
         user_id=user_id,
@@ -132,10 +128,19 @@ def publication():
         print("statut", statut)
 
         if statut is True:
-            flash("Publication effectuée.", "success")
+            flash("publication effectuée.", "success")
             return redirect("/")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
             return render_template("pages/publication.html")
     else:
         return render_template("pages/publication.html")
+
+
+@app.route("/afficherpublis")
+@login_required
+def afficherpublis():
+    """ Route permettant l'affichage des publications des utilisateurs
+    """
+    publication = Publication.afficher_publications()
+    return render_template("pages/afficherpublis.html", liste_publications = publication)

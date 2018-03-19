@@ -46,4 +46,18 @@ class Publication(db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
-
+    @staticmethod
+    def afficher_publications():
+        """ Affiche les publications des utilisateurs
+        """
+        liste_publications = []
+        publication = Publication.query.all()
+        for item in publication:
+            titre = item.publication_nom
+            date = item.publication_date
+            lien = item.publication_lien
+            texte = item.publication_texte
+            publi = titre, date, lien, texte
+            liste_publications.append(publi)
+        print(liste_publications)
+        return liste_publications

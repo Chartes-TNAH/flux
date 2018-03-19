@@ -12,7 +12,7 @@ from ..models.publications import Publication
 
 @app.route("/tnah")
 def tnah():
-    """Route permettant l'affichage de la page 'A propos du master et du projet'
+    """ Route permettant l'affichage de la page 'A propos du master et du projet'
     """
     return render_template("pages/tnah.html", nom="A propos")
 
@@ -70,10 +70,7 @@ def inscription():
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
-    """
-    Route permettant à l'utilisateur de se déconnecter
-    :return:
-
+    """ Route permettant à l'utilisateur de se déconnecter
     """
     if current_user.is_authenticated is True:
         logout_user()
@@ -82,20 +79,12 @@ def deconnexion():
 
 @app.route("/")
 def accueil():
-    titre_chartes, sujet_chartes, image_chartes, lien_chartes, date_chartes = flux_rss.read_rss("http://www.chartes.psl.eu/fr/rss")
-    titre_inha, sujet_inha, image_inha, lien_inha, date_inha = flux_rss.read_rss("https://www.inha.fr/_plugins/web/inha/fr/filter/INHA-news/rss.xml")
-    titre_bnf, sujet_bnf, image_bnf, lien_bnf, date_bnf = flux_rss.read_rss_bnf("http://www.bnf.fr/Satellite?c=Page&cid=1237374444944&locale=1194947514616&p=1237374444944&pagename=bnf_dev%2FRss&typeRss=Biblio")
-    titre_bnf_1, sujet_bnf_1, image_bnf_1, lien_bnf_1, date_bnf_1 = flux_rss.read_rss_bnf("http://www.bnf.fr/Satellite?c=Page&cid=1237374444944&locale=1194947514616&p=1237374444944&pagename=bnf_dev%2FRss&typeRss=professionnelles")
-    return render_template("pages/accueil.html", titre_chartes=titre_chartes, sujet_chartes=sujet_chartes, lien_chartes=lien_chartes, date_chartes=date_chartes,
-        titre_inha=titre_inha, sujet_inha=sujet_inha, image_inha=image_inha, lien_inha=lien_inha, date_inha=date_inha,
-        titre_bnf=titre_bnf, sujet_bnf=sujet_bnf, image_bnf=image_bnf, lien_bnf=lien_bnf, date_bnf=date_bnf,
-        titre_bnf_1=titre_bnf_1, sujet_bnf_1=sujet_bnf_1, image_bnf_1=image_bnf_1, lien_bnf_1=lien_bnf_1, date_bnf_1=date_bnf_1)
+    return render_template("pages/accueil.html")
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
 @login_required
 def modif_profil(user_id) :
-    """
-    Route permettant à l'utilisateur de modifier les informations de son profil
+    """ Route permettant à l'utilisateur de modifier les informations de son profil
     """
     statut, donnees = User.modif_profil(
         user_id=user_id,
@@ -138,10 +127,19 @@ def publication():
         print("statut", statut)
 
         if statut is True:
-            flash("Publication effectuée.", "success")
+            flash("publication effectuée.", "success")
             return redirect("/")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
             return render_template("pages/publication.html")
     else:
         return render_template("pages/publication.html")
+
+
+@app.route("/afficherpublis")
+@login_required
+def afficherpublis():
+    """ Route permettant l'affichage des publications des utilisateurs
+    """
+    publication = Publication.afficher_publications()
+    return render_template("pages/afficherpublis.html", liste_publications = publication)

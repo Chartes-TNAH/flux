@@ -5,39 +5,19 @@
   <div>
   <div class="row">
   <div class="col-7">
-  <p><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> Ecole des Chartes</br>
-    <span style="font-size:0.9em;">{{titre_chartes}}</br>
-    {{sujet_chartes|safe}}</br>
-    <a href="{{lien_chartes}}" class="text-success">En savoir plussss</a></br>
-    {{date_chartes}}</span>
-  </p>
-  <p>
-    <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> INHA </br>
-    <span style="font-size:0.9em">{{titre_inha}}</br>
-    {{sujet_inha|safe}}
-    <img src="{{image_inha}}"/></br>
-    <a href="{{lien_inha}}" class="text-success">En savoir plussss</a></br>
-    {{date_inha}}</span>
-  </p>
-  <p>
-    <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités de la bibliothèque </br>
-    <span style="font-size:0.9em">{{titre_bnf}}</br>
-    {{sujet_bnf|safe}}
-    <img src="{{image_bnf}}"/></br>
-    <a href="{{lien_bnf}}" class="text-success">En savoir plussss</a></br>
-    {{date_bnf}}</span>
-  </p>
-  <p>
-    <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"> BnF : Actualités professionnelles </br>
-    <span style="font-size:0.9em">{{titre_bnf_1}}</br>
-    {{sujet_bnf_1|safe}}</br>
-    <img src="{{image_bnf_1}}"/></br>
-    <a href="{{lien_bnf_1}}" class="text-success">En savoir plussss</a></br>
-    {{date_bnf_1}}</span>
-  </p>
-</div>
-<div class="col-1">
-</div>
+
+    {%  if liste_rss %}
+      {% for flux_rss in liste_rss %}
+    <p><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{flux_rss[5]}}">{{flux_rss[4]}}</a></br>
+      <span style="font-size:0.9em;">{{flux_rss[0]}}</br>
+      {{flux_rss[1]|safe}}</br>
+      <a href="{{flux_rss[2]}}" class="text-success">En savoir plussss</a></br>
+      {{flux_rss[3]}}</span>
+    </p>
+      {% endfor %}
+
+    {% endif %}
+
 <div class="col-4">
   <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/ademec_enc?ref_src=twsrc%5Etfw">Tweets by ademec_enc</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/PonteIneptique?ref_src=twsrc%5Etfw">Tweets by PonteIneptique</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

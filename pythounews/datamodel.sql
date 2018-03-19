@@ -58,7 +58,10 @@ DROP TABLE IF EXISTS `pythounews`.`fluxrss` ;
 
 CREATE TABLE IF NOT EXISTS `pythounews`.`fluxrss` (
 	`fluxrss_id` INT NOT NULL AUTO_INCREMENT,
-	`fluxrss_lien` MEDIUMTEXT NOT NULL ,
+	`fluxrss_lien` MEDIUMTEXT NOT NULL,
+    `fluxrss_titre` MEDIUMTEXT NOT NULL,
+    `fluxrss_adresse_site` MEDIUMTEXT NOT NULL,
+
 
   PRIMARY KEY (`fluxrss_id`))
     ENGINE = InnoDB;

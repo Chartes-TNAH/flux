@@ -1,12 +1,12 @@
 from flask import render_template, request, flash, redirect
-from pythounews.modules import flux_rss
-from pythounews.modules.flux_rss import read_rss
+from ..models import fluxrss
 from feedparser import parse
 
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
 from ..models.publications import Publication
+from ..models.fluxrss import Fluxrss
 
 
 
@@ -79,7 +79,8 @@ def deconnexion():
 
 @app.route("/")
 def accueil():
-    return render_template("pages/accueil.html")
+    liste_rss = Fluxrss.read_rss()
+    return render_template ("pages/accueil.html", liste_rss=liste_rss)
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
 @login_required

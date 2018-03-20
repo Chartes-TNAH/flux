@@ -1,4 +1,6 @@
 from..app import db
+from bs4 import BeautifulSoup
+import requests
 
 
 class Publication(db.Model):
@@ -60,12 +62,10 @@ class Publication(db.Model):
             publi = titre, date, lien, texte
             liste_publications.append(publi)
 
-        html = requests.get(lien)
-        html_doc = html.text
-        text = BeautifulSoup(html_doc, 'html.parser')
-        description_url = text.find_all("meta", attrs={"name":u"description"})
-        liste_publications.append(description_url)
-        title_url = text.title
-        liste_publications.append(title_url)
+        page_html = requests.get(item.publication_lien)
+        texte = BeautifulSoup(page_html.content, 'html.parser')
+        description_url = texte.find("meta", attrs={"name":u"description"})
+        titre_url = texte.title
 
+        print (liste_publications)
         return liste_publications

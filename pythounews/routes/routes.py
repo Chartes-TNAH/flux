@@ -6,6 +6,7 @@ from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
 from ..models.publications import Publication
+from ..models.motscles import Motscles
 from ..models.fluxrss import Fluxrss
 
 
@@ -117,24 +118,27 @@ def publication():
     """ Route gérant les publications
     """
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    motscles = Motscles.query.all()
+    categories = []
+
     if request.method == "POST":
         statut, donnees = Publication.creer_publication(
             titre=request.form.get("titre", None),
             date=request.form.get("date", None),
             lien=request.form.get("lien", None),
-            texte=request.form.get("texte", None)
-        )
-        print("donnee",donnees)
-        print("statut", statut)
+            texte=request.form.get("texte", None))
+        for mot in motscles:
+            mot = request.form.get(mot.motscles_nom, None)
+            categories.append(mot)
 
         if statut is True:
             flash("publication effectuée.", "success")
             return redirect("/")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
-            return render_template("pages/publication.html")
+            return render_template("pages/publication.html", motscles=motscles)
     else:
-        return render_template("pages/publication.html")
+        return render_template("pages/publication.html", motscles=motscles)
 
 
 @app.route("/afficherpublis")

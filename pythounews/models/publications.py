@@ -59,5 +59,13 @@ class Publication(db.Model):
             texte = item.publication_texte
             publi = titre, date, lien, texte
             liste_publications.append(publi)
-        print(liste_publications)
+
+        html = requests.get(lien)
+        html_doc = html.text
+        text = BeautifulSoup(html_doc, 'html.parser')
+        description_url = text.find_all("meta", attrs={"name":u"description"})
+        liste_publications.append(description_url)
+        title_url = text.title
+        liste_publications.append(title_url)
+
         return liste_publications

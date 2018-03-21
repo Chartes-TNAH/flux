@@ -25,8 +25,6 @@ class Publication(db.Model):
         """
         erreurs = []
 
-        if not titre:
-            erreurs.append("Le titre de votre publication n'est pas renseigné")
         if not lien:
             erreurs.append("Veuillez ajouter un lien à votre publication")
 
@@ -52,6 +50,8 @@ class Publication(db.Model):
     @staticmethod
     def afficher_publications():
         """ Affiche les publications des utilisateurs
+
+        :return: affichage des publications
         """
         liste_publications = []
         publication = Publication.query.all()

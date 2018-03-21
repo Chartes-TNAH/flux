@@ -1,0 +1,18 @@
+{% include "partials/header.html" %}
+<!DOCTYPE html>
+<html>
+  <h1>Les publications</h1>
+  <body>
+      {% for publication in publications %}
+        <h2>{{publications.publication_nom}}</h2>
+        <dl>
+            <dt>Nom</dt><dd>{{publication.publication_nom}}</dd>
+            <dt>Date</dt><dd>{{publication.publication_date}}</dd>
+            <dt>Lien</dt><dd>{{publication.publication_lien}}</dd>
+            <dt>Texte</dt><dd>{{publication.publication_texte}}</dd>
+        </dl>
+    {% endfor %}
+
+  </body>
+</html>
+{% include "partials/footer.html" %}

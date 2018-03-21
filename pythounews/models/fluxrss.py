@@ -24,7 +24,6 @@ class Fluxrss(db.Model):
         #On parse l'adresse
 
         feeds=Fluxrss.query.all()
-        i=0
 
         for feed in feeds:
             institution = feed.fluxrss_titre

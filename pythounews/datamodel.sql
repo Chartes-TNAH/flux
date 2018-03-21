@@ -94,7 +94,7 @@ DROP TABLE IF EXISTS `pythounews`.`motscles`;
 
 CREATE TABLE IF NOT EXISTS `pythounews`.`motscles` (
 	`motscles_id` INT NOT NULL AUTO_INCREMENT,
-    `sujet_nom` VARCHAR(20),
+    `motscles_nom` VARCHAR(20),
     PRIMARY KEY (`motscles_id`))
     ENGINE = InnoDB;
 

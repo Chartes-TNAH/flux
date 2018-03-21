@@ -6,9 +6,8 @@ from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
 from ..models.publications import Publication
+from ..models.motscles import Motscles, Sujet_publi
 from ..models.fluxrss import Fluxrss
-
-
 
 
 @app.route("/tnah")
@@ -143,24 +142,29 @@ def publication():
 
     :returns: page de formulaire d'envoi des publications
     """
+
+    # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    motscles = Motscles.query.all()
+    categories = []
     if request.method == "POST":
         statut, donnees = Publication.creer_publication(
             titre=request.form.get("titre", None),
             date=request.form.get("date", None),
             lien=request.form.get("lien", None),
-            texte=request.form.get("texte", None)
-        )
-        print("donnee",donnees)
-        print("statut", statut)
+            texte=request.form.get("texte", None))
+        for mot in motscles:
+            mot = request.form.get(mot.motscles_nom, None)
+            categories.append(mot)
 
         if statut is True:
             flash("publication effectuée.", "success")
+            Sujet_publi.ajouter_categorie(categories, donnees)
             return redirect("/")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
-            return render_template("pages/publication.html")
+            return render_template("pages/publication.html", motscles=motscles)
     else:
-        return render_template("pages/publication.html")
+        return render_template("pages/publication.html", motscles=motscles)
 
 
 @app.route("/afficherpublis")
@@ -172,3 +176,17 @@ def afficherpublis():
     """
     publication = Publication.afficher_publications()
     return render_template("pages/afficherpublis.html", liste_publications = publication)
+
+@app.route("/afficherpublisCategorie/<int:motscles_id>")
+@login_required
+def afficherpublisCategorie(motscles_id):
+    """ Route permettant l'affichage des publications des utilisateurs par mots clés
+
+        :param motscles_id: id du mot clé
+        :type motscles_id: integer
+        :return: page de publication correspond au mot clé
+    """
+    motcle = Motscles.query.get(motscles_id)
+    publications = Sujet_publi.afficher_publi_categorie(motcle)
+
+    return render_template("pages/afficherpubliCategories.html", motcle=motcle, publications=publications)

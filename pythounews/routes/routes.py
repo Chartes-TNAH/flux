@@ -6,9 +6,8 @@ from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
 from ..models.publications import Publication
-from ..models.motscles import Motscles
+from ..models.motscles import Motscles, Sujet_publi
 from ..models.fluxrss import Fluxrss
-
 
 
 @app.route("/tnah")
@@ -133,6 +132,7 @@ def publication():
 
         if statut is True:
             flash("publication effectuée.", "success")
+            Sujet_publi.ajouter_categorie(categories, donnees)
             return redirect("/")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
@@ -148,3 +148,13 @@ def afficherpublis():
     """
     publication = Publication.afficher_publications()
     return render_template("pages/afficherpublis.html", liste_publications = publication)
+
+@app.route("/afficherpublis/<int:motscles_id>")
+@login_required
+def afficherpublisCategorie(motscles_id):
+    """ Route permettant l'affichage des publications des utilisateurs par mots clés
+    """
+    motcle = Motscles.query.get(motscles_id)
+    publications = Sujet_publi.afficher_publi_categorie(motcle)
+
+    return render_template("pages/afficherpubliCategories.html", motcle=motcle, publications=publications)

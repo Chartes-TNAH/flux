@@ -1,12 +1,14 @@
 from..app import db
 
-
+#Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
     publication_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     publication_date = db.Column(db.Text, nullable=False)
     publication_nom = db.Column(db.String(40), nullable=True)
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
+    sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
+
 
     @staticmethod
     def creer_publication(titre, date, lien, texte):

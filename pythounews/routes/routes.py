@@ -153,6 +153,10 @@ def afficherpublis():
 @login_required
 def afficherpublisCategorie(motscles_id):
     """ Route permettant l'affichage des publications des utilisateurs par mots clés
+
+        :param motscles_id: id du mot clé
+        :type motscles_id: integer
+        :return: page de publication correspond au mot clé
     """
     motcle = Motscles.query.get(motscles_id)
     publications = Sujet_publi.afficher_publi_categorie(motcle)

@@ -19,6 +19,14 @@ class Sujet_publi(db.Model):
 
     @staticmethod
     def ajouter_categorie(categorie, donnees):
+        """ Ajout de la catégorie de la publication en fonction de ce que l'utilisateur a coché
+
+                :param categorie: mots clés choisis par l'utilisateur
+                :type motscles_id: list
+                :param donnees: données rentrées par l'utilisateur (A CHANGER !!!)
+                :type donnees: list
+                :return: page de publication correspond au mot clé
+            """
         for mot in categorie:
             if mot != None:
                 mot_id = Motscles.query.filter(Motscles.motscles_nom == mot).first()

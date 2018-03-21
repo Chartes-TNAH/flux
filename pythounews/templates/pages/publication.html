@@ -18,6 +18,13 @@
   <textarea type="text" class="col-sm-10 form-control" id="texte" name="texte" placeholder="Entrez votre commentaire ici"></textarea>
 </div>
 
+{% for mot in motscles %}
+<div class="checkbox">
+  <label><input type="checkbox" value="{{mot.motscles_nom}}" name="{{mot.motscles_nom}}">{{mot.motscles_nom}}</label>
+</div>
+    {% endfor %}
+
+
   <div class="div text-center">
     <button type="submit" class="btn btn-success btn-lg"> Postez votre info ! </button>
   </div>

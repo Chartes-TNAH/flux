@@ -13,17 +13,22 @@ from ..models.fluxrss import Fluxrss
 @app.route("/tnah")
 def tnah():
     """ Route permettant l'affichage de la page 'A propos du master et du projet'
+
+    :return: page 'A propos du master et du projet'
     """
     return render_template("pages/tnah.html", nom="A propos")
 
+
 @app.route("/connexion", methods=["POST", "GET"])
 def connexion():
-    """ Route gérant les connexions
+    """ Route gérant les connexions des utilisateurs
+
+    :param utilisateur:
+    :return: page de connexion au site
     """
     if current_user.is_authenticated is True:
         flash("Vous êtes déjà connecté-e", "info")
         return redirect("/")
-    # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         utilisateur=User.identification(
             login=request.form.get("login", None),
@@ -43,7 +48,7 @@ def connexion():
 
 @app.route("/inscription", methods=["GET", "POST"])
 def inscription():
-    """ Route gérant les inscriptions
+    """ Route gérant les inscriptions des utilisateurs
     """
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
@@ -61,12 +66,13 @@ def inscription():
 
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
-            return redirect("/")
+            return render_template("pages/connexion.html")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "danger")
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")
+
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
@@ -77,10 +83,14 @@ def deconnexion():
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
 
+
 @app.route("/")
 def accueil():
+    """ Route permettant l'affichage de la page d'accueil
+    """
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/accueil.html", liste_rss=liste_rss)
+
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
 @login_required
@@ -98,25 +108,29 @@ def modif_profil(user_id) :
     )
     if statut is True:
         flash("Votre modification a bien été acceptée", "success")
-        return redirect("/")  # vers le lieu qu'il vient de créer.
+        return redirect("/")
 
     else:
         flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
         nouvel_utilisateur = User.query.get(user_id)
         return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
 
+
 @app.route("/profil")
 @login_required
 def profil():
+    """ Route permettant l'affichage du profil de l'utilisateur
+
+    :return: page profil de l'utilisateur
+    """
     return render_template("pages/profil.html")
 
 
 @app.route("/publication", methods=["GET", "POST"])
 @login_required
 def publication():
-    """ Route gérant les publications
+    """ Route permettant de poster une publication
     """
-    # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = Publication.creer_publication(
             titre=request.form.get("titre", None),
@@ -141,6 +155,8 @@ def publication():
 @login_required
 def afficherpublis():
     """ Route permettant l'affichage des publications des utilisateurs
+
+    :returns: page de l'ensemble des publications postées par les utilisateurs
     """
     publication = Publication.afficher_publications()
     return render_template("pages/afficherpublis.html", liste_publications = publication)

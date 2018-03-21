@@ -14,18 +14,17 @@
 
 
       <div class="row">
-        <div class="col-7">
-          {% if liste_publications%}
-            {% for item in liste_publications%}
-            <p>
-              {{item[0]}}<br/>
-              {{item[1]}}<br/>
-              {{item[3]}}<br/>
-              <a href="{{item[2]}}">En sssavoir plusss</a>
-            </p>
-            {% endfor %}
-          {% endif %}
-        </div>
+        {% if liste_publications%}
+          {% for item in liste_publications%}
+          <p>
+            {{item[4]}}<br/>
+            {{item[1]}}<br/>
+            {{item[3]}}<br/>
+            {{item[5]}}<br/>
+            <a href="{{item[2]}}">En sssavoir plusss</a>
+          </p>
+          {% endfor %}
+        {% endif %}
       </div>
   </body>
 </html>

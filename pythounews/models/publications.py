@@ -1,4 +1,8 @@
 from..app import db
+from bs4 import BeautifulSoup
+import requests
+import time
+import datetime
 
 
 class Publication(db.Model):
@@ -23,14 +27,13 @@ class Publication(db.Model):
 
         if not titre:
             erreurs.append("Le titre de votre publication n'est pas renseigné")
-        if not date:
-            erreurs.append("La date du jour doit être renseignée")
         if not lien:
             erreurs.append("Veuillez ajouter un lien à votre publication")
 
         if len(erreurs) > 0:
             return False, erreurs
 
+        date = datetime.date.today()
         publication = Publication(
             publication_nom=titre,
             publication_date=date,
@@ -57,7 +60,11 @@ class Publication(db.Model):
             date = item.publication_date
             lien = item.publication_lien
             texte = item.publication_texte
-            publi = titre, date, lien, texte
+            page_html = requests.get(lien)
+            soup = BeautifulSoup(page_html.text, 'html.parser')
+            description_url = soup.find("meta", attrs={"name":u"description"})
+            titre_url = soup.title
+            publi = titre, date, lien, texte, titre_url.get_text(), description_url
             liste_publications.append(publi)
-        print(liste_publications)
+
         return liste_publications

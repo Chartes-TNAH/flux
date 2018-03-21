@@ -149,7 +149,7 @@ def afficherpublis():
     publication = Publication.afficher_publications()
     return render_template("pages/afficherpublis.html", liste_publications = publication)
 
-@app.route("/afficherpublis/<int:motscles_id>")
+@app.route("/afficherpublisCategorie/<int:motscles_id>")
 @login_required
 def afficherpublisCategorie(motscles_id):
     """ Route permettant l'affichage des publications des utilisateurs par mots clés

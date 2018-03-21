@@ -3,6 +3,16 @@
 <html>
   <h1>Les publications</h1>
   <body>
+
+  <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 1)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Bibliothèques</a></div>
+    <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 2)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Musées</a></div>
+    <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 3)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Archives</a></div>
+    <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 4)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Emploi</a></div>
+    <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 5)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Recherche</a></div>
+
+
+
+
       <div class="row">
         <div class="col-7">
           {% if liste_publications%}

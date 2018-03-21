@@ -41,7 +41,6 @@ class User(UserMixin, db.Model):
         :param email: Email de l'utilisateur-rice
         :param nom: Nom de l'utilisateur-rice
         :param motdepasse: Mot de passe de l'utilisateur-rice (Minimum 6 caractères)
-        :param promo: année de promo de l'utilisateur-rice (forcément integer)
 
         """
         erreurs = []
@@ -53,8 +52,6 @@ class User(UserMixin, db.Model):
             erreurs.append("Le nom fourni est vide")
         if not motdepasse or len(motdepasse) < 6:
             erreurs.append("Le mot de passe fourni est vide ou trop court")
-        if not promo or str(promo):
-            erreurs.append("La promo fournie est vide ou ne correspond pas à une année")
 
         # On vérifie que personne n'a utilisé cet email ou ce login
         uniques = User.query.filter(

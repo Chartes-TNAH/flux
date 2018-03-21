@@ -30,6 +30,7 @@ class Sujet_publi(db.Model):
         db.session.commit()
 
     @staticmethod
+    #attention : j'ai peur qu'on ait une erreur si la base de données est vide.
     def afficher_publi_categorie(motcle):
         sujet_publi = Sujet_publi.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).all()
         liste_publications = []

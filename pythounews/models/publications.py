@@ -1,4 +1,6 @@
 from..app import db
+import time
+import datetime
 
 
 class Publication(db.Model):
@@ -23,14 +25,13 @@ class Publication(db.Model):
 
         if not titre:
             erreurs.append("Le titre de votre publication n'est pas renseigné")
-        if not date:
-            erreurs.append("La date du jour doit être renseignée")
         if not lien:
             erreurs.append("Veuillez ajouter un lien à votre publication")
 
         if len(erreurs) > 0:
             return False, erreurs
 
+        date = datetime.date.today()
         publication = Publication(
             publication_nom=titre,
             publication_date=date,

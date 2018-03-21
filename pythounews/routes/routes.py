@@ -24,7 +24,6 @@ def tnah():
 def connexion():
     """ Route gérant les connexions des utilisateurs
 
-    :param utilisateur:
     :return: page de connexion au site
     """
     if current_user.is_authenticated is True:
@@ -50,6 +49,8 @@ def connexion():
 @app.route("/inscription", methods=["GET", "POST"])
 def inscription():
     """ Route gérant les inscriptions des utilisateurs
+
+    :return: page inscription
     """
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
@@ -78,6 +79,8 @@ def inscription():
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
     """ Route permettant à l'utilisateur de se déconnecter
+
+    :returns: page déconnexion
     """
     if current_user.is_authenticated is True:
         logout_user()
@@ -88,6 +91,8 @@ def deconnexion():
 @app.route("/")
 def accueil():
     """ Route permettant l'affichage de la page d'accueil
+
+    :returns: page d'accueil
     """
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/accueil.html", liste_rss=liste_rss)
@@ -97,6 +102,10 @@ def accueil():
 @login_required
 def modif_profil(user_id) :
     """ Route permettant à l'utilisateur de modifier les informations de son profil
+
+    :param user_id: id de l'utilisateur
+    :type user_id: integer
+    :returns: page de modification du profil de l'utilisateur
     """
     statut, donnees = User.modif_profil(
         user_id=user_id,
@@ -131,6 +140,8 @@ def profil():
 @login_required
 def publication():
     """ Route permettant de poster une publication
+
+    :returns: page de formulaire d'envoi des publications
     """
     if request.method == "POST":
         statut, donnees = Publication.creer_publication(
@@ -155,9 +166,9 @@ def publication():
 @app.route("/afficherpublis")
 @login_required
 def afficherpublis():
-    """ Route permettant l'affichage des publications des utilisateurs
+    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs
 
-    :returns: page de l'ensemble des publications postées par les utilisateurs
+    :returns: page publications
     """
     publication = Publication.afficher_publications()
     return render_template("pages/afficherpublis.html", liste_publications = publication)

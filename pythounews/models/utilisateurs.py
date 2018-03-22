@@ -57,6 +57,7 @@ class User(UserMixin, db.Model):
         if not promo or not type(promo)==int :
             erreurs.append("La promo fournie est vide ou ne correspond pas à une année")
 
+
         # On vérifie que personne n'a utilisé cet email ou ce login
         uniques = User.query.filter(
             db.or_(User.user_email == email, User.user_login == login)

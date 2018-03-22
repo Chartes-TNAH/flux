@@ -1,10 +1,17 @@
 {% include "partials/header.html" %}
+
 <h1>Partagez une nouvelle</h1>
+
 <body>
   <div class="container-fluid">
   <div colspan="30">
   <p></p>
   <form class="form" method="POST" action="{{url_for('publication')}}">
+
+  <div class="form-group row">
+   <label for="texte" class="col-sm-2 col-form-label"> Titre </label>
+   <textarea type="text" class="col-sm-10 form-control" id="titre" name="titre" placeholder="Entrez le titre de votre publication"></textarea>
+ </div>
 
   <div class="form-group row">
     <label for="lien" class="col-sm-2 col-form-label"> Lien </label>
@@ -25,7 +32,6 @@
 </div>
     {% endfor %}
     </div>
-
 
   <div class="div text-center">
     <button type="submit" class="btn btn-success"> Postez votre info ! </button>

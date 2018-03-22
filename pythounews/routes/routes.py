@@ -8,7 +8,7 @@ from ..models.utilisateurs import User
 from ..models.publications import Publication
 from ..models.motscles import Motscles, Sujet_publi
 from ..models.fluxrss import Fluxrss
-
+from ..models.fluxrss import Sujet_fluxrss
 
 @app.route("/tnah")
 def tnah():
@@ -140,6 +140,20 @@ def publication():
     else:
         return render_template("pages/publication.html", motscles=motscles)
 
+@app.route('/rss')
+def rss():
+    liste_rss = Fluxrss.read_rss()
+    return render_template ("pages/rss.html", liste_rss=liste_rss)
+
+@app.route('/rss/<int:motscles_id>')
+@login_required
+def afficherrss(motscles_id):
+    """ Route permettant l'affichage des publications des utilisateurs par mots clés
+    """
+    motcle = Motscles.query.get(motscles_id)
+    rss = Sujet_fluxrss.afficher_rss(motcle)
+
+    return render_template("pages/afficherrss.html", motcle=motcle, fluxrss=rss)
 
 @app.route("/afficherpublis")
 @login_required

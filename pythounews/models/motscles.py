@@ -6,14 +6,14 @@ class Motscles(db.Model):
     motscles_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     motscles_nom = db.Column(db.Text, nullable=False)
     sujetpublis = db.relationship("Sujet_publi", back_populates="motscles")
-
+    sujetfluxrss = db.relationship("Sujet_fluxrss", back_populates="motscles")
 
 
 
 class Sujet_publi(db.Model):
     sujet_publi_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
-    sujet_publi_publication_id = db.Column(db.Text, db.ForeignKey('publication.publication_id'), nullable=False)
-    sujet_publi_motscles_id = db.Column(db.Text, db.ForeignKey('motscles.motscles_id'), nullable=False)
+    sujet_publi_publication_id = db.Column(db.Integer, db.ForeignKey('publication.publication_id'), nullable=False)
+    sujet_publi_motscles_id = db.Column(db.Integer, db.ForeignKey('motscles.motscles_id'), nullable=False)
     motscles = db.relationship("Motscles", back_populates="sujetpublis")
     publication = db.relationship("Publication", back_populates="sujetpublis")
 
@@ -38,8 +38,3 @@ class Sujet_publi(db.Model):
             for publication in publications:
                 liste_publications.append(publication)
         return liste_publications
-
-
-
-
-

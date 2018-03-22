@@ -28,6 +28,9 @@ class Publication(db.Model):
         """
         erreurs = []
 
+        if not titre:
+            erreurs.append("Veuillez ajouter un titre à votre publication")
+
         if not lien:
             erreurs.append("Veuillez ajouter un lien à votre publication")
 

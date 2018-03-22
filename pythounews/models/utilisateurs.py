@@ -42,6 +42,8 @@ class User(UserMixin, db.Model):
         :param nom: Nom de l'utilisateur-rice
         :param motdepasse: Mot de passe de l'utilisateur-rice (Minimum 6 caractères)
         :param promo: Année de promotion de l'utilisateur-rice
+        :param spe: Spécialité de l'utilisateur-rice
+        :param bio: Courte biographie de l'utilisateur-rice
 
 
         """

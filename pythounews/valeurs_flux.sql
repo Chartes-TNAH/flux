@@ -14,3 +14,15 @@ VALUES (NULL, 'Bibliothèques' ),
 (NULL, 'Emploi'),
 (NULL, 'Recherche');
 
+INSERT INTO sujet_fluxrss
+
+VALUES (NULL, 1, 1),
+(NULL, 1, 2),
+(NULL, 1, 3),
+(NULL, 1, 5), 
+(NULL, 2, 2),
+(NULL, 2, 5), 
+(NULL, 3, 1), 
+(NULL, 3, 4), 
+(NULL, 4, 1), 
+(NULL, 4, 5);

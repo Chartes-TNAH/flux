@@ -184,12 +184,18 @@ def afficherrss(motscles_id):
 @app.route("/afficherpublis")
 @login_required
 def afficherpublis():
-    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs
+    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
 
     :returns: page publications
     """
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+    pagination = Publication.query.order_by(Publication.publication_id).paginate(page=page, per_page=2)
     publication = Publication.afficher_publications()
-    return render_template("pages/afficherpublis.html", liste_publications = publication)
+    return render_template("pages/afficherpublis.html", liste_publications = publication, pagination=pagination)
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")
 @login_required

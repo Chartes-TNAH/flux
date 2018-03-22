@@ -8,6 +8,11 @@
   <form class="form" method="POST" action="{{url_for('publication')}}">
 
   <div class="form-group row">
+   <label for="texte" class="col-sm-2 col-form-label"> Titre </label>
+   <textarea type="text" class="col-sm-10 form-control" id="titre" name="titre" placeholder="Entrez le titre de votre publication"></textarea>
+ </div>
+
+  <div class="form-group row">
     <label for="lien" class="col-sm-2 col-form-label"> Lien </label>
     <div class="col-sm-10">
       <input type="url" class="form-control" id="lien" name="lien" placeholder="Entrez une URL"></input>

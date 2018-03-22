@@ -26,7 +26,7 @@ def connexion():
     :return: page de connexion au site
     """
     if current_user.is_authenticated is True:
-        flash("Vous êtes déjà connecté-e", "info")
+        flash("Vous êtes connecté-e", "info")
         return redirect("/")
     if request.method == "POST":
         utilisateur=User.identification(

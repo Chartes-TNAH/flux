@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`publication` (
     `publication_nom` VARCHAR(40) NOT NULL,
     `publication_lien` MEDIUMTEXT NOT NULL,
     `publication_texte` TEXT NULL,
+    `publication_auteur` TEXT NULL,
     PRIMARY KEY (`publication_id`))
 ENGINE = InnoDB;
   

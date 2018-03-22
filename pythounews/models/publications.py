@@ -11,9 +11,10 @@ class Publication(db.Model):
     publication_nom = db.Column(db.String(40), nullable=True)
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
+    publication_auteur = db.Column(db.Text, nullable=False)
 
     @staticmethod
-    def creer_publication(titre, date, lien, texte):
+    def creer_publication(titre, date, lien, texte, auteur):
         """ Crée une nouvelle publication et renvoie les informations rentrées par l'utilisateur.
 
         :param titre: Titre de la publication
@@ -34,11 +35,13 @@ class Publication(db.Model):
             return False, erreurs
 
         date = datetime.date.today()
+        auteur = current_user.user_nom
         publication = Publication(
             publication_nom=titre,
             publication_date=date,
             publication_lien=lien,
-            publication_texte=texte)
+            publication_texte=texte,
+            publication_auteur=auteur)
 
         try:
             db.session.add(publication)
@@ -60,11 +63,12 @@ class Publication(db.Model):
             date = item.publication_date
             lien = item.publication_lien
             texte = item.publication_texte
+            auteur = item.publication_auteur
             page_html = requests.get(lien)
             soup = BeautifulSoup(page_html.text, 'html.parser')
             description_url = soup.find("meta", attrs={"name":u"description"})
             titre_url = soup.title
-            publi = titre, date, lien, texte, titre_url.get_text(), description_url
+            publi = titre, date, lien, texte, titre_url.get_text(), description_url, auteur
             liste_publications.append(publi)
 
         return liste_publications

@@ -1,35 +1,51 @@
 {% include "partials/header.html" %}
-<h1>Bienvenue !</h1>
+<h1>PythouNews</h1>
+<h2>L'actualité du master TNAH de l'Ecole nationale des chartes</h2>
 <body>
-  <a href="{{url_for('afficherpublis')}}">Plus de publications ici</a>
-  <div>
-  <div class="row">
-    {%  if liste_rss %}
-      {% for flux_rss in liste_rss %}
-    <div class="col-4 bg-light mb-3 card border-success mb-3"
-    <p><span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{flux_rss[5]}}">{{flux_rss[4]}}</a><span></br>
-      <span style="font-size:0.9em;">{{flux_rss[0]}}</br>
-      {{flux_rss[1]|safe}}</br>
-      <a href="{{flux_rss[2]}}" class="text-success">En savoir plussss</a></br>
+<div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>
+<div>
+    <div class="row d-flex justify-content-around">
+
+        {% if liste_rss %}
+        {% for flux_rss in liste_rss[:2] %}
+        <div class="col-4 bg-light p-3 m-3">
+            <p class="align-middle">
+                <span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a
+                        href="{{flux_rss[5]}}" class="text-success">{{flux_rss[4]}}</a></span><br/>
+                <span style="font-size:0.9em;">{{flux_rss[0]}}<br/>
+      {{flux_rss[1]|safe}}<br/>
+      <a href="{{flux_rss[2]}}" class="text-success ">En savoir plussss</a><br/>
       {{flux_rss[3]}}</span>
-    </p>
-  </div>
-      {% endfor %}
-    {% endif %}
-  <a href="{{url_for('rss')}}">Plus de flux par ici</a>
+            </p>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
 
     <div class="row">
-      <div class="col-4">
-      <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/ademec_enc?ref_src=twsrc%5Etfw">Tweets by ademec_enc</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <div class="col-12"><a href="{{url_for('rss')}}" class="btn btn-success d-flex text-center">Plus de
+            flux par ici</a></div>
     </div>
-    <div class="col-4">
-      <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/PonteIneptique?ref_src=twsrc%5Etfw">Tweets by PonteIneptique</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-    <div class="col-4">
-      <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86" href="https://twitter.com/lespetitescases?ref_src=twsrc%5Etfw">Tweets by Gautier Poupeau</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
+
+
+    <div class="row d-flex justify-content-around text-center">
+        <div class="col-4">
+            <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86"
+               href="https://twitter.com/ademec_enc?ref_src=twsrc%5Etfw">Tweets by ademec_enc</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="col-4">
+            <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86"
+               href="https://twitter.com/PonteIneptique?ref_src=twsrc%5Etfw">Tweets by PonteIneptique</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="col-4">
+            <a class="twitter-timeline" data-width="300" data-height="300" data-link-color="#19CF86"
+               href="https://twitter.com/lespetitescases?ref_src=twsrc%5Etfw">Tweets by Gautier Poupeau</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
     </div>
 </div>
-</div>
+
 </body>
 {% include "partials/footer.html" %}

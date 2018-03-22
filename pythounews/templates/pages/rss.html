@@ -15,8 +15,8 @@
   <div class="row">
     {%  if liste_rss %}
       {% for flux_rss in liste_rss %}
-    <div class="col-4 bg-light mb-3 card border-success mb-3"
-    <p><span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{flux_rss[5]}}">{{flux_rss[4]}}</a><span></br>
+    <div class="col-4 bg-light mb-3 card border-success mb-3">
+    <p><span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{flux_rss[5]}}">{{flux_rss[4]}}</a></span></br>
       <span style="font-size:0.9em;">{{flux_rss[0]}}</br>
       {{flux_rss[1]|safe}}</br>
       <a href="{{flux_rss[2]}}" class="text-success">En savoir plussss</a></br>

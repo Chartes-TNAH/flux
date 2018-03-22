@@ -1,20 +1,45 @@
 {% include "partials/header.html" %}
 
 <h1>Mon profil</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
+        </div>
 
-<p>
-  <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
-</p>
-
-<p><div style="font-weight:bold">Mon prénom et mon nom : </div>{{current_user.user_nom}}</p>
-<p><div style="font-weight:bold">Mon pseudo : </div>{{current_user.user_login}}</p>
-<p><div style="font-weight:bold">Mes études : </div>{{current_user.user_bio}}</p>
-<p><div style="font-weight:bold">Ma promo : </div>{{current_user.user_promo}}</p>
-<p><div style="font-weight:bold">Ma spécialité : </div>{{current_user.user_spe}}</p>
-<p><div style="font-weight:bold">Mon email : </div>{{current_user.user_email}}</p>
-
-<div>
-  <a class="nav-link" href="{{url_for('modif_profil', user_id=current_user.user_id)}}">Modifier le profil</a>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-6">Mon prénom et mon nom :</div>
+                <div class="col-6">{{current_user.user_nom}}</div>
+            </div>
+            <div class="row">
+                <div class="col-6">Mon pseudo :</div>
+                <div class="col-6">{{current_user.user_login}}</div>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="container bg-light">
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Mes études :</div>
+            <div class="col-3">{{current_user.user_bio}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3" style="font-weight:bold">Ma promo :</div>
+            <div class="col-3">{{current_user.user_promo}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3" style="font-weight:bold">Ma spécialité :</div>
+            <div class="col-3">{{current_user.user_spe}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3" style="font-weight:bold">Mon email :</div>
+            <div class="col-3">{{current_user.user_email}}</div>
+        </div>
+    </div>
+<div>
+    <a class="nav-link" href="{{url_for('modif_profil', user_id=current_user.user_id)}}">Modifier le profil</a>
+</div>
+
 
 {% include "partials/footer.html" %}

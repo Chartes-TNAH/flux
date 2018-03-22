@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="UTF-8"/>
-            <title>PythouNews {%block titre %}{%endblock%}</title>
-            {% include "partials/css.html" %}
-            {% include "partials/metadata.html" %}
+      <meta charset="UTF-8"/>
+      <title>PythouNews {%block titre %}{%endblock%}</title>
+      {% include "partials/css.html" %}
+      {% include "partials/metadata.html" %}
     </head>
     <body>
-        <div class="container-fluid">
+      <div style="margin:30px 0 0 0">
+        <div class="container bg-light" style="font-size:0.8em">
           <div class="row">
-            <div class="col-2"></div>
-            <div class="col-3" class="container">
-                <p style="font-size:0.8em; color:grey">Ce projet a été crée dans le cadre du cours de Python dispensé à l'ENC, et développé par Fanny Mézard, Amandine Heathcote, Marie-Gaëlle Gourio, Anne-Laure Huet et Alexandre Gaudin.</p>
+            <div class="col-7" class="container">
+                <p><center>Ce projet a été créé dans le cadre du cours de Python dispensé à l'ENC, et développé par Fanny Mézard, Amandine Heathcote, Marie-Gaëlle Gourio, Anne-Laure Huet et Alexandre Gaudin.</center></p>
             </div>
-            <div class="col-2"></div>
-            <div class="col-3" class="container">
+            <div class="col-1"></div>
+            <div class="col-2" class="container">
                 <ul>
-                    <li><a class="text-success" href="{{ url_for('accueil') }}" style="font-size:0.8em">Accueil</a></li>
-                    <li><a class="text-success" href="{{ url_for('inscription') }}" style="font-size:0.8em">Inscription</a></li>
-                    <li><a class="text-success" href="{{ url_for('connexion') }}" style="font-size:0.8em">Connexion</a></li>
-                    <li><a class="text-success" href="{{ url_for('tnah') }}" style="font-size:0.8em">A propos du master</a></li>
-                    <li><a class="text-success" href="{{ url_for('publication') }}" style="font-size:0.8em">Publications </a></li>
+                    <li><a class="text-success" href="{{url_for('accueil')}}">Accueil</a></li>
+                    <li><a class="text-success" href="{{url_for('publication')}}">Publications </a></li>
+                    <li><a class="text-success" href="{{url_for('tnah')}}">A propos</a></li>
                 </ul>
             </div>
-            <div class="col-2"></div>
+            <div class="col-2" class="container">
+                <ul>
+                  <li><a class="text-success" href="{{url_for('inscription')}}">Inscription</a></li>
+                  <li><a class="text-success" href="{{url_for('connexion')}}">Connexion</a></li>
+                </ul>
+            </div>
           </div>
         </div>
+      </div>
     </body>
 </html>

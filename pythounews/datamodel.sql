@@ -46,8 +46,12 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`publication` (
     `publication_nom` VARCHAR(40) NOT NULL,
     `publication_lien` MEDIUMTEXT NOT NULL,
     `publication_texte` TEXT NULL,
-    `publication_auteur` TEXT NULL,
+   /* `publi_auteur_id` TEXT NOT NULL, */
+   `publication_auteur` TEXT NOT NULL,
     PRIMARY KEY (`publication_id`))
+    /*CONSTRAINT `fk_publi_auteur_id`
+    FOREIGN KEY (`publi_auteur_id`)
+    REFERENCES `user`(`user_id`)) */
 ENGINE = InnoDB;
   
 

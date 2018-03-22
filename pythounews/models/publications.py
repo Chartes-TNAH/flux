@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import datetime
+from flask_login import current_user
 
 #Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
@@ -38,7 +39,8 @@ class Publication(db.Model):
             return False, erreurs
 
         date = datetime.date.today()
-        auteur = current_user.user_nom
+        auteur = current_user
+
         publication = Publication(
             publication_nom=titre,
             publication_date=date,

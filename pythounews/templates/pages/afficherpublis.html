@@ -14,7 +14,7 @@
         {% if liste_publications%}
           {% for item in liste_publications%}
           <p>
-            Publiée le {{item[1]}} <!-- Date du jour --> par AUTEUR A AJOUTER <br/>
+            Publiée le {{item[1]}} <!-- Date du jour --> par {{item[6]}} <br/>
             {{item[0]}}<br/> <!-- Titre donné par l'utilisateur -->
             {{item[3]}}<br/> <!-- commentaire donné par l'utilisateur -->
             <a href="{{item[2]}}">{{item[4]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->

@@ -2,6 +2,8 @@ from flask import render_template, request, flash, redirect
 from ..models import fluxrss
 from feedparser import parse
 
+from bs4 import BeautifulSoup
+import requests
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
@@ -188,15 +190,27 @@ def afficherpublis():
 
     :returns: page publications
     """
+    liste_publications=[]
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
-    pagination = Publication.query.order_by(Publication.publication_date).paginate(page=page, per_page=2)
-    print(pagination)
+    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=page, per_page=8)
+    print(pagination.items)
+    for item in pagination.items:
+        titre = item.publication_nom
+        date = item.publication_date
+        lien = item.publication_lien
+        texte = item.publication_texte
+        page_html = requests.get(lien)
+        soup = BeautifulSoup(page_html.text, 'html.parser')
+        description_url = soup.find("meta", attrs={"name":u"description"})
+        titre_url = soup.title
+        publi = titre, date, lien, texte, titre_url.get_text(), description_url
+        liste_publications.append(publi)
     publication = Publication.afficher_publications()
-    return render_template("pages/afficherpublis.html", liste_publications = publication, pagination=pagination)
+    return render_template("pages/afficherpublis.html", liste_publications = liste_publications, pagination=pagination)
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")
 @login_required

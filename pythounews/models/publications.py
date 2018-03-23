@@ -53,23 +53,27 @@ class Publication(db.Model):
             return False, [str(erreur)]
 
     @staticmethod
-    def afficher_publications():
+    def afficher_publications(page):
         """ Affiche les publications des utilisateurs
 
         :return: affichage des publications
         """
-        liste_publications = []
-        publication = Publication.query.all()
-        for item in publication:
+        liste_publications =[]
+        if isinstance(page, str) and page.isdigit():
+            page = int(page)
+        else:
+            page = 1
+        pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=page, per_page=8)
+        for item in pagination.items:
             titre = item.publication_nom
             date = item.publication_date
             lien = item.publication_lien
             texte = item.publication_texte
             page_html = requests.get(lien)
             soup = BeautifulSoup(page_html.text, 'html.parser')
-            description_url = soup.find("meta", attrs={"name":u"description"})
+            description_url = soup.find("meta", attrs={"name": u"description"})
             titre_url = soup.title
             publi = titre, date, lien, texte, titre_url.get_text(), description_url
             liste_publications.append(publi)
 
-        return liste_publications
+        return liste_publications, pagination

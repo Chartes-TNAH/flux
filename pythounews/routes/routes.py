@@ -161,7 +161,7 @@ def publication():
         if statut is True:
             flash("publication effectuée.", "success")
             Sujet_publi.ajouter_categorie(categories, donnees)
-            return render_template("pages/afficherpublis.html")
+            return redirect("/afficherpublis")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
             return render_template("pages/publication.html", motscles=motscles)
@@ -190,27 +190,11 @@ def afficherpublis():
 
     :returns: page publications
     """
-    liste_publications=[]
     page = request.args.get("page", 1)
-    if isinstance(page, str) and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=page, per_page=8)
-    print(pagination.items)
-    for item in pagination.items:
-        titre = item.publication_nom
-        date = item.publication_date
-        lien = item.publication_lien
-        texte = item.publication_texte
-        page_html = requests.get(lien)
-        soup = BeautifulSoup(page_html.text, 'html.parser')
-        description_url = soup.find("meta", attrs={"name":u"description"})
-        titre_url = soup.title
-        publi = titre, date, lien, texte, titre_url.get_text(), description_url
-        liste_publications.append(publi)
-    publication = Publication.afficher_publications()
-    return render_template("pages/afficherpublis.html", liste_publications = liste_publications, pagination=pagination)
+
+    liste_publications, pagination = Publication.afficher_publications(page)
+
+    return render_template("pages/afficherpublis.html", liste_publications=liste_publications, pagination=pagination)
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")
 @login_required

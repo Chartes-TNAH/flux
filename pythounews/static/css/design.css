@@ -1,0 +1,23 @@
+*
+{
+    font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
+}
+
+h1
+{
+    text-align : center;
+    padding : 30px;
+}
+
+h2
+
+{
+    text-align : center;
+    margin : 20px;
+}
+
+
+div
+{
+    padding : 10px;
+}

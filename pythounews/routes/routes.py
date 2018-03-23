@@ -159,7 +159,7 @@ def publication():
         if statut is True:
             flash("publication effectuée.", "success")
             Sujet_publi.ajouter_categorie(categories, donnees)
-            return redirect("/")
+            return render_template("pages/afficherpublis.html")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
             return render_template("pages/publication.html", motscles=motscles)
@@ -193,7 +193,8 @@ def afficherpublis():
         page = int(page)
     else:
         page = 1
-    pagination = Publication.query.order_by(Publication.publication_id).paginate(page=page, per_page=2)
+    pagination = Publication.query.order_by(Publication.publication_date).paginate(page=page, per_page=2)
+    print(pagination)
     publication = Publication.afficher_publications()
     return render_template("pages/afficherpublis.html", liste_publications = publication, pagination=pagination)
 

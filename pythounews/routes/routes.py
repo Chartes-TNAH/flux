@@ -9,6 +9,7 @@ from ..models.publications import Publication
 from ..models.motscles import Motscles, Sujet_publi
 from ..models.fluxrss import Fluxrss
 from ..models.fluxrss import Sujet_fluxrss
+from ..models.publications_test import publications_test
 
 @app.route("/tnah")
 def tnah():
@@ -93,6 +94,7 @@ def accueil():
 
     :returns: page d'accueil
     """
+    liste_publications_test = publications_test.query.filter().first()
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/accueil.html", liste_rss=liste_rss)
 

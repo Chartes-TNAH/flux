@@ -2,6 +2,8 @@ from flask import render_template, request, flash, redirect
 from ..models import fluxrss
 from feedparser import parse
 
+from bs4 import BeautifulSoup
+import requests
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
@@ -9,6 +11,8 @@ from ..models.publications import Publication
 from ..models.motscles import Motscles, Sujet_publi
 from ..models.fluxrss import Fluxrss
 from ..models.fluxrss import Sujet_fluxrss
+
+
 
 @app.route("/tnah")
 def tnah():
@@ -159,7 +163,7 @@ def publication():
         if statut is True:
             flash("publication effectuée.", "success")
             Sujet_publi.ajouter_categorie(categories, donnees)
-            return redirect("/")
+            return redirect("/afficherpublis")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
             return render_template("pages/publication.html", motscles=motscles)
@@ -171,6 +175,7 @@ def rss():
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/rss.html", liste_rss=liste_rss)
 
+
 @app.route('/rss/<int:motscles_id>')
 @login_required
 def afficherrss(motscles_id):
@@ -181,26 +186,56 @@ def afficherrss(motscles_id):
 
     return render_template("pages/afficherrss.html", motcle=motcle, fluxrss=rss)
 
+
 @app.route("/afficherpublis")
 @login_required
 def afficherpublis():
-    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs
+    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
 
     :returns: page publications
     """
-    publication = Publication.afficher_publications()
-    return render_template("pages/afficherpublis.html", liste_publications = publication)
+    page = request.args.get("page", 1)
+
+    liste_publications, pagination = Publication.afficher_publications(page)
+
+    return render_template("pages/afficherpublis.html", liste_publications=liste_publications, pagination=pagination)
+
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")
 @login_required
 def afficherpublisCategorie(motscles_id):
     """ Route permettant l'affichage des publications des utilisateurs par mots clés
 
-        :param motscles_id: id du mot clé
-        :type motscles_id: integer
-        :return: page de publication correspond au mot clé
+    :param motscles_id: id du mot clé
+    :type motscles_id: integer
+    :return: page de publication correspond au mot clé
     """
     motcle = Motscles.query.get(motscles_id)
     publications = Sujet_publi.afficher_publi_categorie(motcle)
 
     return render_template("pages/afficherpubliCategories.html", motcle=motcle, publications=publications)
+
+
+@app.route("/recherche")
+def recherche():
+    """ Route permettant la recherche plein-texte
+
+    :returns: page résultats de la recherche
+    """
+    motclef = request.args.get("keyword", None)
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    resultats = []
+
+    titre = "Recherche"
+    if motclef:
+        resultats = Publication.query.filter(Publication.publication_nom.like("%{}%".format(motclef))
+        ).paginate(page=page, per_page=5)
+        titre = "Résultat pour la recherche `" + motclef + "`"
+
+    return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)

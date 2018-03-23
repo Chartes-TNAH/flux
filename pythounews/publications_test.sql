@@ -1,0 +1,6 @@
+INSERT INTO publications_test
+
+VALUES (NULL, 'Open data et protection des donnees personnelles','date', 'https://www.archivistes.org/Open-data-et-protection-des-donnees-personnelles-ou-en-sommes-nous','L’AAF organise, à la suite de son Assemblée générale, le 30 mars 2018, une journée d’études sur l’Open data et le Règlement général sur la protection des données (RGPD).'),
+(NULL, 'Transcription collaborative','date', 'https://testaments-de-poilus.huma-num.fr/#!/','Le projet Testaments de Poilus vise à produire une édition électronique d’un millier de testaments des Poilus de la Première Guerre mondiale retrouvés dans les fonds des Archives nationales et des Archives Départementales des Yvelines.'),
+(NULL, 'UN QUEBECOIS DANS LES TRANCHEES','date', 'http://oasselin.omeka.net','bibliothèque numérique de correspondance du "poilus" québecois Olivar Asselin, visualisation de lettres, transcriptions, exports, exposition virtuelle'),
+(NULL, 'Webdev with Python and Flask','date', 'https://www.meetup.com/fr-FR/Canton-Python/events/246485923/?eventId=246485923','Dave Collins will be continuing the webdev track with Python and Flask. Now that we have our development tools setup we are ready to dig into building out our first app.');

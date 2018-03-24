@@ -14,7 +14,9 @@ class Publication(db.Model):
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
-    publi_user_id = db.relationship("User", back_populates="user_publication_id")
+    #publi_user_id = db.relationship("User", back_ref="user_publication_id")
+    publi_user_id= db.Column(db.Integer, db.ForeignKey('User.user_id'),nullable=False)
+    #"nullable" si une publication est obligatoirement rattachée à un user
 
 
     @staticmethod
@@ -75,14 +77,11 @@ class Publication(db.Model):
             date = item.publication_date
             lien = item.publication_lien
             texte = item.publication_texte
-            auteur_info = item.publication_id
-            auteur = auteur_info.user_nom
-            print (auteur)
             page_html = requests.get(lien)
             soup = BeautifulSoup(page_html.text, 'html.parser')
             description_url = soup.find("meta", attrs={"name": u"description"})
             titre_url = soup.title
-            publi = titre, date, lien, texte, titre_url.get_text(), description_url, auteur
+            publi = titre, date, lien, texte, titre_url.get_text(), description_url
             liste_publications.append(publi)
             print(liste_publications)
 

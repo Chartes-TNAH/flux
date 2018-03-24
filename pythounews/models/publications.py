@@ -4,6 +4,7 @@ import requests
 import time
 import datetime
 from flask_login import current_user
+from .utilisateurs import User
 
 #Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
@@ -13,7 +14,7 @@ class Publication(db.Model):
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
-    #publi_auteur_id = db.relationship("User", back_populates="user_publication_id")
+    publi_user_id = db.relationship("User", back_populates="user_publication_id")
 
 
     @staticmethod
@@ -29,8 +30,6 @@ class Publication(db.Model):
         """
         erreurs = []
 
-        #auteur = current_user.user_id
-        print(auteur)
         if not titre:
             erreurs.append("Veuillez ajouter un titre à votre publication")
 
@@ -45,7 +44,10 @@ class Publication(db.Model):
             publication_nom=titre,
             publication_date=date,
             publication_lien=lien,
-            publication_texte=texte)
+            publication_texte=texte,
+            publi_user_id=auteur)
+
+        print(publication)
 
         try:
             db.session.add(publication)

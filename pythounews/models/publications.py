@@ -8,16 +8,17 @@ from flask_login import current_user
 #Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
     publication_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    publication_id=db.relationship("User", back_populates="user_publication_id")
     publication_date = db.Column(db.Text, nullable=False)
     publication_nom = db.Column(db.String(40), nullable=True)
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
-    publication_auteur = db.Column(db.Text, nullable=False)
+    #user_publication_id = db.relationship("User", back_populates="user_publication_id")
 
 
     @staticmethod
-    def creer_publication(titre, date, lien, texte, auteur):
+    def creer_publication(titre, date, lien, texte, auteur_info):
         """ Crée une nouvelle publication et renvoie les informations rentrées par l'utilisateur.
 
         :param titre: Titre de la publication
@@ -38,15 +39,16 @@ class Publication(db.Model):
         if len(erreurs) > 0:
             return False, erreurs
 
-        date = datetime.date.today()
-        auteur = current_user
+        auteur_info = Publication.query.get(publication_id)
+        print(auteur_info)
 
+        date = datetime.date.today()
         publication = Publication(
             publication_nom=titre,
             publication_date=date,
             publication_lien=lien,
             publication_texte=texte,
-            publication_auteur=auteur)
+            user_publication_id = auteur_info)
 
         try:
             db.session.add(publication)
@@ -74,12 +76,15 @@ class Publication(db.Model):
             date = item.publication_date
             lien = item.publication_lien
             texte = item.publication_texte
-            auteur = item.publication_auteur
+            auteur_info = item.publication_id
+            auteur = auteur_info.user_nom
+            print (auteur)
             page_html = requests.get(lien)
             soup = BeautifulSoup(page_html.text, 'html.parser')
             description_url = soup.find("meta", attrs={"name": u"description"})
             titre_url = soup.title
             publi = titre, date, lien, texte, titre_url.get_text(), description_url, auteur
             liste_publications.append(publi)
+            print(liste_publications)
 
         return liste_publications, pagination

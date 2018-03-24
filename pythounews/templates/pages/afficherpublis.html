@@ -11,16 +11,14 @@
     <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 5)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Recherche</a></div>
 
       <div class="row">
-        {% if liste_publications%}
-          {% for item in liste_publications%}
+        {% if titre%}
           <p>
-            Publiée le {{item[1]}} <!-- Date du jour --> par AUTEUR A AJOUTER <br/>
-            {{item[0]}}<br/> <!-- Titre donné par l'utilisateur -->
-            {{item[3]}}<br/> <!-- commentaire donné par l'utilisateur -->
-            <a href="{{item[2]}}">{{item[4]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
-            {{item[5]}} <!-- description automatique -->
+            Publiée le {{date}} <!-- Date du jour --> par {{auteur.user_nom}} <br/>
+            {{titre}}<br/> <!-- Titre donné par l'utilisateur -->
+            {{texte}}<br/> <!-- commentaire donné par l'utilisateur -->
+            <a href="{{lien}}">{{titre_url}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
+            {{description_url}} <!-- description automatique -->
           </p>
-          {% endfor %}
         {% endif %}
       </div>
 

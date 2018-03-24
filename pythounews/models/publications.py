@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import datetime
+from flask_login import current_user
+from .utilisateurs import User
 
 #Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
@@ -12,10 +14,13 @@ class Publication(db.Model):
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
+    #publi_user_id = db.relationship("User", back_ref="user_publication_id")
+    publi_user_id= db.Column(db.Integer, db.ForeignKey('user.user_id'),nullable=False)
+    #"nullable" si une publication est obligatoirement rattachée à un user
 
 
     @staticmethod
-    def creer_publication(titre, date, lien, texte):
+    def creer_publication(titre, date, lien, texte, auteur):
         """ Crée une nouvelle publication et renvoie les informations rentrées par l'utilisateur.
 
         :param titre: Titre de la publication
@@ -41,7 +46,10 @@ class Publication(db.Model):
             publication_nom=titre,
             publication_date=date,
             publication_lien=lien,
-            publication_texte=texte)
+            publication_texte=texte,
+            publi_user_id=auteur)
+
+        print(publication)
 
         try:
             db.session.add(publication)
@@ -68,12 +76,11 @@ class Publication(db.Model):
             titre = item.publication_nom
             date = item.publication_date
             lien = item.publication_lien
-            texte = item.publication_texte
+            texte = item.publication_texte    
+            auteur = User.query.get(item.publi_user_id)
             page_html = requests.get(lien)
             soup = BeautifulSoup(page_html.text, 'html.parser')
             description_url = soup.find("meta", attrs={"name": u"description"})
             titre_url = soup.title
-            publi = titre, date, lien, texte, titre_url.get_text(), description_url
-            liste_publications.append(publi)
-
-        return liste_publications, pagination
+        print
+        return titre, date, lien, texte, titre_url, description_url, auteur, pagination

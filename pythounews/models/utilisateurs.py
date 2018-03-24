@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
     user_spe = db.Column(db.Text, nullable=True)
-    user_publication_id = db.relationship("Publication", back_populates="publication_id")
+    #user_publication_id = db.relationship("Publication", back_populates="publi_auteur_id")
 
     @staticmethod
     def identification(login, motdepasse):

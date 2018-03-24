@@ -155,7 +155,8 @@ def publication():
             titre=request.form.get("titre", None),
             date=request.form.get("date", None),
             lien=request.form.get("lien", None),
-            texte=request.form.get("texte", None))
+            texte=request.form.get("texte", None),
+            auteur=current_user.user_id)
         for mot in motscles:
             mot = request.form.get(mot.motscles_nom, None)
             categories.append(mot)

@@ -8,17 +8,16 @@ from flask_login import current_user
 #Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
     publication_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
-    publication_id=db.relationship("User", back_populates="user_publication_id")
     publication_date = db.Column(db.Text, nullable=False)
     publication_nom = db.Column(db.String(40), nullable=True)
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
-    #user_publication_id = db.relationship("User", back_populates="user_publication_id")
+    #publi_auteur_id = db.relationship("User", back_populates="user_publication_id")
 
 
     @staticmethod
-    def creer_publication(titre, date, lien, texte, auteur_info):
+    def creer_publication(titre, date, lien, texte, auteur):
         """ Crée une nouvelle publication et renvoie les informations rentrées par l'utilisateur.
 
         :param titre: Titre de la publication
@@ -30,6 +29,8 @@ class Publication(db.Model):
         """
         erreurs = []
 
+        #auteur = current_user.user_id
+        print(auteur)
         if not titre:
             erreurs.append("Veuillez ajouter un titre à votre publication")
 
@@ -39,16 +40,12 @@ class Publication(db.Model):
         if len(erreurs) > 0:
             return False, erreurs
 
-        auteur_info = Publication.query.get(publication_id)
-        print(auteur_info)
-
         date = datetime.date.today()
         publication = Publication(
             publication_nom=titre,
             publication_date=date,
             publication_lien=lien,
-            publication_texte=texte,
-            user_publication_id = auteur_info)
+            publication_texte=texte)
 
         try:
             db.session.add(publication)

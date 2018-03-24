@@ -197,9 +197,9 @@ def afficherpublis():
     """
     page = request.args.get("page", 1)
 
-    liste_publications, pagination = Publication.afficher_publications(page)
+    titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
 
-    return render_template("pages/afficherpublis.html", liste_publications=liste_publications, pagination=pagination)
+    return render_template("pages/afficherpublis.html", titre = titre, date = date, lien = lien, texte = texte, titre_url = titre_url, description_url = description_url, auteur = auteur, pagination=pagination)
 
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")

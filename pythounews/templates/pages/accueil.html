@@ -3,11 +3,26 @@
 <h2>L'actualité du master TNAH de l'Ecole nationale des chartes</h2>
 <body>
 <div>
-    <span>
-    <p class="align-middle">pourquoi ça ne fonctionne pas ?!</p>
-    </span>
-    <span style="font-size:0.9em;">{{liste_publications}}<br/></span>
+    <div class="row d-flex justify-content-around">
 
+    {% if liste_publications %}
+    {% for publication in liste_publications[:2] %}
+    <div class="col-4 bg-light p-3 m-3">
+            <p class="align-middle">
+                <span><a
+                        href="{{publication[5]}}" class="text-success">{{publication[4]}}</a></span><br/>
+                <span style="font-size:0.9em;">{{publication[0]}}<br/>
+      {{publication[1]|safe}}<br/>
+      <a href="{{publication[2]}}" class="text-success ">En savoir plussss</a><br/>
+      {{publication[3]}}</span>
+            </p>
+        </div>
+
+
+    <span style="font-size:0.9em;">{{liste_publications[:2]}}<br/></span>
+
+    {% endfor %}
+    {% endif %}
 </div>
 <div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>
 

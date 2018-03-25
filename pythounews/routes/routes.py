@@ -93,9 +93,9 @@ def accueil():
 
     :returns: page d'accueil
     """
-    liste_publications = Publication.query.first()
+    liste_publications = Publication.afficher_publications()
     liste_rss = Fluxrss.read_rss()
-    return render_template ("pages/accueil.html", liste_rss=liste_rss, liste_publications=Publication)
+    return render_template ("pages/accueil.html", liste_rss=liste_rss, liste_publications=liste_publications)
 
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])

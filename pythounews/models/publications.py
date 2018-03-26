@@ -81,7 +81,10 @@ class Publication(db.Model):
             # avec une valeur "description". (.find avec BeautifulSoup)
             balise_meta_desc = soup.find("meta", attrs={"name": u"description"})
             # on crée une variable description_url qui récupère la valeur de l'attr content
-            description_url = balise_meta_desc.get("content")
+            if balise_meta_desc:
+                description_url = balise_meta_desc.get("content")
+            else:
+                description_url = "Aucune description n'est disponible"
             balise_titre = soup.title
             titre_url = balise_titre.get_text()
 

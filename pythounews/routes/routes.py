@@ -97,7 +97,7 @@ def accueil():
 
     :returns: page d'accueil
     """
-    
+
     page = request.args.get("page", 1)
     titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
     liste_rss = Fluxrss.read_rss()
@@ -204,6 +204,20 @@ def afficherpublis():
 
     return render_template("pages/afficherpublis.html", titre=titre, date=date, lien=lien, texte=texte, titre_url=titre_url, description_url=description_url, auteur=auteur, pagination=pagination)
 
+@app.route("/afficher_profil_utilisateur")
+@login_required
+def afficher_profil_utilisateur() :
+    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
+
+    :returns: retourne la page profil d'un utilisateur
+    """
+    page = request.args.get("page", 1)
+    titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
+    publications_utilisateurs = Publication.query.filter(User.user_id == auteur.user_id)
+    print(publications_utilisateurs)
+
+    return render_template("pages/profil_utilisateur.html", auteur=auteur, titre_url=titre_url, description_url=description_url, publications_utilisateurs=publications_utilisateurs)
+
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")
 @login_required
@@ -243,4 +257,3 @@ def recherche():
         titre = "Résultat pour la recherche `" + motclef + "`"
 
     return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
-

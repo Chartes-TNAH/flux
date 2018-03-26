@@ -13,7 +13,7 @@
       <div class="row">
         {% if titre%}
           <p>
-            Publiée le {{date}} <!-- Date du jour --> par {{auteur.user_nom}} <br/>
+            Publiée le {{date}} <!-- Date du jour --> par <a class="page-link" href="{{ url_for('afficher_profil_utilisateur') }}">{{auteur.user_login}}</a> <br/>
             {{titre}}<br/> <!-- Titre donné par l'utilisateur -->
             {{texte}}<br/> <!-- commentaire donné par l'utilisateur -->
             <a href="{{lien}}">{{titre_url}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->

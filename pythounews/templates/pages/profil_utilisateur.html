@@ -1,0 +1,49 @@
+{% include "partials/header.html" %}
+
+<h1>Profil de {{auteur.user_login}} ({{auteur.user_nom}}) </h1>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
+        </div>
+    </div>
+</div>
+<div class="container bg-light">
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Etudes effectuées :</div>
+            <div class="col-3">{{auteur.user_bio}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Promotion</div>
+            <div class="col-3">{{auteur.user_promo}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Ma spécialité :</div>
+            <div class="col-3">{{auteur.user_spe}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Contact :</div>
+            <div class="col-3">{{auteur.user_email}}</div>
+        </div>
+    </div>
+
+{% if publications_utilisateurs%}
+  {% for item in publications_utilisateurs %}
+<h2>Toutes les publications de {{auteur.user_login}}</h2>
+<div class="row">
+
+      <p>
+        Publiée le {{publications_utilisateurs.publication_date}} <!-- Date du jour -->
+        {{publications_utilisateurs.publication_titre}}<br/> <!-- Titre donné par l'utilisateur -->
+        {{publications_utilisateurs.publication_texte}}<br/> <!-- commentaire donné par l'utilisateur -->
+        <a href="{{lien}}">{{publications_utilisateurs.publication_lien}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
+        {{description_url}} <!-- description automatique -->
+      </p>
+  </div>
+  {% endfor %}
+
+{% endif %}
+
+
+
+{% include "partials/footer.html" %}

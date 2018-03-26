@@ -62,7 +62,6 @@ class Fluxrss(db.Model):
                 #Chaque item du flux est ajouté dans une liste.
             #On ne récupère ici que le tout premier élément du flux rss, puisqu'il s'agit du plus récent.
                 liste_rss.append(rss)
-        print(liste_rss)
         return liste_rss
 
 class Sujet_fluxrss(db.Model):

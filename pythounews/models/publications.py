@@ -55,18 +55,14 @@ class Publication(db.Model):
             return True, publication
         except Exception as erreur:
             return False, [str(erreur)]
-
     @staticmethod
-    def afficher_publications(page):
+    def afficher_publications(pagination):
         """ Affiche les publications des utilisateurs
 
         :return: affichage des publications
         """
-        if isinstance(page, str) and page.isdigit():
-            page = int(page)
-        else:
-            page = 1
-        pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=page, per_page=8)
+        liste_publications = []
+        # si ce n'est pas un objet pagination
         for item in pagination.items:
             titre = item.publication_nom
             date = item.publication_date
@@ -87,5 +83,6 @@ class Publication(db.Model):
                 description_url = "Aucune description n'est disponible"
             balise_titre = soup.title
             titre_url = balise_titre.get_text()
+            liste_publications.append({"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url, "description_url": description_url, "auteur": auteur})
 
-        return titre, date, lien, texte, titre_url, description_url, auteur, pagination
+        return liste_publications

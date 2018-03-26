@@ -2,26 +2,22 @@
 <h1>PythouNews</h1>
 <h2>L'actualité du master TNAH de l'Ecole nationale des chartes</h2>
 <body>
+
+{% if titre %}
 <div>
     <div class="row d-flex justify-content-around">
 
-    {% if liste_publications %}
-    {% for publication in liste_publications[:2] %}
     <div class="col-4 bg-light p-3 m-3">
-            <p class="align-middle">
-                <span><a
-                        href="{{publication[5]}}" class="text-success">{{publication[4]}}</a></span><br/>
-                <span style="font-size:0.9em;">{{publication[0]}}<br/>
-      {{publication[1]|safe}}<br/>
-      <a href="{{publication[2]}}" class="text-success ">En savoir plussss</a><br/>
-      {{publication[3]}}</span>
-            </p>
+            <p>
+            Publiée le {{date}} <!-- Date du jour --> par {{auteur.user_nom}} <br/>
+            {{titre}}<br/> <!-- Titre donné par l'utilisateur -->
+            {{texte}}<br/> <!-- commentaire donné par l'utilisateur -->
+            <a href="{{lien}}">{{titre_url}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
+            {{description_url}} <!-- description automatique -->
+          </p>
         </div>
 
 
-    <span style="font-size:0.9em;">{{liste_publications[:2]}}<br/></span>
-
-    {% endfor %}
     {% endif %}
 </div>
 <div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>

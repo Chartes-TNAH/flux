@@ -240,11 +240,8 @@ def recherche():
     else:
         page = 1
 
-    resultats = []
-
-    titre = "Recherche"
     if motclef:
-        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
-        print(resultats)
+        pagination = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+        publications = Publication.afficher_publications(pagination)
 
-    return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)
+    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)

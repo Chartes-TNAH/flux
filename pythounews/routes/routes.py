@@ -97,8 +97,9 @@ def accueil():
 
     :returns: page d'accueil
     """
+    liste_publications = Publication.afficher_publications()
     liste_rss = Fluxrss.read_rss()
-    return render_template ("pages/accueil.html", liste_rss=liste_rss)
+    return render_template ("pages/accueil.html", liste_rss=liste_rss, liste_publications=liste_publications)
 
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
@@ -240,3 +241,4 @@ def recherche():
         titre = "Résultat pour la recherche `" + motclef + "`"
 
     return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
+

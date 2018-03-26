@@ -1,6 +1,7 @@
 from flask import render_template, request, flash, redirect
 from ..models import fluxrss
 from feedparser import parse
+from ..app import db
 
 from bs4 import BeautifulSoup
 import requests
@@ -100,6 +101,7 @@ def accueil():
 
     page = request.args.get("page", 1)
     titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
+    print(titre, date, lien, texte, titre_url, description_url, auteur, pagination)
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/accueil.html", liste_rss=liste_rss, titre=titre, date=date, lien=lien, texte=texte, titre_url=titre_url, description_url=description_url, auteur=auteur, pagination=pagination)
 
@@ -238,8 +240,7 @@ def recherche():
 
     titre = "Recherche"
     if motclef:
-        resultats = Publication.query.filter(Publication.publication_nom.like("%{}%".format(motclef))
-        ).paginate(page=page, per_page=5)
-        titre = "Résultat pour la recherche `" + motclef + "`"
+        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+        print(resultats)
 
-    return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
+    return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)

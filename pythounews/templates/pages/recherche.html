@@ -2,10 +2,16 @@
 
     <h1>Résultat(s) de votre recherche</h1>
     {% if resultats %}
-        <p>{{resultats.total}} résultat(s) répondent à votre recherche :</p>
+        <p>{{resultats.total}} résultat(s) répond(ent) à votre recherche :</p>
         <ul>
             {% for publication in resultats.items %}
-                <li><a href="{{url_for('recherche')}}">{{publication.publication_nom}}</a></li>
+                <li>{{publication.publication_nom}}<br/>
+                  <p>
+                    Publiée le {{publication.publication_date}} <!-- Date du jour --><br/>
+                    {{publication.publication_titre }}<br/> <!-- Titre donné par l'utilisateur -->
+                    {{publication.publication_texte}}<br/> <!-- commentaire donné par l'utilisateur -->
+                  </p>
+                </li>
             {% endfor %}
         </ul>
     <nav aria-label="research-pagination">
@@ -30,7 +36,7 @@
             {% endif %}
         {% endfor %}
       </ul>
-    </nav>
-    {% endif %}
+          {% endif %}
+</nav>
 
 {% include "partials/footer.html" %}

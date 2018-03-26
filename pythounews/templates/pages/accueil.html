@@ -2,28 +2,24 @@
 <h1>PythouNews</h1>
 <h2>L'actualité du master TNAH de l'Ecole nationale des chartes</h2>
 <body>
-
-{% if titre %}
-<div>
-    <div class="row d-flex justify-content-around">
-
-    <div class="col-4 bg-light p-3 m-3">
-            <p>
-            Publiée le {{date}} <!-- Date du jour --> par {{auteur.user_nom}} <br/>
-            {{titre}}<br/> <!-- Titre donné par l'utilisateur -->
-            {{texte}}<br/> <!-- commentaire donné par l'utilisateur -->
-            <a href="{{lien}}">{{titre_url}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
-            {{description_url}} <!-- description automatique -->
+{% if current_user.is_authenticated %}
+<div class="row">
+        {% if publications%}
+          {% for item in publications%}
+          <p>Publiée le {{item["date"]}} <!-- Date du jour --> par {{item["auteur"].user_login}} <br/>
+            {{item["titre"]}}<br/> <!-- Titre donné par l'utilisateur -->
+            {{item["texte"]}}<br/> <!-- commentaire donné par l'utilisateur -->
+            <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
+            {{item["description_url"]}} <!-- description automatique -->
           </p>
-        </div>
-
-
-
+          {% endfor %}
+        {% endif %}
 </div>
-<div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>
 {% endif %}
+<div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>
 
     {% if not current_user.is_authenticated %}
+
     <div class="col-12"><a href="{{url_for('connexion')}}" class="btn btn-success d-flex text-center">Connectez-vous pour voir les publications postées par les utilisateurs</a></div>
     {% endif %}
 <div>

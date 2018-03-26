@@ -2,6 +2,8 @@ from flask import render_template, request, flash, redirect
 from ..models import fluxrss
 from feedparser import parse
 
+from bs4 import BeautifulSoup
+import requests
 from ..app import app, login
 from flask_login import login_user, current_user, logout_user, login_required
 from ..models.utilisateurs import User
@@ -153,7 +155,8 @@ def publication():
             titre=request.form.get("titre", None),
             date=request.form.get("date", None),
             lien=request.form.get("lien", None),
-            texte=request.form.get("texte", None))
+            texte=request.form.get("texte", None),
+            auteur=current_user.user_id)
         for mot in motscles:
             mot = request.form.get(mot.motscles_nom, None)
             categories.append(mot)
@@ -161,7 +164,7 @@ def publication():
         if statut is True:
             flash("publication effectuée.", "success")
             Sujet_publi.ajouter_categorie(categories, donnees)
-            return redirect("/")
+            return redirect("/afficherpublis")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + " , ".join(donnees), "danger")
             return render_template("pages/publication.html", motscles=motscles)
@@ -188,12 +191,15 @@ def afficherrss(motscles_id):
 @app.route("/afficherpublis")
 @login_required
 def afficherpublis():
-    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs
+    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
 
     :returns: page publications
     """
-    publication = Publication.afficher_publications()
-    return render_template("pages/afficherpublis.html", liste_publications = publication)
+    page = request.args.get("page", 1)
+
+    titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
+
+    return render_template("pages/afficherpublis.html", titre = titre, date = date, lien = lien, texte = texte, titre_url = titre_url, description_url = description_url, auteur = auteur, pagination=pagination)
 
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")

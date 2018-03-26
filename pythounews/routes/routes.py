@@ -98,10 +98,13 @@ def accueil():
     :returns: page d'accueil
     """
     if current_user.is_authenticated is True:
-        page = request.args.get("page", 1)
-        titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
+        #n'ayant pas envie de refaire une nouvelle route, j'ai gardé tout le code la pagination de la page publication,
+        #mais je n'affiche que les 2 1ers éléments.
+        pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
+        publications = Publication.afficher_publications(pagination)
+        publications = publications[:2]
         liste_rss = Fluxrss.read_rss()
-        return render_template ("pages/accueil.html", liste_rss=liste_rss, titre=titre, date=date, lien=lien, texte=texte, titre_url=titre_url, description_url=description_url, auteur=auteur, pagination=pagination)
+        return render_template ("pages/accueil.html", liste_rss=liste_rss, publications=publications)
     else:
         liste_rss = Fluxrss.read_rss()
         return render_template("pages/accueil.html", liste_rss=liste_rss)
@@ -200,11 +203,10 @@ def afficherpublis():
 
     :returns: page publications
     """
-    page = request.args.get("page", 1)
 
-    titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
-
-    return render_template("pages/afficherpublis.html", titre=titre, date=date, lien=lien, texte=texte, titre_url=titre_url, description_url=description_url, auteur=auteur, pagination=pagination)
+    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
+    publications = Publication.afficher_publications(pagination)
+    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
 
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")

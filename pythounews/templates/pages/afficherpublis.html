@@ -1,5 +1,4 @@
 {% include "partials/header.html" %}
-<!DOCTYPE html>
 <html>
   <h1>Les publications</h1>
   <body>
@@ -10,17 +9,18 @@
     <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 4)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Emploi</a></div>
     <div><a href="{{url_for('afficherpublisCategorie', motscles_id = 5)}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Recherche</a></div>
 
-      <div class="row">
-        {% if titre%}
-          <p>
-            Publiée le {{date}} <!-- Date du jour --> par {{auteur.user_nom}} <br/>
-            {{titre}}<br/> <!-- Titre donné par l'utilisateur -->
-            {{texte}}<br/> <!-- commentaire donné par l'utilisateur -->
-            <a href="{{lien}}">{{titre_url}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
-            {{description_url}} <!-- description automatique -->
+<div class="row">
+        {% if publications%}
+          {% for item in publications%}
+          <p>Publiée le {{item["date"]}} <!-- Date du jour --> par {{item["auteur"].user_login}} <br/>
+            {{item["titre"]}}<br/> <!-- Titre donné par l'utilisateur -->
+            {{item["texte"]}}<br/> <!-- commentaire donné par l'utilisateur -->
+            <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
+            {{item["description_url"]}} <!-- description automatique -->
           </p>
+          {% endfor %}
         {% endif %}
-      </div>
+</div>
 
       <nav aria-label="research-pagination">
         <ul class="pagination">

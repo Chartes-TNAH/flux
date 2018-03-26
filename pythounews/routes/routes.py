@@ -1,6 +1,7 @@
 from flask import render_template, request, flash, redirect
 from ..models import fluxrss
 from feedparser import parse
+from ..app import db
 
 from bs4 import BeautifulSoup
 import requests
@@ -241,9 +242,7 @@ def recherche():
 
     titre = "Recherche"
     if motclef:
-        resultats = Publication.query.filter(Publication.publication_nom.like("%{}%".format(motclef))
-        ).paginate(page=page, per_page=5)
-        titre = "Résultat pour la recherche `" + motclef + "`"
+        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+        print(resultats)
 
-    return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
-
+    return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)

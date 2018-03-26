@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import datetime
+from flask_login import current_user
+from .utilisateurs import User
 
 #Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
@@ -12,10 +14,11 @@ class Publication(db.Model):
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
+    publi_user_id= db.Column(db.Integer, db.ForeignKey('user.user_id'),nullable=False)
 
 
     @staticmethod
-    def creer_publication(titre, date, lien, texte):
+    def creer_publication(titre, date, lien, texte, auteur):
         """ Crée une nouvelle publication et renvoie les informations rentrées par l'utilisateur.
 
         :param titre: Titre de la publication
@@ -41,7 +44,8 @@ class Publication(db.Model):
             publication_nom=titre,
             publication_date=date,
             publication_lien=lien,
-            publication_texte=texte)
+            publication_texte=texte,
+            publi_user_id=auteur)
 
         try:
             db.session.add(publication)
@@ -53,23 +57,32 @@ class Publication(db.Model):
             return False, [str(erreur)]
 
     @staticmethod
-    def afficher_publications():
+    def afficher_publications(page):
         """ Affiche les publications des utilisateurs
 
         :return: affichage des publications
         """
-        liste_publications = []
-        publication = Publication.query.all()
-        for item in publication:
+        if isinstance(page, str) and page.isdigit():
+            page = int(page)
+        else:
+            page = 1
+        pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=page, per_page=8)
+        for item in pagination.items:
             titre = item.publication_nom
             date = item.publication_date
             lien = item.publication_lien
             texte = item.publication_texte
+            auteur = User.query.get(item.publi_user_id)
+            # on récupére avec requests la page html du lien entré par l'utilisateur
             page_html = requests.get(lien)
+            #  avec BS on insére dans la variable soup le contenu de la page html en utilisant le parser de python
             soup = BeautifulSoup(page_html.text, 'html.parser')
-            description_url = soup.find("meta", attrs={"name":u"description"})
-            titre_url = soup.title
-            publi = titre, date, lien, texte, titre_url.get_text(), description_url
-            liste_publications.append(publi)
+            # on crée une variable qui récupère dans notre page html les balises <meta/> qui ont un attribut name
+            # avec une valeur "description". (.find avec BeautifulSoup)
+            balise_meta_desc = soup.find("meta", attrs={"name": u"description"})
+            # on crée une variable description_url qui récupère la valeur de l'attr content
+            description_url = balise_meta_desc.get("content")
+            balise_titre = soup.title
+            titre_url = balise_titre.get_text()
 
-        return liste_publications
+        return titre, date, lien, texte, titre_url, description_url, auteur, pagination

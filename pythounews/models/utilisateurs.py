@@ -1,6 +1,5 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
 from .. app import db, login
 
 
@@ -13,6 +12,10 @@ class User(UserMixin, db.Model):
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
     user_spe = db.Column(db.Text, nullable=True)
+    #user_publication_id = db.relationship("Publication", back_populates="publi_user_id")
+    publications = db.relationship('Publication', backref='user', lazy=True)
+    #Tu peux ensuite faire publi.publi_user
+
 
     @staticmethod
     def identification(login, motdepasse):
@@ -24,9 +27,7 @@ class User(UserMixin, db.Model):
         :rtype: User or None
         """
         utilisateur = User.query.filter(User.user_login == login).first()
-        print(utilisateur)
-        print(motdepasse)
-        print(utilisateur.user_password)
+        
         if utilisateur and check_password_hash(utilisateur.user_password, motdepasse):
             return utilisateur
         return None

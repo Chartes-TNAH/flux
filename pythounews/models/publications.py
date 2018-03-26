@@ -14,9 +14,7 @@ class Publication(db.Model):
     publication_lien = db.Column(db.Integer, nullable=True)
     publication_texte = db.Column(db.Text, nullable=False, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
-    #publi_user_id = db.relationship("User", back_ref="user_publication_id")
     publi_user_id= db.Column(db.Integer, db.ForeignKey('user.user_id'),nullable=False)
-    #"nullable" si une publication est obligatoirement rattachée à un user
 
 
     @staticmethod
@@ -49,8 +47,6 @@ class Publication(db.Model):
             publication_texte=texte,
             publi_user_id=auteur)
 
-        print(publication)
-
         try:
             db.session.add(publication)
 
@@ -66,7 +62,6 @@ class Publication(db.Model):
 
         :return: affichage des publications
         """
-        liste_publications =[]
         if isinstance(page, str) and page.isdigit():
             page = int(page)
         else:
@@ -87,10 +82,7 @@ class Publication(db.Model):
             balise_meta_desc = soup.find("meta", attrs={"name": u"description"})
             # on crée une variable description_url qui récupère la valeur de l'attr content
             description_url = balise_meta_desc.get("content")
-            print(description_url)
             balise_titre = soup.title
             titre_url = balise_titre.get_text()
-            print(titre_url)
 
-        print
         return titre, date, lien, texte, titre_url, description_url, auteur, pagination

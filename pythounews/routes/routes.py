@@ -97,9 +97,11 @@ def accueil():
 
     :returns: page d'accueil
     """
-    liste_publications = Publication.afficher_publications()
+    
+    page = request.args.get("page", 1)
+    titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
     liste_rss = Fluxrss.read_rss()
-    return render_template ("pages/accueil.html", liste_rss=liste_rss, liste_publications=liste_publications)
+    return render_template ("pages/accueil.html", liste_rss=liste_rss, titre=titre, date=date, lien=lien, texte=texte, titre_url=titre_url, description_url=description_url, auteur=auteur, pagination=pagination)
 
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
@@ -200,7 +202,7 @@ def afficherpublis():
 
     titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
 
-    return render_template("pages/afficherpublis.html", titre = titre, date = date, lien = lien, texte = texte, titre_url = titre_url, description_url = description_url, auteur = auteur, pagination=pagination)
+    return render_template("pages/afficherpublis.html", titre=titre, date=date, lien=lien, texte=texte, titre_url=titre_url, description_url=description_url, auteur=auteur, pagination=pagination)
 
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")

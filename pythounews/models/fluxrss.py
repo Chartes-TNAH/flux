@@ -34,8 +34,8 @@ class Fluxrss(db.Model):
                 for item in feed["items"]:
                     titre = (item["title_detail"]["value"])
                     sujet = (item["summary_detail"]["value"])
-                    if len(sujet)>500:
-                        sujet = sujet[0:500]
+                    if len(sujet)>400:
+                        sujet = sujet[0:400]
                         sujet = sujet + " ..."
                     lien = (item["link"])
                     date = (item["published"])
@@ -52,9 +52,9 @@ class Fluxrss(db.Model):
                 #Le html n'affichait que les balises <img>. La condition suivante permet de récupérer le lien de l'image. La variable image prend comme valeur ce lien, sous forme de chaînes de caractères.
 
                 #La condition suivante permet de limiter le nombre de caractères affichés sur la page html.
-                if len(sujet)>500:
-                    sujet = sujet[0:500]
-                    sujet = sujet + " ..."
+                if len(sujet)>400:
+                    sujet = sujet[0:400]
+                    sujet = sujet + "..."
                 lien = (item["link"])
                 date = (item["published"])
                 #La variable rss prend les cinq valeurs ci-dessus.

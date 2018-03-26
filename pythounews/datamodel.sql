@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS `pythounews`.`publication` ;
 CREATE TABLE IF NOT EXISTS `pythounews`.`publication` (
 	`publication_id` INT NOT NULL AUTO_INCREMENT,
     `publication_date` TEXT NULL,
-    `publication_nom` VARCHAR(40) NOT NULL,
+    `publication_nom` VARCHAR(80) NOT NULL,
     `publication_lien` MEDIUMTEXT NOT NULL,
     `publication_texte` TEXT NULL,
     `publi_user_id` INT NOT NULL, 

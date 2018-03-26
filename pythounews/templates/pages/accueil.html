@@ -18,10 +18,14 @@
         </div>
 
 
-    {% endif %}
+
 </div>
 <div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>
+{% endif %}
 
+    {% if not current_user.is_authenticated %}
+    <div class="col-12"><a href="{{url_for('connexion')}}" class="btn btn-success d-flex text-center">Connectez-vous pour voir les publications postées par les utilisateurs</a></div>
+    {% endif %}
 <div>
     <div class="row d-flex justify-content-around">
 
@@ -65,6 +69,6 @@
         </div>
     </div>
 </div>
-
+</div>
 </body>
 {% include "partials/footer.html" %}

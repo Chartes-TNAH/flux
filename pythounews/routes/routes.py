@@ -215,12 +215,11 @@ def afficher_profil_utilisateur() :
 
     :returns: retourne la page profil d'un utilisateur
     """
-    page = request.args.get("page", 1)
-    titre, date, lien, texte, titre_url, description_url, auteur, pagination = Publication.afficher_publications(page)
-    publications_utilisateurs = Publication.query.filter(User.user_id == auteur.user_id)
-    print(publications_utilisateurs)
+    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
+    publications = Publication.afficher_publications(pagination)
+    profil_de_la_page = item["auteur"].user_login
 
-    return render_template("pages/profil_utilisateur.html", auteur=auteur, titre_url=titre_url, description_url=description_url, publications_utilisateurs=publications_utilisateurs)
+    return render_template("pages/profil_utilisateur.html", publications = publications, profil_de_la_page = profil_de_la_page)
 
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")

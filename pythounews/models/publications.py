@@ -76,11 +76,21 @@ class Publication(db.Model):
             titre = item.publication_nom
             date = item.publication_date
             lien = item.publication_lien
-            texte = item.publication_texte    
+            texte = item.publication_texte
             auteur = User.query.get(item.publi_user_id)
+            # on récupére avec requests la page html du lien entré par l'utilisateur
             page_html = requests.get(lien)
+            #  avec BS on insére dans la variable soup le contenu de la page html en utilisant le parser de python
             soup = BeautifulSoup(page_html.text, 'html.parser')
-            description_url = soup.find("meta", attrs={"name": u"description"})
-            titre_url = soup.title
+            # on crée une variable qui récupère dans notre page html les balises <meta/> qui ont un attribut name
+            # avec une valeur "description". (.find avec BeautifulSoup)
+            balise_meta_desc = soup.find("meta", attrs={"name": u"description"})
+            # on crée une variable description_url qui récupère la valeur de l'attr content
+            description_url = balise_meta_desc.get("content")
+            print(description_url)
+            balise_titre = soup.title
+            titre_url = balise_titre.get_text()
+            print(titre_url)
+
         print
         return titre, date, lien, texte, titre_url, description_url, auteur, pagination

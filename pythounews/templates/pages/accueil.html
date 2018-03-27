@@ -15,8 +15,10 @@
           {% endfor %}
         {% endif %}
 </div>
-{% endif %}
+
 <div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>
+
+{% endif %}
 
     {% if not current_user.is_authenticated %}
 

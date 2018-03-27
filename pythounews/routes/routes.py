@@ -257,3 +257,9 @@ def recherche():
         publications = Publication.afficher_publications(pagination)
 
     return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
+
+
+@app.route("/404")
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('pages/404.html'), 404

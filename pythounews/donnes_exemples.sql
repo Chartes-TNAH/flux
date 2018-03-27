@@ -10,11 +10,42 @@ VALUES
 
 INSERT INTO publication
 
-VALUES (NULL, '2018-03-01','Open data et protection des donnees personnelles','https://www.archivistes.org/Open-data-et-protection-des-donnees-personnelles-ou-en-sommes-nous','L’AAF organise, à la suite de son Assemblée générale, le 30 mars 2018, une journée d’études sur l’Open data et le Règlement général sur la protection des données (RGPD).', '3'),
-(NULL, '2018-03-11','Transcription collaborative','https://testaments-de-poilus.huma-num.fr/#!/','Le projet Testaments de Poilus vise à produire une édition électronique d’un millier de testaments des Poilus de la Première Guerre mondiale retrouvés dans les fonds des Archives nationales et des Archives Départementales des Yvelines.', '2'),
-(NULL, '2018-03-21','UN QUEBECOIS DANS LES TRANCHEES', 'http://oasselin.omeka.net','bibliothèque numérique de correspondance du "poilu" québecois Olivar Asselin, visualisation de lettres, transcriptions, exports, exposition virtuelle', '1'),
-(NULL, '2018-03-31','Webdev with Python and Flask','https://www.meetup.com/fr-FR/Canton-Python/events/246485923/?eventId=246485923','Dave Collins will be continuing the webdev track with Python and Flask. Now that we have our development tools setup we are ready to dig into building out our first app.', '4');
+VALUES (NULL,
+ '2018-03-01',
+ 'Open data et protection des donnees personnelles',
+ 'https://www.archivistes.org/Open-data-et-protection-des-donnees-personnelles-ou-en-sommes-nous',
+ 'L’AAF organise, à la suite de son Assemblée générale, le 30 mars 2018, une journée d’études sur l’Open data et le Règlement général sur la protection des données (RGPD).', 
+ 'COMPLET - Open data et protection des données personnelles : où en sommes-nous ? - Association des archivistes français',
+ 'COMPLET - Open data et protection des données personnelles : où en sommes-nous ? - le 30 mars, Pierrefitte-sur-Seine. L’AAF organise, à la suite de son Assemblée générale, le 30 mars 2018, une journée d’études sur l’Open data et le Règlement général sur la protection des données (RGPD). [Association des archivistes français, L’AAF regroupe les professionnels des archives du secteur public comme du secteur privé. Au cœur de ses activités : un centre de formation accueillant plus de 800 personnes tous les ans, des publications, des événements, la promotion du métier, etc. Créée en 1904, l\'Association compte actuellement 1900 membres auxquels il convient d\'ajouter les nombreux bénéficiaires.',
+ '3'),
+ 
+ (NULL, 
+ '2018-03-11',
+ 'Transcription collaborative',
+ 'https://testaments-de-poilus.huma-num.fr/#!/',
+ 'Le projet Testaments de Poilus vise à produire une édition électronique d’un millier de testaments des Poilus de la Première Guerre mondiale retrouvés dans les fonds des Archives nationales et des Archives Départementales des Yvelines.',
+ NULL,
+ NULL,
+ '2'),
+ 
+(NULL, 
+'2018-03-21',
+'UN QUEBECOIS DANS LES TRANCHEES', 
+'http://oasselin.omeka.net',
+'bibliothèque numérique de correspondance du "poilu" québecois Olivar Asselin, visualisation de lettres, transcriptions, exports, exposition virtuelle', 
+'Un québécois dans les tranchées - Correspondance d\'Olivar Asselin', 'Mise en ligne d\'une partie de la correspondance de guerre d\'Olivar Asselin et valorisation de ses œuvres picturales au sein d\'une exposition virtuelle.',
+ '1'),
+ 
+(NULL, 
+'2018-03-31',
+'Webdev with Python and Flask',
+'https://www.meetup.com/fr-FR/Canton-Python/events/246485923/?eventId=246485923',
+'Dave Collins will be continuing the webdev track with Python and Flask. Now that we have our development tools setup we are ready to dig into building out our first app.',
+'Webdev with Python and Flask | Canton Python (Canton, OH) | Meetup', 
+'Dave Collins will be continuing the webdev track with Python and Flask. Now that we have our development tools setup we are ready to dig into building out our first app.NOTE: Bring a laptop with PyCha',
+ '4');
 
+ 
 INSERT INTO sujet_publi 
 
 VALUES (NULL, 1, 3),
@@ -22,3 +53,4 @@ VALUES (NULL, 1, 3),
 (NULL, 2, 2),
 (NULL, 3, 3),
 (NULL, 4, 2)
+

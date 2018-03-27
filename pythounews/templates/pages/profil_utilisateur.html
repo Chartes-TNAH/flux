@@ -1,6 +1,6 @@
 {% include "partials/header.html" %}
 
-<h1>Profil de {{profil_de_la_page}} ({{item["auteur"].user_nom}}) </h1>
+<h1>Profil de {{utilisateur.user_nom}} ({{utilisateur.user_login}}) </h1>
 <div class="container">
     <div class="row">
         <div class="col-4">
@@ -11,42 +11,21 @@
 <div class="container bg-light">
         <div class="row d-flex justify-content-center">
             <div class="col-3">Etudes effectuées :</div>
-            <div class="col-3">{{item["auteur"].user_bio}}</div>
+            <div class="col-3">{{utilisateur.user_bio}}</div>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-3">Promotion</div>
-            <div class="col-3">{{item["auteur"].user_promo}}</div>
+            <div class="col-3">{{utilisateur.user_promo}}</div>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-3">Ma spécialité :</div>
-            <div class="col-3">{{item["auteur"].user_spe}}</div>
+            <div class="col-3">{{utilisateur.user_spe}}</div>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-3">Contact :</div>
-            <div class="col-3">{{item["auteur"].user_email}}</div>
+            <div class="col-3">{{utilisateur.user_email}}</div>
         </div>
     </div>
-
-
-<h2>Toutes les publications de {{item["auteur"].user_login}}</h2>
-  {% for item["auteur"] in publications%}
-    {% if item["auteur"].user_login = profil_de_la_page%}
-<div class="row">
-
-      <p>
-        Publiée le {{publications_utilisateurs.publication_date}} <!-- Date du jour -->
-        {{publications_utilisateurs.publication_titre}}<br/> <!-- Titre donné par l'utilisateur -->
-        {{publications_utilisateurs.publication_texte}}<br/> <!-- commentaire donné par l'utilisateur -->
-        <a href="{{lien}}">{{publications_utilisateurs.publication_lien}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
-        <!-- description automatique -->
-      </p>
-  </div>
-    {% endif %}
-    {%else%}
-    <div class="row">
-          <p> Cet utilisateur n'a encore rien publié </p>
-      </div>
-  {% endfor %}
 
 
 

@@ -32,11 +32,13 @@
                 <a class="nav-link" href="{{url_for('deconnexion')}}">Déconnexion ({{current_user.user_nom}})</a>
               </li>
             {% endif %}
+    {% if current_user.is_authenticated %}
     </ul>
     <form class="form-inline my-2 my-lg-0" action="{{url_for("recherche")}}" method="GET">
       <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" aria-label="Recherche">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">SSSSSSearch</button>
     </form>
+    {% endif %}
   </div>
 </nav>
 {% block afternav %}{%endblock%}

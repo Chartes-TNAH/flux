@@ -3,17 +3,22 @@
 <h2>L'actualité du master TNAH de l'Ecole nationale des chartes</h2>
 <body>
 {% if current_user.is_authenticated %}
-<div class="row">
+<div>
+    <div class="row d-flex justify-content-around">
         {% if publications%}
           {% for item in publications%}
-          <p>Publiée le {{item["date"]}} <!-- Date du jour --> par <a href="{{url_for ('afficher_profil_utilisateur', user_id = item["auteur"].user_id)}}">{{item["auteur"].user_login}}</a> <br/>
-            {{item["titre"]}}<br/> <!-- Titre donné par l'utilisateur -->
-            {{item["texte"]}}<br/> <!-- commentaire donné par l'utilisateur -->
-            <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
-            {{item["description_url"]}} <!-- description automatique -->
-          </p>
+          <div class="col-4 bg-light p-3 m-3">
+              <p class="align-middle">
+                Publiée le {{item["date"]}} <!-- Date du jour --> par <a href="{{url_for ('afficher_profil_utilisateur', user_id = item["auteur"].user_id)}}">{{item["auteur"].user_login}}</a> <br/>
+                {{item["titre"]}}<br/> <!-- Titre donné par l'utilisateur -->
+                {{item["texte"]}}<br/> <!-- commentaire donné par l'utilisateur -->
+                <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
+                {{item["description_url"]}} <!-- description automatique -->
+              </p>
+          </div>
           {% endfor %}
         {% endif %}
+    </div>
 </div>
 <div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success d-flex text-center">Plus de publications ici</a></div>
 {% endif %}

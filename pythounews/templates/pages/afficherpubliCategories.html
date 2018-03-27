@@ -16,9 +16,9 @@
       {% for publication in publications %}
         <h2>{{publications.publication_nom}}</h2>
         <p>
+            Publiée le {{publication.publication_date}}<br/>
             {{publication.publication_nom}}<br/>
-            {{publication.publication_date}}<br/>
-            {{publication.publication_lien}}<br/>
+            <a href="{{publication.publication_lien}}">{{publication.publication_lien}}<a/><br/>
             {{publication.publication_texte}}
         </p>
     {% endfor %}

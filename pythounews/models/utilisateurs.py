@@ -27,7 +27,7 @@ class User(UserMixin, db.Model):
         :rtype: User or None
         """
         utilisateur = User.query.filter(User.user_login == login).first()
-        
+
         if utilisateur and check_password_hash(utilisateur.user_password, motdepasse):
             return utilisateur
         return None
@@ -100,19 +100,6 @@ class User(UserMixin, db.Model):
         :rtype: int
         """
         return self.user_id
-
-    def to_jsonapi_dict(self):
-        """ It ressembles a little JSON API format but it is not completely compatible
-
-        :return:
-        """
-        return {
-            "type": "people",
-            "attributes": {
-                "name": self.user_nom
-
-            }
-        }
 
     @login.user_loader
     def trouver_utilisateur_via_id(identifiant):

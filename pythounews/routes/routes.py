@@ -209,6 +209,18 @@ def afficherpublis():
     publications = Publication.afficher_publications(pagination)
     return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
 
+@app.route("/afficher_profil_utilisateur/<int:user_id>")
+@login_required
+def afficher_profil_utilisateur(user_id) :
+    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
+
+    :returns: retourne la page profil d'un utilisateur
+    """
+
+    utilisateur = User.query.get(user_id)
+
+    return render_template("pages/profil_utilisateur.html", utilisateur = utilisateur)
+
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")
 @login_required

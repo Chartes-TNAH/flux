@@ -1,0 +1,33 @@
+{% include "partials/header.html" %}
+
+<h1>Profil de {{utilisateur.user_nom}} ({{utilisateur.user_login}}) </h1>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
+        </div>
+    </div>
+</div>
+<div class="container bg-light">
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Etudes effectuées :</div>
+            <div class="col-3">{{utilisateur.user_bio}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Promotion</div>
+            <div class="col-3">{{utilisateur.user_promo}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Ma spécialité :</div>
+            <div class="col-3">{{utilisateur.user_spe}}</div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">Contact :</div>
+            <div class="col-3">{{utilisateur.user_email}}</div>
+        </div>
+    </div>
+
+
+
+
+{% include "partials/footer.html" %}

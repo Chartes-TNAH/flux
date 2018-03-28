@@ -26,21 +26,24 @@
             <div class="col-3">Mes études :</div>
             <div class="col-3">{{current_user.user_bio}}</div>
         </div>
+
         <div class="row d-flex justify-content-center">
-            <div class="col-3" style="font-weight:bold">Ma promo :</div>
+            <div class="col-3">Ma promo :</div>
             <div class="col-3">{{current_user.user_promo}}</div>
         </div>
+
         <div class="row d-flex justify-content-center">
-            <div class="col-3" style="font-weight:bold">Ma spécialité :</div>
+            <div class="col-3" >Ma spécialité :</div>
             <div class="col-3">{{current_user.user_spe}}</div>
         </div>
+
         <div class="row d-flex justify-content-center">
-            <div class="col-3" style="font-weight:bold">Mon email :</div>
+            <div class="col-3">Mon email :</div>
             <div class="col-3">{{current_user.user_email}}</div>
         </div>
-    </div>
-<div>
-    <a class="nav-link" href="{{url_for('modif_profil', user_id=current_user.user_id)}}">Modifier le profil</a>
+    </div><br/>
+<div class="div text-center">
+    <a type="submit" class="btn btn-success" href="{{url_for('modif_profil', user_id=current_user.user_id)}}">Modifier le profil</a>
 </div>
 </body>
 </html>

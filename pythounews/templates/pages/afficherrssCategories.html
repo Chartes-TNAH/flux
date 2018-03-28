@@ -5,7 +5,7 @@
   <h1>Les flux</h1>
     <div>
          <div class="row d-flex justify-content-around">
-      <a href="{{url_for ('rss')}}" type="button" class="btn btn-success">Toutes les publications</a>
+      <a href="{{url_for ('rss')}}" type="button" class="btn btn-success">Tous les flux</a>
 
         {% for mot in motscles %}
       <a href="{{url_for ('afficherrss', motscles_id=mot.motscles_id)}}" type="button" class="btn btn-success">{{mot.motscles_nom}}</a>

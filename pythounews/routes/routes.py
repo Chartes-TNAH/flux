@@ -1,11 +1,11 @@
 from flask import render_template, request, flash, redirect
-from ..models import fluxrss
+from flask_login import login_user, current_user, logout_user, login_required
 from feedparser import parse
-from ..app import db
 from bs4 import BeautifulSoup
 import requests
+from ..app import db
 from ..app import app, login
-from flask_login import login_user, current_user, logout_user, login_required
+from ..models import fluxrss
 from ..models.utilisateurs import User
 from ..models.publications import Publication
 from ..models.motscles import Motscles, Sujet_publi
@@ -13,40 +13,23 @@ from ..models.fluxrss import Fluxrss
 from ..models.fluxrss import Sujet_fluxrss
 
 
+@app.route("/")
+def accueil():
+    """ Route permettant l'affichage de la page d'accueil
 
-@app.route("/tnah")
-def tnah():
-    """ Route permettant l'affichage de la page 'A propos du master et du projet'
-
-    :return: page html à propos
-    """
-    return render_template("pages/tnah.html", nom="A propos")
-
-
-@app.route("/connexion", methods=["POST", "GET"])
-def connexion():
-    """ Route gérant les connexions des utilisateurs
-
-    :return: page html de connexion au site
+    :return: page html d'accueil
     """
     if current_user.is_authenticated is True:
-        flash("Vous êtes connecté-e", "info")
-        return redirect("/")
-    if request.method == "POST":
-        utilisateur=User.identification(
-            login=request.form.get("login", None),
-            motdepasse=request.form.get("motdepasse", None)
-        )
-        if utilisateur:
-            flash("Connexion effectuée", "success")
-            login_user(utilisateur)
-            return redirect("/")
-        else:
-            flash("Les identifiants n'ont pas été reconnus", "danger")
-            return render_template("pages/connexion.html")
-    return render_template("pages/connexion.html")
-
-    login.login_view = 'connexion'
+        # n'ayant pas envie de refaire une nouvelle route, j'ai gardé tout le code la pagination de la page publication,
+        # mais je n'affiche que les deux premiers éléments.
+        pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
+        publications = Publication.afficher_publications(pagination)
+        publications = publications[:2]
+        liste_rss = Fluxrss.read_rss()
+        return render_template ("pages/accueil.html", liste_rss=liste_rss, publications=publications)
+    else:
+        liste_rss = Fluxrss.read_rss()
+        return render_template("pages/accueil.html", liste_rss=liste_rss)
 
 
 @app.route("/inscription", methods=["GET", "POST"])
@@ -77,6 +60,32 @@ def inscription():
         return render_template("pages/inscription.html")
 
 
+@app.route("/connexion", methods=["POST", "GET"])
+def connexion():
+    """ Route gérant les connexions des utilisateurs
+
+    :return: page html de connexion au site
+    """
+    if current_user.is_authenticated is True:
+        flash("Vous êtes connecté-e", "info")
+        return redirect("/")
+    if request.method == "POST":
+        utilisateur=User.identification(
+            login=request.form.get("login", None),
+            motdepasse=request.form.get("motdepasse", None)
+        )
+        if utilisateur:
+            flash("Connexion effectuée", "success")
+            login_user(utilisateur)
+            return redirect("/")
+        else:
+            flash("Les identifiants n'ont pas été reconnus", "danger")
+            return render_template("pages/connexion.html")
+    return render_template("pages/connexion.html")
+
+    login.login_view = 'connexion'
+
+
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
     """ Route permettant à l'utilisateur de se déconnecter
@@ -89,23 +98,14 @@ def deconnexion():
     return redirect("/")
 
 
-@app.route("/")
-def accueil():
-    """ Route permettant l'affichage de la page d'accueil
+@app.route("/profil")
+@login_required
+def profil():
+    """ Route permettant l'affichage du profil de l'utilisateur
 
-    :return: page html d'accueil
+    :return: page html profil de l'utilisateur
     """
-    if current_user.is_authenticated is True:
-        # n'ayant pas envie de refaire une nouvelle route, j'ai gardé tout le code la pagination de la page publication,
-        # mais je n'affiche que les deux premiers éléments.
-        pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
-        publications = Publication.afficher_publications(pagination)
-        publications = publications[:2]
-        liste_rss = Fluxrss.read_rss()
-        return render_template ("pages/accueil.html", liste_rss=liste_rss, publications=publications)
-    else:
-        liste_rss = Fluxrss.read_rss()
-        return render_template("pages/accueil.html", liste_rss=liste_rss)
+    return render_template("pages/profil.html")
 
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
@@ -136,14 +136,40 @@ def modif_profil(user_id) :
         return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
 
 
-@app.route("/profil")
+@app.route("/afficher_profil_utilisateur/<int:user_id>")
 @login_required
-def profil():
-    """ Route permettant l'affichage du profil de l'utilisateur
+def afficher_profil_utilisateur(user_id) :
+    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
 
-    :return: page html profil de l'utilisateur
+    :return: page html profil d'un utilisateur
     """
-    return render_template("pages/profil.html")
+
+    utilisateur = User.query.get(user_id)
+
+    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur)
+
+
+@app.route("/recherche")
+@login_required
+def recherche():
+    """ Route permettant la recherche plein-texte
+
+    :return: page html résultats de la recherche
+    """
+    motclef = request.args.get("keyword", None)
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    resultats = []
+
+    if motclef:
+        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)), Publication.publication_texte.like("%{}%".format(motclef)), Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+
+    return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)
 
 
 @app.route("/publication", methods=["GET", "POST"])
@@ -177,6 +203,37 @@ def publication():
     else:
         return render_template("pages/publication.html", motscles=motscles)
 
+
+@app.route("/afficherpublis")
+@login_required
+def afficherpublis():
+    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
+
+    :return: page html publications
+    """
+    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
+    publications = Publication.afficher_publications(pagination)
+    motscles = Motscles.query.all()
+
+    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination, motscles=motscles)
+
+
+@app.route("/afficherpublisCategorie/<int:motscles_id>")
+@login_required
+def afficherpublisCategorie(motscles_id):
+    """ Route permettant l'affichage des publications des utilisateurs par mots clés
+
+    :param motscles_id: id du mot clé
+    :type motscles_id: integer
+    :return: page html de publications selon les mots clefs
+    """
+    motcle = Motscles.query.get(motscles_id)
+    motscles = Motscles.query.all()
+    publications = Sujet_publi.afficher_publi_categorie(motcle)
+
+    return render_template("pages/afficherpublisCategories.html", publications=publications, motscles=motscles)
+
+
 @app.route('/rss')
 def rss():
     """ Route permettant l'affichage de l'ensemble des flux rss entrés dans la base
@@ -203,69 +260,22 @@ def afficherrss(motscles_id):
     return render_template("pages/afficherrssCategories.html", motcle=motcle, fluxrss=rss, motscles=motscles)
 
 
-@app.route("/afficherpublis")
-@login_required
-def afficherpublis():
-    """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
+@app.route("/rsociaux")
+def reseauxsociaux():
+    """Route permettant d'afficher des fils d'actu twitter et facebook
 
-    :return: page html publications
+    :return: page html avec plusieurs iframe
     """
-    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
-    publications = Publication.afficher_publications(pagination)
-    motscles = Motscles.query.all()
+    return render_template("pages/reseauxsociaux.html")
 
-    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination, motscles=motscles)
 
-@app.route("/afficher_profil_utilisateur/<int:user_id>")
-@login_required
-def afficher_profil_utilisateur(user_id) :
-    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
+@app.route("/tnah")
+def tnah():
+    """ Route permettant l'affichage de la page 'A propos du master et du projet'
 
-    :return: page html profil d'un utilisateur
+    :return: page html à propos
     """
-
-    utilisateur = User.query.get(user_id)
-
-    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur)
-
-
-@app.route("/afficherpublisCategorie/<int:motscles_id>")
-@login_required
-def afficherpublisCategorie(motscles_id):
-    """ Route permettant l'affichage des publications des utilisateurs par mots clés
-
-    :param motscles_id: id du mot clé
-    :type motscles_id: integer
-    :return: page html de publications selon les mots clefs
-    """
-    motcle = Motscles.query.get(motscles_id)
-    motscles = Motscles.query.all()
-    publications = Sujet_publi.afficher_publi_categorie(motcle)
-
-    return render_template("pages/afficherpublisCategories.html", publications=publications, motscles=motscles)
-
-
-@app.route("/recherche")
-@login_required
-def recherche():
-    """ Route permettant la recherche plein-texte
-
-    :return: page html résultats de la recherche
-    """
-    motclef = request.args.get("keyword", None)
-    page = request.args.get("page", 1)
-
-    if isinstance(page, str) and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-
-    resultats = []
-
-    if motclef:
-        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)), Publication.publication_texte.like("%{}%".format(motclef)), Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
-
-    return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)
+    return render_template("pages/tnah.html", nom="A propos")
 
 
 @app.route("/404")
@@ -276,11 +286,3 @@ def page_not_found(e):
     :return: page html erreur 404
     """
     return render_template('pages/404.html'), 404
-
-@app.route("/rsociaux")
-def reseauxsociaux():
-    """Route permettant d'afficher des fils d'actu twitter et facebook
-
-    :return: page html avec plusieurs iframe
-    """
-    return render_template("pages/reseauxsociaux.html")

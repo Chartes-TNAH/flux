@@ -2,7 +2,6 @@ from flask import render_template, request, flash, redirect
 from ..models import fluxrss
 from feedparser import parse
 from ..app import db
-
 from bs4 import BeautifulSoup
 import requests
 from ..app import app, login
@@ -19,7 +18,7 @@ from ..models.fluxrss import Sujet_fluxrss
 def tnah():
     """ Route permettant l'affichage de la page 'A propos du master et du projet'
 
-    :return: page 'A propos du master et du projet'
+    :return: page html à propos
     """
     return render_template("pages/tnah.html", nom="A propos")
 
@@ -28,7 +27,7 @@ def tnah():
 def connexion():
     """ Route gérant les connexions des utilisateurs
 
-    :return: page de connexion au site
+    :return: page html de connexion au site
     """
     if current_user.is_authenticated is True:
         flash("Vous êtes connecté-e", "info")
@@ -54,7 +53,7 @@ def connexion():
 def inscription():
     """ Route gérant les inscriptions des utilisateurs
 
-    :return: page inscription
+    :return: page html inscription
     """
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
@@ -67,8 +66,6 @@ def inscription():
             promo=request.form.get("promo", None),
             motdepasse=request.form.get("motdepasse", None)
         )
-        print("donnee",donnees)
-        print("statut", statut)
 
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
@@ -84,7 +81,7 @@ def inscription():
 def deconnexion():
     """ Route permettant à l'utilisateur de se déconnecter
 
-    :returns: page déconnexion
+    :return: page html déconnexion
     """
     if current_user.is_authenticated is True:
         logout_user()
@@ -96,11 +93,11 @@ def deconnexion():
 def accueil():
     """ Route permettant l'affichage de la page d'accueil
 
-    :returns: page d'accueil
+    :return: page html d'accueil
     """
     if current_user.is_authenticated is True:
-        #n'ayant pas envie de refaire une nouvelle route, j'ai gardé tout le code la pagination de la page publication,
-        #mais je n'affiche que les 2 1ers éléments.
+        # n'ayant pas envie de refaire une nouvelle route, j'ai gardé tout le code la pagination de la page publication,
+        # mais je n'affiche que les deux premiers éléments.
         pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
         publications = Publication.afficher_publications(pagination)
         publications = publications[:2]
@@ -118,7 +115,7 @@ def modif_profil(user_id) :
 
     :param user_id: id de l'utilisateur
     :type user_id: integer
-    :returns: page de modification du profil de l'utilisateur
+    :return: page html de modification du profil de l'utilisateur
     """
     statut, donnees = User.modif_profil(
         user_id=user_id,
@@ -144,7 +141,7 @@ def modif_profil(user_id) :
 def profil():
     """ Route permettant l'affichage du profil de l'utilisateur
 
-    :return: page profil de l'utilisateur
+    :return: page html profil de l'utilisateur
     """
     return render_template("pages/profil.html")
 
@@ -154,7 +151,7 @@ def profil():
 def publication():
     """ Route permettant de poster une publication
 
-    :returns: page de formulaire d'envoi des publications
+    :return: page html de formulaire d'envoi des publications
     """
 
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
@@ -183,6 +180,8 @@ def publication():
 @app.route('/rss')
 def rss():
     """ Route permettant l'affichage de l'ensemble des flux rss entrés dans la base
+
+    :return: page html des flux rss
     """
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/rss.html", liste_rss=liste_rss)
@@ -191,6 +190,8 @@ def rss():
 @app.route('/rss/<int:motscles_id>')
 def afficherrss(motscles_id):
     """ Route permettant l'affichage des flux rss par mots clés entrés dans la base
+
+    :return: page html des flux rss par mots clefs
     """
     #On récupère l'id correspondant au mot-clé dont on souhaite avoir les flux correspondants.
     motcle = Motscles.query.get(motscles_id)
@@ -204,7 +205,8 @@ def afficherrss(motscles_id):
 @login_required
 def afficherpublis():
     """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
-    :returns: page publications
+
+    :return: page html publications
     """
     pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
     publications = Publication.afficher_publications(pagination)
@@ -215,7 +217,8 @@ def afficherpublis():
 @login_required
 def afficher_profil_utilisateur(user_id) :
     """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
-    :returns: retourne la page profil d'un utilisateur
+
+    :return: page html profil d'un utilisateur
     """
 
     utilisateur = User.query.get(user_id)
@@ -230,7 +233,7 @@ def afficherpublisCategorie(motscles_id):
 
     :param motscles_id: id du mot clé
     :type motscles_id: integer
-    :return: page de publication correspond au mot clé
+    :return: page html de publications selon les mots clefs
     """
     motcle = Motscles.query.get(motscles_id)
     publications = Sujet_publi.afficher_publi_categorie(motcle)
@@ -243,7 +246,7 @@ def afficherpublisCategorie(motscles_id):
 def recherche():
     """ Route permettant la recherche plein-texte
 
-    :returns: page résultats de la recherche
+    :return: page html résultats de la recherche
     """
     motclef = request.args.get("keyword", None)
     page = request.args.get("page", 1)
@@ -265,12 +268,16 @@ def recherche():
 @app.route("/404")
 @app.errorhandler(404)
 def page_not_found(e):
+    """Route permettant l'affichage d'un page 404 personnalisée
+
+    :return: page html erreur 404
+    """
     return render_template('pages/404.html'), 404
 
 @app.route("/rsociaux")
 def reseauxsociaux():
     """Route permettant d'afficher des fils d'actu twitter et facebook
 
-    :returns : page avec plusieurs iframe
+    :return: page html avec plusieurs iframe
     """
     return render_template("pages/reseauxsociaux.html")

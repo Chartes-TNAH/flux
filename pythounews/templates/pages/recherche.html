@@ -1,5 +1,6 @@
 {% include "partials/header.html" %}
-
+<html>
+  <body>
     <h1>Résultat(s) de votre recherche</h1>
     {% if resultats %}
         <p>{{resultats.total}} résultat(s) répond(ent) à votre recherche :</p>
@@ -39,6 +40,7 @@
         {% endfor %}
       </ul>
           {% endif %}
-</nav>
-
+    </nav>
+  </body>
+</html>
 {% include "partials/footer.html" %}

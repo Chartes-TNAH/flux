@@ -1,9 +1,7 @@
 {% include "partials/header.html" %}
-<!DOCTYPE html>
 <html>
-  <h1>Les publications</h1>
   <body>
-
+    <h1>Les publications</h1>
     <div class="row">
       <a href="{{url_for ('afficherpublis')}}"><button type="button" class="btn btn-success">Toutes les publications</button></a>
       <a href="{{url_for ('afficherpublisCategorie', motscles_id=1)}}"><button type="button" class="btn btn-light">Bibliothèque</button></a>
@@ -12,7 +10,6 @@
       <a href="{{url_for ('afficherpublisCategorie', motscles_id=4)}}"><button type="button" class="btn btn-light">Emploi</button></a>
       <a href="{{url_for ('afficherpublisCategorie', motscles_id=5)}}"><button type="button" class="btn btn-light">Recherches</button></a>
   </div>
-
 
 <div class="row">
         {% if publications%}

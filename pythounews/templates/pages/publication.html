@@ -1,12 +1,11 @@
 {% include "partials/header.html" %}
 
-<h1>Partagez une nouvelle</h1>
-
+<html>
 <body>
+<h1>Partagez une nouvelle</h1>
   <div class="container-fluid">
-  <div colspan="30">
-  <p></p>
-  <form class="form" method="POST" action="{{url_for('publication')}}">
+    <div colspan="30">
+      <form class="form" method="POST" action="{{url_for('publication')}}">
 
   <div class="form-group row">
    <label for="texte" class="col-sm-2 col-form-label"> Titre </label>
@@ -37,9 +36,10 @@
     <button type="submit" class="btn btn-success"> Postez votre info ! </button>
   </div>
 
-</form>
-</div>
-</div>
-</body>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
 
 {% include "partials/footer.html" %}

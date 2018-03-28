@@ -1,7 +1,8 @@
 {% include "partials/header.html" %}
+<html>
+<body>
 <h1>PythouNews</h1>
 <h2>L'actualité du master TNAH de l'Ecole nationale des chartes</h2>
-<body>
 {% if current_user.is_authenticated %}
 <div>
     <div class="row d-flex justify-content-around">
@@ -77,4 +78,5 @@
 </div>
 </div>
 </body>
+</html>
 {% include "partials/footer.html" %}

@@ -3,14 +3,24 @@
 <html>
   <h1>Les publications</h1>
   <body>
+
+    <div class="row">
+      <a href="{{url_for ('afficherpublis')}}"><button type="button" class="btn btn-success">Toutes les publications</button></a>
+      <a href="{{url_for ('afficherpublisCategorie', motscles_id=1)}}"><button type="button" class="btn btn-light">Bibliothèque</button></a>
+      <a href="{{url_for ('afficherpublisCategorie', motscles_id=2)}}"><button type="button" class="btn btn-light">Archives</button></a>
+      <a href="{{url_for ('afficherpublisCategorie', motscles_id=3)}}"><button type="button" class="btn btn-light">Musées</button></a>
+      <a href="{{url_for ('afficherpublisCategorie', motscles_id=4)}}"><button type="button" class="btn btn-light">Emploi</button></a>
+      <a href="{{url_for ('afficherpublisCategorie', motscles_id=5)}}"><button type="button" class="btn btn-light">Recherches</button></a>
+  </div>
+
       {% for publication in publications %}
         <h2>{{publications.publication_nom}}</h2>
-        <dl>
-            <dt>Nom</dt><dd>{{publication.publication_nom}}</dd>
-            <dt>Date</dt><dd>{{publication.publication_date}}</dd>
-            <dt>Lien</dt><dd>{{publication.publication_lien}}</dd>
-            <dt>Texte</dt><dd>{{publication.publication_texte}}</dd>
-        </dl>
+        <p>
+            Publiée le {{publication.publication_date}}<br/>
+            {{publication.publication_nom}}<br/>
+            <a href="{{publication.publication_lien}}">{{publication.publication_lien}}<a/><br/>
+            {{publication.publication_texte}}
+        </p>
     {% endfor %}
 
   </body>

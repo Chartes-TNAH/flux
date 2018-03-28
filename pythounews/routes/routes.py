@@ -254,3 +254,11 @@ def recherche():
         publications = Publication.afficher_publications(pagination)
 
     return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
+
+@app.route("/rsociaux")
+def reseauxsociaux():
+    """Route permettant d'afficher des fils d'actu twitter et facebook
+
+    :returns : page avec plusieurs iframe
+    """
+    return render_template("pages/reseauxsociaux.html")

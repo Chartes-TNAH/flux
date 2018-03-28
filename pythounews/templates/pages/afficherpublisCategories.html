@@ -1,8 +1,8 @@
-
 {% include "partials/header.html" %}
+
 <html>
-  <h1>Les publications</h1>
   <body>
+  <h1>Les publications</h1>
        <div class="row d-flex justify-content-around">
       <a href="{{url_for ('afficherpublis')}}" type="button" class="btn btn-success">Toutes les publications</a>
 
@@ -10,7 +10,6 @@
       <a href="{{url_for ('afficherpublisCategorie', motscles_id=mot.motscles_id)}}" type="button" class="btn btn-success">{{mot.motscles_nom}}</a>
         {% endfor %}
   </div>
-
 
 <div class="row d-flex justify-content-around">
         {% if publications%}
@@ -30,5 +29,5 @@
 
   </body>
 </html>
-{% include "partials/footer.html" %}
 
+{% include "partials/footer.html" %}

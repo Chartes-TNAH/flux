@@ -208,8 +208,9 @@ def afficherpublis():
     """
     pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
     publications = Publication.afficher_publications(pagination)
+    motscles = Motscles.query.all()
 
-    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
+    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination, motscles=motscles)
 
 @app.route("/afficher_profil_utilisateur/<int:user_id>")
 @login_required
@@ -233,9 +234,10 @@ def afficherpublisCategorie(motscles_id):
     :return: page de publication correspond au mot clé
     """
     motcle = Motscles.query.get(motscles_id)
+    motscles = Motscles.query.all()
     publications = Sujet_publi.afficher_publi_categorie(motcle)
 
-    return render_template("pages/afficherpubliCategories.html", motcle=motcle, publications=publications)
+    return render_template("pages/afficherpublis_categories.html", publications=publications, motscles=motscles)
 
 
 @app.route("/recherche")
@@ -255,7 +257,6 @@ def recherche():
 
     resultats = []
 
-    titre = "Recherche"
     if motclef:
         resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)),Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
 

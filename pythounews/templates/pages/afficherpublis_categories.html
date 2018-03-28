@@ -1,0 +1,27 @@
+
+{% include "partials/header.html" %}
+<!DOCTYPE html>
+<html>
+  <h1>Les publications</h1>
+  <body>
+       <div class="row">
+      <a href="{{url_for ('afficherpublis')}}" type="button" class="btn btn-success">Toutes les publications</a>
+
+        {% for mot in motscles %}
+      <a href="{{url_for ('afficherpublisCategorie', motscles_id=mot.motscles_id)}}" type="button" class="btn btn-light">{{mot.motscles_nom}}</a>
+        {% endfor %}
+  </div>
+
+      {% for publication in publications %}
+        <h2>{{publications.publication_nom}}</h2>
+        <p>
+            Publiée le {{publication.publication_date}}<br/>
+            {{publication.publication_nom}}<br/>
+            <a href="{{publication.publication_lien}}">{{publication.publication_lien}}<a/><br/>
+            {{publication.publication_texte}}
+        </p>
+    {% endfor %}
+
+  </body>
+</html>
+{% include "partials/footer.html" %}

@@ -185,19 +185,21 @@ def rss():
     """ Route permettant l'affichage de l'ensemble des flux rss entrés dans la base
     """
     liste_rss = Fluxrss.read_rss()
-    return render_template ("pages/rss.html", liste_rss=liste_rss)
+    motscles = Motscles.query.all()
+    return render_template("pages/afficherRss.html", liste_rss=liste_rss, motscles=motscles)
 
 
 @app.route('/rss/<int:motscles_id>')
 def afficherrss(motscles_id):
     """ Route permettant l'affichage des flux rss par mots clés entrés dans la base
     """
+    motscles = Motscles.query.all()
     #On récupère l'id correspondant au mot-clé dont on souhaite avoir les flux correspondants.
     motcle = Motscles.query.get(motscles_id)
     #On récupère les flux rss qui ont un mot-clé dont l'id correspond à celui recherché.
     rss = Sujet_fluxrss.afficher_rss(motcle)
 
-    return render_template("pages/afficherrss.html", motcle=motcle, fluxrss=rss)
+    return render_template("pages/afficherrssCategories.html", motcle=motcle, fluxrss=rss, motscles=motscles)
 
 
 @app.route("/afficherpublis")
@@ -208,8 +210,9 @@ def afficherpublis():
     """
     pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
     publications = Publication.afficher_publications(pagination)
+    motscles = Motscles.query.all()
 
-    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
+    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination, motscles=motscles)
 
 @app.route("/afficher_profil_utilisateur/<int:user_id>")
 @login_required
@@ -233,9 +236,10 @@ def afficherpublisCategorie(motscles_id):
     :return: page de publication correspond au mot clé
     """
     motcle = Motscles.query.get(motscles_id)
+    motscles = Motscles.query.all()
     publications = Sujet_publi.afficher_publi_categorie(motcle)
 
-    return render_template("pages/afficherpubliCategories.html", motcle=motcle, publications=publications)
+    return render_template("pages/afficherpublisCategories.html", publications=publications, motscles=motscles)
 
 
 @app.route("/recherche")
@@ -255,9 +259,8 @@ def recherche():
 
     resultats = []
 
-    titre = "Recherche"
     if motclef:
-        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)),Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)), Publication.publication_texte.like("%{}%".format(motclef)), Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
 
     return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)
 

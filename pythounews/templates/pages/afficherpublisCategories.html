@@ -1,15 +1,15 @@
+
 {% include "partials/header.html" %}
 <html>
+  <h1>Les publications</h1>
   <body>
-
-      <div class="row d-flex justify-content-around">
+       <div class="row d-flex justify-content-around">
       <a href="{{url_for ('afficherpublis')}}" type="button" class="btn btn-success">Toutes les publications</a>
 
         {% for mot in motscles %}
       <a href="{{url_for ('afficherpublisCategorie', motscles_id=mot.motscles_id)}}" type="button" class="btn btn-success">{{mot.motscles_nom}}</a>
         {% endfor %}
   </div>
-
 
 
 <div class="row d-flex justify-content-around">
@@ -28,27 +28,7 @@
         {% endif %}
       </div>
 
-      <nav aria-label="research-pagination">
-        <ul class="pagination">
-          {% for page in pagination.iter_pages() %}
-              {% if page %}
-                {% if page != pagination.page %}
-                  <li class="page-item">
-                      <a class="page-link" href="{{ url_for('afficherpublis', page=page) }}">{{page}}</a>
-                  </li>
-                {% else %}
-                  <li class="page-item active disabled">
-                    <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
-                  </li>
-                {% endif %}
-              {% else %}
-                  <li class="page-item disabled">
-                    <a class="page-link">...</a>
-                  </li>
-              {% endif %}
-          {% endfor %}
-        </ul>
-    </nav>
   </body>
 </html>
 {% include "partials/footer.html" %}
+

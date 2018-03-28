@@ -3,17 +3,14 @@
   <body>
   <h1>Les flux</h1>
     <div>
-    <!-- La suite de balise <a> permet de faire des liens avec les pages "Tous les flux" et pour les pages par catégories -->
-      <div class="row">
-        <a href="{{url_for ('rss')}}"><button type="button" class="btn btn-success">Tous les flux</button></a>
-        <a href="{{url_for ('afficherrss', motscles_id=1)}}"><button type="button" class="btn btn-light">Bibliothèque</button></a>
-        <a href="{{url_for ('afficherrss', motscles_id=3)}}"><button type="button" class="btn btn-light">Archives</button></a>
-        <a href="{{url_for ('afficherrss', motscles_id=2)}}"><button type="button" class="btn btn-light">Histoire de l'Art</button></a>
-        <a href="{{url_for ('afficherrss', motscles_id=4)}}"><button type="button" class="btn btn-light">Emploi</button></a>
-        <a href="{{url_for ('afficherrss', motscles_id=5)}}"><button type="button" class="btn btn-light">Recherches</button></a>
-        <a href="{{url_for ('afficherrss', motscles_id=6)}}"><button type="button" class="btn btn-light">Numérique</button></a>
-      </div>
-    </div>
+         <div class="row d-flex justify-content-around">
+      <a href="{{url_for ('rss')}}" type="button" class="btn btn-success">Toutes les publications</a>
+
+        {% for mot in motscles %}
+      <a href="{{url_for ('afficherrss', motscles_id=mot.motscles_id)}}" type="button" class="btn btn-success">{{mot.motscles_nom}}</a>
+        {% endfor %}
+  </div>
+
     <div>
       <div class="row d-flex justify-content-around">
       {%  if fluxrss %}
@@ -26,13 +23,13 @@
                 et rss[4], qui correspond au 5e élément de la liste rss, renvoie le nom de l'institution -->
                 <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{rss[5]}}">{{rss[4]}}</a>
               </span>
-            </br>
+            <br/>
               <!-- rss[0], premier élément de la liste, renvoie le titre de la dernière actualité -->
-              <span style="font-size:0.9em;">{{rss[0]}}</br>
+              <span style="font-size:0.9em;">{{rss[0]}}<br/>
               <!-- rss[1] renvoie le sujet de l'actualité. L'ajout de "|safe" permet l'interprétation des balises html qui étaient contenu à l'origine directement dans le texte du sujet -->
-                {{rss[1]|safe}}</br>
+                {{rss[1]|safe}}<br/>
               <!-- rss[2] permet de faire le lien vers la page qui développe l'actualité -->
-                <a href="{{rss[2]}}" class="text-success">En savoir plussss</a></br>
+                <a href="{{rss[2]}}" class="text-success">En savoir plussss</a><br/>
               <!-- rss[3] récupère et affiche la date de l'actualité -->
                 {{rss[3]}}
               </span>

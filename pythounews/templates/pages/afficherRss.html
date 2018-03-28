@@ -1,0 +1,33 @@
+{% include "partials/header.html" %}
+<h1>Tous les flux</h1>
+<body>
+    <div>
+    <!-- La suite de balise <a> permet de faire des liens avec les pages "Tous les flux" et pour les pages par catégories -->
+        <div class="row d-flex justify-content-around">
+      <a href="{{url_for ('rss')}}" type="button" class="btn btn-success">Tous les flux</a>
+
+        {% for mot in motscles %}
+      <a href="{{url_for ('afficherrss', motscles_id=mot.motscles_id)}}" type="button" class="btn btn-success">{{mot.motscles_nom}}</a>
+        {% endfor %}
+  </div>
+
+    <div>
+  <div class="row d-flex justify-content-around">
+    {%  if liste_rss %}
+      {% for flux_rss in liste_rss %}
+    <div class="col-4 bg-light border border-white">
+      <p class="align-middle">
+        <span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{flux_rss[5]}}">{{flux_rss[4]}}</a></span></br>
+        <span style="font-size:0.9em;">{{flux_rss[0]}}</br>
+          {{flux_rss[1]|safe}}</br>
+          <a href="{{flux_rss[2]}}" class="text-success">En savoir plussss</a></br>
+          {{flux_rss[3]}}</span>
+      </p>
+    </div>
+      {% endfor %}
+
+    {% endif %}
+  </div>
+  </div>
+  </body>
+  {% include "partials/footer.html" %}

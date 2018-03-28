@@ -1,5 +1,6 @@
 from ..app import db
 from .publications import Publication
+from .utilisateurs import User
 
 # Table pour stocker les mots-clés
 class Motscles(db.Model):
@@ -38,12 +39,20 @@ class Sujet_publi(db.Model):
         db.session.commit()
 
     @staticmethod
-    #attention : j'ai peur qu'on ait une erreur si la base de données est vide.
     def afficher_publi_categorie(motcle):
-        sujet_publi = Sujet_publi.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).all()
         liste_publications = []
-        for sujet in sujet_publi:
-            publications = Publication.query.filter(Publication.publication_id == sujet.sujet_publi_publication_id)
-            for publication in publications:
-                liste_publications.append(publication)
+        publications = Publication.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).paginate(page=1, per_page=8)
+        for item in publications.items:
+            titre = item.publication_nom
+            date = item.publication_date
+            lien = item.publication_lien
+            texte = item.publication_texte
+            auteur = User.query.get(item.publi_user_id)
+            description_url = item.publication_description_url
+            titre_url = item.publication_titre_url
+
+            liste_publications.append(
+                {"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url,
+                 "description_url": description_url, "auteur": auteur})
         return liste_publications
+

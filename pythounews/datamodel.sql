@@ -46,7 +46,9 @@ CREATE TABLE IF NOT EXISTS `pythounews`.`publication` (
     `publication_nom` VARCHAR(80) NOT NULL,
     `publication_lien` MEDIUMTEXT NOT NULL,
     `publication_texte` TEXT NULL,
-    `publi_user_id` INT NOT NULL, 
+    `publication_titre_url` TEXT NULL,
+    `publication_description_url` TEXT NULL,
+    `publi_user_id` INT NOT NULL,
     PRIMARY KEY (`publication_id`),
     CONSTRAINT `fk_publi_user_id`
     FOREIGN KEY (`publi_user_id`)

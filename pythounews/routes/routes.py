@@ -163,7 +163,6 @@ def publication():
     if request.method == "POST":
         statut, donnees = Publication.creer_publication(
             titre=request.form.get("titre", None),
-            date=request.form.get("date", None),
             lien=request.form.get("lien", None),
             texte=request.form.get("texte", None),
             auteur=current_user.user_id)
@@ -183,15 +182,19 @@ def publication():
 
 @app.route('/rss')
 def rss():
+    """ Route permettant l'affichage de l'ensemble des flux rss entrés dans la base
+    """
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/rss.html", liste_rss=liste_rss)
 
 
 @app.route('/rss/<int:motscles_id>')
 def afficherrss(motscles_id):
-    """ Route permettant l'affichage des publications des utilisateurs par mots clés
+    """ Route permettant l'affichage des flux rss par mots clés entrés dans la base
     """
+    #On récupère l'id correspondant au mot-clé dont on souhaite avoir les flux correspondants.
     motcle = Motscles.query.get(motscles_id)
+    #On récupère les flux rss qui ont un mot-clé dont l'id correspond à celui recherché.
     rss = Sujet_fluxrss.afficher_rss(motcle)
 
     return render_template("pages/afficherrss.html", motcle=motcle, fluxrss=rss)
@@ -201,25 +204,23 @@ def afficherrss(motscles_id):
 @login_required
 def afficherpublis():
     """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
-
     :returns: page publications
     """
-
     pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
     publications = Publication.afficher_publications(pagination)
+
     return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
 
 @app.route("/afficher_profil_utilisateur/<int:user_id>")
 @login_required
 def afficher_profil_utilisateur(user_id) :
     """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
-
     :returns: retourne la page profil d'un utilisateur
     """
 
     utilisateur = User.query.get(user_id)
 
-    return render_template("pages/profil_utilisateur.html", utilisateur = utilisateur)
+    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur)
 
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")
@@ -259,6 +260,12 @@ def recherche():
         resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
 
     return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)
+
+
+@app.route("/404")
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('pages/404.html'), 404
 
 @app.route("/rsociaux")
 def reseauxsociaux():

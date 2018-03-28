@@ -253,11 +253,13 @@ def recherche():
     else:
         page = 1
 
-    if motclef:
-        pagination = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
-        publications = Publication.afficher_publications(pagination)
+    resultats = []
 
-    return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
+    titre = "Recherche"
+    if motclef:
+        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),Publication.publication_texte.like("%{}%".format(motclef)),Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+
+    return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)
 
 
 @app.route("/404")

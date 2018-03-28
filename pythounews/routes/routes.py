@@ -163,7 +163,6 @@ def publication():
     if request.method == "POST":
         statut, donnees = Publication.creer_publication(
             titre=request.form.get("titre", None),
-            date=request.form.get("date", None),
             lien=request.form.get("lien", None),
             texte=request.form.get("texte", None),
             auteur=current_user.user_id)
@@ -201,25 +200,23 @@ def afficherrss(motscles_id):
 @login_required
 def afficherpublis():
     """ Route permettant l'affichage de l'ensemble des publications postées par les utilisateurs + pagination de la page
-
     :returns: page publications
     """
-
     pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
     publications = Publication.afficher_publications(pagination)
+
     return render_template("pages/afficherpublis.html", publications=publications, pagination=pagination)
 
 @app.route("/afficher_profil_utilisateur/<int:user_id>")
 @login_required
 def afficher_profil_utilisateur(user_id) :
     """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
-
     :returns: retourne la page profil d'un utilisateur
     """
 
     utilisateur = User.query.get(user_id)
 
-    return render_template("pages/profil_utilisateur.html", utilisateur = utilisateur)
+    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur)
 
 
 @app.route("/afficherpublisCategorie/<int:motscles_id>")

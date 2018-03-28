@@ -1,5 +1,7 @@
 {% include "partials/header.html" %}
 
+<html>
+<body>
 <h1>Mon profil</h1>
 <div class="container">
     <div class="row">
@@ -40,6 +42,7 @@
 <div>
     <a class="nav-link" href="{{url_for('modif_profil', user_id=current_user.user_id)}}">Modifier le profil</a>
 </div>
-
+</body>
+</html>
 
 {% include "partials/footer.html" %}

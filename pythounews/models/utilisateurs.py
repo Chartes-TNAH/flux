@@ -80,8 +80,7 @@ class User(UserMixin, db.Model):
             user_promo=promo,
             user_spe=spe,
         )
-        print(utilisateur)
-        print(erreurs)
+
         try:
             # On l'ajoute au transport vers la base de données
             db.session.add(utilisateur)
@@ -137,7 +136,6 @@ class User(UserMixin, db.Model):
 
         utilisateur = User.query.get(user_id)
 
-        print(utilisateur)
         utilisateur.user_nom = nom
         utilisateur.user_email = email
         utilisateur.user_login = login

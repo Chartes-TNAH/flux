@@ -1,5 +1,7 @@
 {% include "partials/header.html" %}
 
+<html>
+<body>
 <h1>Inscription</h1>
 <p>Complétez le formulaire puis cliquez sur "S'inscrire".</p>
 <form class="form" method="POST" action="{{url_for("inscription")}}">
@@ -53,11 +55,11 @@
     </div>
   </div>
 
-
   <div>
     <button type="submit" class="btn btn-primary">S'inscrire</button>
   </div>
 </form>
-
+</body>
+</html>
 
 {% include "partials/footer.html" %}

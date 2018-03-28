@@ -1,6 +1,8 @@
 {% include "partials/header.html" %}
-<h1>Tous les flux</h1>
+
+<html>
 <body>
+<h1>Tous les flux</h1>
     <div>
     <!-- La suite de balise <a> permet de faire des liens avec les pages "Tous les flux" et pour les pages par catégories -->
         <div class="row d-flex justify-content-around">
@@ -27,7 +29,9 @@
       {% endfor %}
 
     {% endif %}
-  </div>
-  </div>
-  </body>
+        </div>
+      </div>
+    </body>
+  </html>
+
   {% include "partials/footer.html" %}

@@ -1,5 +1,7 @@
 {% include "partials/header.html" %}
 
+<html>
+<body>
 <h1>Profil de {{utilisateur.user_nom}} ({{utilisateur.user_login}}) </h1>
 <div class="container">
     <div class="row">
@@ -26,8 +28,7 @@
             <div class="col-3">{{utilisateur.user_email}}</div>
         </div>
     </div>
-
-
-
+  </body>
+</html>
 
 {% include "partials/footer.html" %}

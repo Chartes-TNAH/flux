@@ -186,7 +186,7 @@ def rss():
     """
     liste_rss = Fluxrss.read_rss()
     motscles = Motscles.query.all()
-    return render_template("pages/rss.html", liste_rss=liste_rss, motscles=motscles)
+    return render_template("pages/afficherRss.html", liste_rss=liste_rss, motscles=motscles)
 
 
 @app.route('/rss/<int:motscles_id>')
@@ -239,7 +239,7 @@ def afficherpublisCategorie(motscles_id):
     motscles = Motscles.query.all()
     publications = Sujet_publi.afficher_publi_categorie(motcle)
 
-    return render_template("pages/afficherpublis_categories.html", publications=publications, motscles=motscles)
+    return render_template("pages/afficherpublisCategories.html", publications=publications, motscles=motscles)
 
 
 @app.route("/recherche")

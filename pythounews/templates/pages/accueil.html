@@ -9,7 +9,7 @@
           {% for item in publications%}
           <div class="col-4 bg-light p-3 m-3">
               <p class="align-middle">
-                Publiée le {{item["date"]}} <!-- Date du jour --> par <a href="{{url_for ('afficher_profil_utilisateur', user_id = item["auteur"].user_id)}}">{{item["auteur"].user_login}}</a> <br/>
+                Publiée le {{item["date"]}} <!-- Date du jour --> par <a href="{{url_for ('afficher_profil_utilisateur', user_id = item['auteur'].user_id)}}">{{item["auteur"].user_login}}</a> <br/>
                 {{item["titre"]}}<br/> <!-- Titre donné par l'utilisateur -->
                 {{item["texte"]}}<br/> <!-- commentaire donné par l'utilisateur -->
                 <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
@@ -74,7 +74,6 @@
         <div class="col-12"><a href="{{url_for('reseauxsociaux')}}" class="btn btn-success d-flex text-center">Plus d'infos des réseaux sociaux par ici</a></div>
     </div>
 
-</div>
 </div>
 </body>
 {% include "partials/footer.html" %}

@@ -10,7 +10,8 @@
                     Publiée le {{publication.publication_date}} <!-- Date du jour -->
                     {{publication.publication_titre }}<br/> <!-- Titre donné par l'utilisateur -->
                     {{publication.publication_texte}}<br/> <!-- commentaire donné par l'utilisateur -->
-                    <a href="{{publication.publication_lien}}">{{publication.publication_lien}}</a>
+                    <a href="{{publication.publication_lien}}">{{publication.publication_lien}}</a><br/>
+                    {{publication.publication_description_url}}<br/><!--description récupérée via BeautifulSoup -->
                   </p>
                 </li>
             {% endfor %}

@@ -183,15 +183,19 @@ def publication():
 
 @app.route('/rss')
 def rss():
+    """ Route permettant l'affichage de l'ensemble des flux rss entrés dans la base
+    """
     liste_rss = Fluxrss.read_rss()
     return render_template ("pages/rss.html", liste_rss=liste_rss)
 
 
 @app.route('/rss/<int:motscles_id>')
 def afficherrss(motscles_id):
-    """ Route permettant l'affichage des publications des utilisateurs par mots clés
+    """ Route permettant l'affichage des flux rss par mots clés entrés dans la base
     """
+    #On récupère l'id correspondant au mot-clé dont on souhaite avoir les flux correspondants.
     motcle = Motscles.query.get(motscles_id)
+    #On récupère les flux rss qui ont un mot-clé dont l'id correspond à celui recherché.
     rss = Sujet_fluxrss.afficher_rss(motcle)
 
     return render_template("pages/afficherrss.html", motcle=motcle, fluxrss=rss)

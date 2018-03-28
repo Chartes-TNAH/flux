@@ -263,3 +263,11 @@ def recherche():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('pages/404.html'), 404
+
+@app.route("/rsociaux")
+def reseauxsociaux():
+    """Route permettant d'afficher des fils d'actu twitter et facebook
+
+    :returns : page avec plusieurs iframe
+    """
+    return render_template("pages/reseauxsociaux.html")

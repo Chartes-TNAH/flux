@@ -26,8 +26,7 @@ class Publication(db.Model):
         :param titre: Titre de la publication
         :param lien: URL partagé par l'utilisateur
         :param texte: Texte écrit par l'utilisateur
-        :returns: Si réussite, publication de l'utilisateur. Sinon None
-        :rtype: Publication or None
+        :return: Si réussite, publication de l'utilisateur. Sinon None
         """
         erreurs = []
 
@@ -80,9 +79,9 @@ class Publication(db.Model):
     def afficher_publications(pagination):
         """ Affiche les publications des utilisateurs
 
+        :param pagination: 
         :return: affichage des publications
         """
-        # si ce n'est pas un objet pagination
         liste_publications = []
         # si ce n'est pas un objet pagination
         for item in pagination.items:

@@ -22,12 +22,12 @@ class Sujet_publi(db.Model):
     def ajouter_categorie(categorie, donnees):
         """ Ajout de la catégorie de la publication en fonction de ce que l'utilisateur a coché
 
-                :param categorie: mots clés choisis par l'utilisateur
-                :type motscles_id: list
-                :param donnees: données rentrées par l'utilisateur (A CHANGER !!!)
-                :type donnees: list
-                :return: page de publication correspond au mot clé
-            """
+        :param categorie: mots clés choisis par l'utilisateur
+        :type motscles_id: list
+        :param donnees: données rentrées par l'utilisateur (A CHANGER !!!)
+        :type donnees: list
+        :return: page de publication correspond au mot clé
+        """
         for mot in categorie:
             if mot != None:
                 mot_id = Motscles.query.filter(Motscles.motscles_nom == mot).first()
@@ -55,4 +55,3 @@ class Sujet_publi(db.Model):
                 {"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url,
                  "description_url": description_url, "auteur": auteur})
         return liste_publications
-

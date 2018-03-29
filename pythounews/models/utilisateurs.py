@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
 
         :param login: Login de l'utilisateur
         :param motdepasse: Mot de passe envoyé par l'utilisateur
-        :returns: Si réussite, données de l'utilisateur. Sinon None
+        :return: Si réussite, données de l'utilisateur. Sinon None
         :rtype: User or None
         """
         utilisateur = User.query.filter(User.user_login == login).first()
@@ -38,13 +38,13 @@ class User(UserMixin, db.Model):
         Si il y a une erreur, la fonction renvoie False suivi d'une liste d'erreur
         Sinon, elle renvoie True suivi de la donnée enregistrée
 
-        :param login: Login de l'utilisateur-rice
-        :param email: Email de l'utilisateur-rice
-        :param nom: Nom de l'utilisateur-rice
-        :param motdepasse: Mot de passe de l'utilisateur-rice (Minimum 6 caractères)
-        :param promo: Année de promotion de l'utilisateur-rice
-       :param bio: Courte biographie de l'utilisateur-rice
-
+        :param login: Login de l'utilisateur
+        :param email: Email de l'utilisateur
+        :param nom: Nom de l'utilisateur
+        :param motdepasse: Mot de passe de l'utilisateur (au minimum 6 caractères)
+        :param bio: Courte biographie de l'utilisateur
+        :param promo: Année de promotion de l'utilisateur
+        :param spe: spécialité suivie par l'utilisateur lors du master 1
         """
         erreurs = []
         if not login:
@@ -95,7 +95,7 @@ class User(UserMixin, db.Model):
     def get_id(self):
         """ Retourne l'id de l'objet actuellement utilisé
 
-        :returns: ID de l'utilisateur
+        :return:: ID de l'utilisateur
         :rtype: int
         """
         return self.user_id
@@ -109,14 +109,15 @@ class User(UserMixin, db.Model):
     def modif_profil(user_id, login, email, nom, bio, promo, spe):
         """
         Méthode statique pour mettre à jour les informations sur l'utilisateur
-        :param login:
-        :param email:
-        :param nom:
-        :param motdepasse:
-        :param bio:
-        :param promo:
-        :param spe:
-        :return: Si tout va bien "True" et utilisatueur, sinon "False" et les erreurs rencontrées dans un tableau
+
+        :param login: Login de l'utilisateur
+        :param email: Email de l'utilisateur
+        :param nom: Nom de l'utilisateur
+        :param motdepasse: Mot de passe de l'utilisateur (au minimum 6 caractères)
+        :param bio: Courte biographie de l'utilisateur
+        :param promo: Année de promotion de l'utilisateur
+        :param spe: spécialité suivie par l'utilisateur lors du master 1
+        :return: Si tout va bien "True" et utilisateur, sinon "False" et les erreurs rencontrées dans un tableau
         """
         erreurs = []
         if not nom:

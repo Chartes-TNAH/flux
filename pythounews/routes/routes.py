@@ -145,8 +145,10 @@ def afficher_profil_utilisateur(user_id) :
     """
 
     utilisateur = User.query.get(user_id)
+    publications = Publication.query.filter(Publication.publi_user_id==utilisateur.user_id).order_by(Publication.publication_date.desc()).paginate(page=1)
+    publications = Publication.afficher_publications(publications)
 
-    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur)
+    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur, publications=publications)
 
 
 @app.route("/recherche")

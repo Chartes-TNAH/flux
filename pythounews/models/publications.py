@@ -41,20 +41,20 @@ class Publication(db.Model):
         if len(erreurs) > 0:
             return False, erreurs
 
-            # on récupére avec requests la page html du lien entré par l'utilisateur
-            page_html = requests.get(lien)
-            #  avec BS on insére dans la variable soup le contenu de la page html en utilisant le parser de python
-            soup = BeautifulSoup(page_html.text, 'html.parser')
-            # on crée une variable qui récupère dans notre page html les balises <meta/> qui ont un attribut name
-            # avec une valeur "description". (.find avec BeautifulSoup)
-            balise_meta_desc = soup.find("meta", attrs={"name": u"description"})
-            # on crée une variable description_url qui récupère la valeur de l'attr content
-            if balise_meta_desc:
-                description_url = balise_meta_desc.get("content")
-            else:
-                description_url = "Aucune description n'est disponible"
-            balise_titre = soup.title
-            titre_url = balise_titre.get_text()
+        # on récupére avec requests la page html du lien entré par l'utilisateur
+        page_html = requests.get(lien)
+        #  avec BS on insére dans la variable soup le contenu de la page html en utilisant le parser de python
+        soup = BeautifulSoup(page_html.text, 'html.parser')
+        # on crée une variable qui récupère dans notre page html les balises <meta/> qui ont un attribut name
+        # avec une valeur "description". (.find avec BeautifulSoup)
+        balise_meta_desc = soup.find("meta", attrs={"name": u"description"})
+        # on crée une variable description_url qui récupère la valeur de l'attr content
+        if balise_meta_desc:
+            description_url = balise_meta_desc.get("content")
+        else:
+            description_url = "Aucune description n'est disponible"
+        balise_titre = soup.title
+        titre_url = balise_titre.get_text()
 
         date = datetime.date.today()
         publication = Publication(
@@ -99,4 +99,3 @@ class Publication(db.Model):
                  "description_url": description_url, "auteur": auteur})
 
         return liste_publications
-

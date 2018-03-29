@@ -178,9 +178,9 @@ def recherche():
     resultats = []
 
     if motclef:
-        resultats = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)), Publication.publication_texte.like("%{}%".format(motclef)), Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
-
-    return render_template("pages/recherche.html", resultats=resultats, keyword=motclef)
+        pagination = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)), Publication.publication_texte.like("%{}%".format(motclef)), Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+        publications = Publication.afficher_publications(pagination)
+        return render_template("pages/recherche.html", publications=publications, keyword=motclef, pagination=pagination)
 
 
 @app.route("/publication", methods=["GET", "POST"])

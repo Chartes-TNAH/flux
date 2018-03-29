@@ -101,11 +101,18 @@ def deconnexion():
 @app.route("/profil")
 @login_required
 def profil():
-    """ Route permettant l'affichage du profil de l'utilisateur
+    """ Route permettant l'affichage du profil de l'utilisateur et l'affichage de ses publications.
 
     :return: page html profil de l'utilisateur
     """
-    return render_template("pages/profil.html")
+    #On récupère l'id de l'utilisateur connecté
+    id_utilisateur = current_user.user_id
+    #On ne sélectionne parmi les publications que celles dotn l'id de l'auteur correspond à l'id de l'utilisateur, et on les classes par date.
+    publications = Publication.query.filter(Publication.publi_user_id==id_utilisateur).order_by(Publication.publication_date.desc()).paginate(page=1)
+    #On récupère l'ensemble des informations concernant les publications que l'on va afficher
+    publications = Publication.afficher_publications(publications)
+
+    return render_template("pages/profil.html", publications=publications)
 
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
@@ -139,14 +146,18 @@ def modif_profil(user_id) :
 @app.route("/afficher_profil_utilisateur/<int:user_id>")
 @login_required
 def afficher_profil_utilisateur(user_id) :
-    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté
+    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté, et les publications attachées à cet utilisateur.
 
     :return: page html profil d'un utilisateur
     """
-
+    #On récupère l'id de l'utilisateur
     utilisateur = User.query.get(user_id)
+    #On ne sélectionne parmi les publications que celles dotn l'id de l'auteur correspond à l'id de l'utilisateur, et on les classes par date.
+    publications = Publication.query.filter(Publication.publi_user_id==utilisateur.user_id).order_by(Publication.publication_date.desc()).paginate(page=1)
+    #On récupère l'ensemble des informations concernant les publications que l'on va afficher
+    publications = Publication.afficher_publications(publications)
 
-    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur)
+    return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur, publications=publications)
 
 
 @app.route("/recherche")

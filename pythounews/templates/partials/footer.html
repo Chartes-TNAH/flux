@@ -27,7 +27,12 @@
                 <ul>
                   <li><a class="text-success" href="{{url_for('tnah')}}">A propos</a></li>
                   <li><a class="text-success" href="{{url_for('inscription')}}">Inscription</a></li>
+                  {% if not current_user.is_authenticated %}
                   <li><a class="text-success" href="{{url_for('connexion')}}">Connexion</a></li>
+                  {% endif %}
+                  {% if current_user.is_authenticated %}
+                  <li><a class="text-success" href="{{url_for('deconnexion')}}">Déconnexion</a></li>
+                  {% endif %}
                 </ul>
             </div>
           </div>

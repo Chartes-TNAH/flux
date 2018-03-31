@@ -35,23 +35,29 @@ class Sujet_publi(db.Model):
                     sujet_publi_publication_id=donnees.publication_id,
                     sujet_publi_motscles_id=mot_id.motscles_id
                 )
-        db.session.add(sujetpubli)
-        db.session.commit()
+
+                db.session.add(sujetpubli)
+                db.session.commit()
 
     @staticmethod
     def afficher_publi_categorie(motcle):
         liste_publications = []
-        publications = Publication.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).paginate(page=1, per_page=8)
-        for item in publications.items:
-            titre = item.publication_nom
-            date = item.publication_date
-            lien = item.publication_lien
-            texte = item.publication_texte
-            auteur = User.query.get(item.publi_user_id)
-            description_url = item.publication_description_url
-            titre_url = item.publication_titre_url
+        sujet_publi = Sujet_publi.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).all()
+        print(sujet_publi)
+        for publi in sujet_publi:
+            publications = Publication.query.filter(Publication.publication_id==publi.sujet_publi_publication_id).all()
+            print(publications)
 
-            liste_publications.append(
-                {"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url,
-                 "description_url": description_url, "auteur": auteur})
+            for item in publications:
+                titre = item.publication_nom
+                date = item.publication_date
+                lien = item.publication_lien
+                texte = item.publication_texte
+                auteur = User.query.get(item.publi_user_id)
+                description_url = item.publication_description_url
+                titre_url = item.publication_titre_url
+
+                liste_publications.append(
+                    {"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url,
+                     "description_url": description_url, "auteur": auteur})
         return liste_publications

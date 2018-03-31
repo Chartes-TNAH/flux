@@ -30,7 +30,6 @@ class Publication(db.Model):
         """
         erreurs = []
 
-
         if not titre:
             erreurs.append("Veuillez ajouter un titre à votre publication")
 
@@ -73,7 +72,6 @@ class Publication(db.Model):
             return True, publication
         except Exception as erreur:
             return False, [str(erreur)]
-
 
     @staticmethod
     def afficher_publications(pagination):

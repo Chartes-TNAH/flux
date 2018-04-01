@@ -36,28 +36,39 @@ class Sujet_publi(db.Model):
                     sujet_publi_publication_id=donnees.publication_id,
                     sujet_publi_motscles_id=mot_id.motscles_id
                 )
-        db.session.add(sujetpubli)
-        db.session.commit()
+
+                db.session.add(sujetpubli)
+                db.session.commit()
 
     @staticmethod
     def afficher_publi_categorie(motcle):
-        """ Affichage des publication ayant un mot-clé particulier
+        """ Permet la récupération des publications selon le mot-clé de la page
 
-        :param motcle: mot-clé demandé
-        :return: liste des publication ayant ce mot-clé
+        :param motcle: correspond à l'id du mot-clé, correspondant au motcle_id du chemin de la page
+        :type motscle: int
+        :return liste_publications : liste des publications correspondantes au mot-clé sélectionné par l'utilisateur
+        :type liste_publications : list
+
+
         """
         liste_publications = []
-        publications = Publication.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).paginate(page=1, per_page=8)
-        for item in publications.items:
-            titre = item.publication_nom
-            date = item.publication_date
-            lien = item.publication_lien
-            texte = item.publication_texte
-            auteur = User.query.get(item.publi_user_id)
-            description_url = item.publication_description_url
-            titre_url = item.publication_titre_url
-
-            liste_publications.append(
-                {"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url,
-                 "description_url": description_url, "auteur": auteur})
+        #Récupère le sujet de la publication en fonction du mot clé sélectionné
+        sujet_publi = Sujet_publi.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).all()
+        #On boucle le sujet de la publication
+        for publi in sujet_publi:
+            #On récupère toutes les publications ayant pour mot-clé le même précédement sélectionné
+            publications = Publication.query.filter(Publication.publication_id==publi.sujet_publi_publication_id).all()
+            #POur chaque publication, on récupère tous les éléments nécessaires pour chaque publication
+            for item in publications:
+                titre = item.publication_nom
+                date = item.publication_date
+                lien = item.publication_lien
+                texte = item.publication_texte
+                auteur = User.query.get(item.publi_user_id)
+                description_url = item.publication_description_url
+                titre_url = item.publication_titre_url
+                #On insère au début de la liste la publication, pour qu'elles soient en ordre décroissant
+                liste_publications.insert(0,
+                    {"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url,
+                     "description_url": description_url, "auteur": auteur})
         return liste_publications

@@ -1,59 +1,60 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <link rel="icon" type="image/png" href="static/images/pythounou.png" />
-  <title>PythouNews</title>{% include "partials/metadata.html" %}
+    <link rel="icon" type="image/png" href="static/images/pythounou.png" />
+    <title>PythouNews</title>{% include "partials/metadata.html" %}
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{{ url_for('accueil') }}">PythouNews</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('tnah') }}">A propos</a>
-      </li>
-      {% if not current_user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('connexion') }}">Connexion</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('inscription') }}">Inscription</a>
-      </li>
-      {% else %}
-              <li class="nav-item">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url_for('accueil') }}">PythouNews</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('tnah') }}">A propos</a>
+            </li>
+            {% if not current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('connexion') }}">Connexion</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('inscription') }}">Inscription</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
                 <a class="nav-link" href="{{url_for('publication')}}">Publier</a>
-              </li>
-              <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{url_for('profil')}}">Mon profil</a>
-              </li>
-              <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{url_for('deconnexion')}}">Déconnexion ({{current_user.user_nom}})</a>
-              </li>
+            </li>
             {% endif %}
-    {% if current_user.is_authenticated %}
-    </ul>
-    <form class="form-inline my-2 my-lg-0" action="{{url_for("recherche")}}" method="GET">
-      <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" aria-label="Recherche">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">SSSSSSearch</button>
-    </form>
-    {% endif %}
-  </div>
+            {% if current_user.is_authenticated %}
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="{{url_for('recherche')}}" method="GET">
+            <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" aria-label="Recherche">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">SSSSSSearch</button>
+        </form>
+        {% endif %}
+    </div>
 </nav>
 {% block afternav %}{%endblock%}
-      <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-          <div class="row">
-              <div class="col">
-                {% for category, message in messages %}
-                  <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
-                {% endfor %}
-              </div>
-          </div>
-          {% endif %}
-        {% endwith %}
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="row">
+        <div class="col">
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith
+</div>
 </body>
 </html>

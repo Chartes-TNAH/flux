@@ -3,7 +3,7 @@
 <html>
 <body>
 <h1>Tous les flux</h1>
-  <div>
+<div>
   <div class="row">
     <a href="{{url_for ('rss')}}"><button type="button" class="btn btn-success">Tous les flux</button></a>
     <a href="{{url_for ('afficherrss', motscles_id=1)}}"><button type="button" class="btn btn-light">Bibliothèque</button></a>
@@ -12,26 +12,27 @@
     <a href="{{url_for ('afficherrss', motscles_id=4)}}"><button type="button" class="btn btn-light">Emploi</button></a>
     <a href="{{url_for ('afficherrss', motscles_id=5)}}"><button type="button" class="btn btn-light">Recherches</button></a>
     <a href="{{url_for ('afficherrss', motscles_id=6)}}"><button type="button" class="btn btn-light">Numérique</button></a>
-</div>
+  </div>
   <div>
-  <div class="row d-flex justify-content-around">
-    {%  if liste_rss %}
+    <div class="row d-flex justify-content-around">
+      {%  if liste_rss %}
       {% for flux_rss in liste_rss %}
-    <div class="col-4 bg-light border border-white">
-      <p class="align-middle">
-        <span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{flux_rss[5]}}">{{flux_rss[4]}}</a></span></br>
-        <span style="font-size:0.9em;">{{flux_rss[0]}}</br>
-          {{flux_rss[1]|safe}}</br>
-          <a href="{{flux_rss[2]}}" class="text-success">En savoir plussss</a></br>
+      <div class="col-4 bg-light border border-white">
+        <p class="align-middle">
+          <span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{flux_rss[5]}}">{{flux_rss[4]}}</a></span><br/>
+          <span style="font-size:0.9em;">{{flux_rss[0]}}<br/>
+          {{flux_rss[1]|safe}}<br/>
+          <a href="{{flux_rss[2]}}" class="text-success">En savoir plussss</a><br/>
           {{flux_rss[3]}}</span>
-      </p>
-    </div>
+        </p>
+      </div>
       {% endfor %}
 
-    {% endif %}
-      </div>
+      {% endif %}
     </div>
-  </body>
+  </div>
+</div>
+</body>
 </html>
 
 {% include "partials/footer.html" %}

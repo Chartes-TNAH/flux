@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from ..app import db
 from .publications import Publication
 from .utilisateurs import User
+
 
 # Table pour stocker les mots-clés
 class Motscles(db.Model):
@@ -8,8 +11,6 @@ class Motscles(db.Model):
     motscles_nom = db.Column(db.Text, nullable=False)
     sujetpublis = db.relationship("Sujet_publi", back_populates="motscles")
     sujetfluxrss = db.relationship("Sujet_fluxrss", back_populates="motscles")
-
-
 
 class Sujet_publi(db.Model):
     sujet_publi_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -23,13 +24,13 @@ class Sujet_publi(db.Model):
         """ Ajout de la catégorie de la publication en fonction de ce que l'utilisateur a coché
 
         :param categorie: mots clés choisis par l'utilisateur
-        :type motscles_id: list
+        :type categorie: list
         :param donnees: données rentrées par l'utilisateur (A CHANGER !!!)
         :type donnees: list
         :return: page de publication correspond au mot clé
         """
         for mot in categorie:
-            if mot != None:
+            if mot is not None:
                 mot_id = Motscles.query.filter(Motscles.motscles_nom == mot).first()
                 sujetpubli = Sujet_publi(
                     sujet_publi_publication_id=donnees.publication_id,
@@ -47,6 +48,7 @@ class Sujet_publi(db.Model):
         :type motscle: int
         :return liste_publications : liste des publications correspondantes au mot-clé sélectionné par l'utilisateur
         :type liste_publications : list
+
 
         """
         liste_publications = []

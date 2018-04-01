@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from..app import db
 from bs4 import BeautifulSoup
 import requests
@@ -6,7 +8,8 @@ import datetime
 from flask_login import current_user
 from .utilisateurs import User
 
-#Table pour stocker les publication des utilisateurs
+
+# Table pour stocker les publication des utilisateurs
 class Publication(db.Model):
     publication_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     publication_date = db.Column(db.Text, nullable=False)
@@ -16,8 +19,7 @@ class Publication(db.Model):
     publication_titre_url = db.Column(db.Text, nullable=True, unique=True)
     publication_description_url = db.Column(db.Text, nullable=True, unique=True)
     sujetpublis = db.relationship("Sujet_publi", back_populates="publication")
-    publi_user_id= db.Column(db.Integer, db.ForeignKey('user.user_id'),nullable=False)
-
+    publi_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
 
     @staticmethod
     def creer_publication(titre, lien, texte, auteur):
@@ -26,6 +28,7 @@ class Publication(db.Model):
         :param titre: Titre de la publication
         :param lien: URL partagé par l'utilisateur
         :param texte: Texte écrit par l'utilisateur
+        :param auteur: Utilisateur actuel
         :return: Si réussite, publication de l'utilisateur. Sinon None
         """
         erreurs = []
@@ -68,7 +71,6 @@ class Publication(db.Model):
             db.session.add(publication)
 
             db.session.commit()
-
             return True, publication
         except Exception as erreur:
             return False, [str(erreur)]
@@ -77,8 +79,8 @@ class Publication(db.Model):
     def afficher_publications(pagination):
         """ Affiche les publications des utilisateurs
 
-        :param pagination: 
-        :return: affichage des publications
+        :param pagination:
+        :return: liste des publications
         """
         liste_publications = []
         # si ce n'est pas un objet pagination

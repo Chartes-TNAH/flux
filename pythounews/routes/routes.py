@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import render_template, request, flash, redirect
 from flask_login import login_user, current_user, logout_user, login_required
 from feedparser import parse
@@ -26,7 +28,7 @@ def accueil():
         publications = Publication.afficher_publications(pagination)
         publications = publications[:2]
         liste_rss = Fluxrss.read_rss()
-        return render_template ("pages/accueil.html", liste_rss=liste_rss, publications=publications)
+        return render_template("pages/accueil.html", liste_rss=liste_rss, publications=publications)
     else:
         liste_rss = Fluxrss.read_rss()
         return render_template("pages/accueil.html", liste_rss=liste_rss)
@@ -70,7 +72,7 @@ def connexion():
         flash("Vous êtes connecté-e", "info")
         return redirect("/")
     if request.method == "POST":
-        utilisateur=User.identification(
+        utilisateur = User.identification(
             login=request.form.get("login", None),
             motdepasse=request.form.get("motdepasse", None)
         )
@@ -90,7 +92,7 @@ def connexion():
 def deconnexion():
     """ Route permettant à l'utilisateur de se déconnecter
 
-    :return: page html déconnexion
+    :return: page html d'accueil, utilisateur déconnecté
     """
     if current_user.is_authenticated is True:
         logout_user()
@@ -105,11 +107,12 @@ def profil():
 
     :return: page html profil de l'utilisateur
     """
-    #On récupère l'id de l'utilisateur connecté
+    # On récupère l'id de l'utilisateur connecté
     id_utilisateur = current_user.user_id
-    #On ne sélectionne parmi les publications que celles dotn l'id de l'auteur correspond à l'id de l'utilisateur, et on les classes par date.
+    # On ne sélectionne parmi les publications que celles dont
+    # l'id de l'auteur correspond à l'id de l'utilisateur, et on les classes par date.
     publications = Publication.query.filter(Publication.publi_user_id==id_utilisateur).order_by(Publication.publication_date.desc()).paginate(page=1)
-    #On récupère l'ensemble des informations concernant les publications que l'on va afficher
+    # On récupère l'ensemble des informations concernant les publications que l'on va afficher
     publications = Publication.afficher_publications(publications)
 
     return render_template("pages/profil.html", publications=publications)
@@ -117,44 +120,52 @@ def profil():
 
 @app.route("/modif_profil/<int:user_id>", methods=["POST", "GET"])
 @login_required
-def modif_profil(user_id) :
+def modif_profil(user_id):
     """ Route permettant à l'utilisateur de modifier les informations de son profil
 
     :param user_id: id de l'utilisateur
     :type user_id: integer
     :return: page html de modification du profil de l'utilisateur
     """
-    statut, donnees = User.modif_profil(
-        user_id=user_id,
-        email=request.form.get("email", None),
-        login=request.form.get("login", None),
-        nom=request.form.get("nom", None),
-        bio=request.form.get("bio", None),
-        spe=request.form.get("spe", None),
-        promo=request.form.get("promo", None)
-    )
-    if statut is True:
-        flash("Votre modification a bien été acceptée", "success")
-        return redirect("/")
 
+    if request.method == "POST":
+        statut, donnees = User.modif_profil(
+            user_id=user_id,
+            email=request.form.get("email", None),
+            login=request.form.get("login", None),
+            nom=request.form.get("nom", None),
+            bio=request.form.get("bio", None),
+            spe=request.form.get("spe", None),
+            promo=request.form.get("promo", None)
+        )
+        if statut is True:
+            flash("Votre modification a bien été acceptée", "success")
+            return redirect("/")
+
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ", ".join(donnees), "danger")
+            nouvel_utilisateur = User.query.get(user_id)
+            return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
     else:
-        flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
-        nouvel_utilisateur = User.query.get(user_id)
-        return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
+        return render_template("pages/modif_profil.html", user=current_user)
 
 
 @app.route("/afficher_profil_utilisateur/<int:user_id>")
 @login_required
-def afficher_profil_utilisateur(user_id) :
-    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté, et les publications attachées à cet utilisateur.
+def afficher_profil_utilisateur(user_id):
+    """ Route permettant d'afficher le profil d'un utilisateur lorsque l'on est connecté, et
+    les publications attachées à cet utilisateur.
 
+    :param user_id: ID de l'utilisateur connecté
+    :type user_id: int
     :return: page html profil d'un utilisateur
     """
-    #On récupère l'id de l'utilisateur
+    # On récupère l'id de l'utilisateur
     utilisateur = User.query.get(user_id)
-    #On ne sélectionne parmi les publications que celles dotn l'id de l'auteur correspond à l'id de l'utilisateur, et on les classes par date.
-    publications = Publication.query.filter(Publication.publi_user_id==utilisateur.user_id).order_by(Publication.publication_date.desc()).paginate(page=1)
-    #On récupère l'ensemble des informations concernant les publications que l'on va afficher
+    # On ne sélectionne parmi les publications que celles dotn l'id de l'auteur correspond à l'id
+    # de l'utilisateur, et on les classes par date.
+    publications = Publication.query.filter(Publication.publi_user_id == utilisateur.user_id).order_by(Publication.publication_date.desc()).paginate(page=1)
+    # On récupère l'ensemble des informations concernant les publications que l'on va afficher
     publications = Publication.afficher_publications(publications)
 
     return render_template("pages/profil_utilisateur.html", utilisateur=utilisateur, publications=publications)
@@ -175,10 +186,9 @@ def recherche():
     else:
         page = 1
 
-    resultats = []
-
     if motclef:
-        pagination = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)), Publication.publication_texte.like("%{}%".format(motclef)), Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
+        pagination = Publication.query.filter(db.or_(Publication.publication_nom.like("%{}%".format(motclef)),
+                                                     Publication.publication_texte.like("%{}%".format(motclef)), Publication.publication_description_url.like("%{}%".format(motclef)))).paginate(page=page, per_page=3)
         publications = Publication.afficher_publications(pagination)
         return render_template("pages/recherche.html", publications=publications, keyword=motclef, pagination=pagination)
 

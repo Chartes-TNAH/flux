@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from warnings import warn
 
 SECRET_KEY = "J'AIME BEAUCOUP LES PYTHONS"

@@ -3,10 +3,9 @@
 <html>
 <body>
 <h1>Mon profil</h1>
-<p>
-  <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
-</p>
-
+<div>
+            <img src="../static/images/pythounou.png" alt="Pythounou lunetté"/>
+        </div>
 <form class="form" method="POST" action="{{url_for('modif_profil', user_id=current_user.user_id)}}" >
 
   <div class="form-group row">
@@ -33,14 +32,14 @@
   <div class="form-group row">
     <label for="promo" class="col-sm-2 col-form-label">Promo</label>
     <div class="col-sm-10">
-      <input type="integer" class="form-control" id="promo" name="promo" value="{{current_user.user_promo}}">
+      <input type="number" class="form-control" id="promo" name="promo" value="{{current_user.user_promo}}">
     </div>
   </div>
 
   <div class="form-group row">
     <label for="spe" class="col-sm-2 col-form-label">Spécialité</label>
     <div class="col-sm-10">
-      <input type="integer" class="form-control" id="spe" name="spe" value="{{current_user.user_spe}}">
+      <input type="text" class="form-control" id="spe" name="spe" value="{{current_user.user_spe}}">
     </div>
   </div>
 

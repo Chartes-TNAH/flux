@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .. app import db, login
@@ -12,10 +14,7 @@ class User(UserMixin, db.Model):
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
     user_spe = db.Column(db.Text, nullable=True)
-    #user_publication_id = db.relationship("Publication", back_populates="publi_user_id")
     publications = db.relationship('Publication', backref='user', lazy=True)
-    #Tu peux ensuite faire publi.publi_user
-
 
     @staticmethod
     def identification(login, motdepasse):
@@ -48,23 +47,23 @@ class User(UserMixin, db.Model):
         """
         erreurs = []
         if not login:
-            erreurs.append("Le login fourni est vide")
+            erreurs.append("le login fourni est vide")
         if not email:
-            erreurs.append("L'email fourni est vide")
+            erreurs.append("l'email fourni est vide")
         if not nom:
-            erreurs.append("Le nom fourni est vide")
+            erreurs.append("le nom fourni est vide")
         if not motdepasse or len(motdepasse) < 6:
             erreurs.append("Le mot de passe fourni est vide ou trop court")
-        if not promo :
+        if not promo:
             erreurs.append("La promo fournie est vide")
 
 
-            # On vérifie que personne n'a utilisé cet email ou ce login
+        # On vérifie que personne n'a utilisé cet email ou ce login
         uniques = User.query.filter(
             db.or_(User.user_email == email, User.user_login == login)
         ).count()
         if uniques > 0:
-            erreurs.append("L'email ou le login sont déjà inscrits dans notre base de données")
+            erreurs.append("l'email ou le login sont déjà inscrits dans notre base de données")
 
         # Si on a au moins une erreur
         if len(erreurs) > 0:
@@ -104,16 +103,15 @@ class User(UserMixin, db.Model):
     def trouver_utilisateur_via_id(identifiant):
         return User.query.get(int(identifiant))
 
-
     @staticmethod
     def modif_profil(user_id, login, email, nom, bio, promo, spe):
         """
         Méthode statique pour mettre à jour les informations sur l'utilisateur
 
+        :param user_id: ID de l'utilisateur
         :param login: Login de l'utilisateur
         :param email: Email de l'utilisateur
         :param nom: Nom de l'utilisateur
-        :param motdepasse: Mot de passe de l'utilisateur (au minimum 6 caractères)
         :param bio: Courte biographie de l'utilisateur
         :param promo: Année de promotion de l'utilisateur
         :param spe: spécialité suivie par l'utilisateur lors du master 1
@@ -121,15 +119,11 @@ class User(UserMixin, db.Model):
         """
         erreurs = []
         if not nom:
-            erreurs.append("Le nom est obligatoire")
+            erreurs.append("le nom est obligatoire")
         if not email:
-            erreurs.append("L'email est obligatoire")
+            erreurs.append("l'email est obligatoire")
         if not login:
-            erreurs.append("Le login est obligatoire")
-
-
-        # On vérifie que personne n'a utilisé cet email ou ce login
-
+            erreurs.append("le login est obligatoire")
 
         # Si on a au moins une erreur
         if len(erreurs) > 0:

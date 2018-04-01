@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .. app import db, login
@@ -12,10 +14,7 @@ class User(UserMixin, db.Model):
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
     user_spe = db.Column(db.Text, nullable=True)
-    #user_publication_id = db.relationship("Publication", back_populates="publi_user_id")
     publications = db.relationship('Publication', backref='user', lazy=True)
-    #Tu peux ensuite faire publi.publi_user
-
 
     @staticmethod
     def identification(login, motdepasse):
@@ -55,11 +54,10 @@ class User(UserMixin, db.Model):
             erreurs.append("Le nom fourni est vide")
         if not motdepasse or len(motdepasse) < 6:
             erreurs.append("Le mot de passe fourni est vide ou trop court")
-        if not promo :
+        if not promo:
             erreurs.append("La promo fournie est vide")
 
-
-            # On vérifie que personne n'a utilisé cet email ou ce login
+        # On vérifie que personne n'a utilisé cet email ou ce login
         uniques = User.query.filter(
             db.or_(User.user_email == email, User.user_login == login)
         ).count()
@@ -104,16 +102,15 @@ class User(UserMixin, db.Model):
     def trouver_utilisateur_via_id(identifiant):
         return User.query.get(int(identifiant))
 
-
     @staticmethod
     def modif_profil(user_id, login, email, nom, bio, promo, spe):
         """
         Méthode statique pour mettre à jour les informations sur l'utilisateur
 
+        :param user_id: ID de l'utilisateur
         :param login: Login de l'utilisateur
         :param email: Email de l'utilisateur
         :param nom: Nom de l'utilisateur
-        :param motdepasse: Mot de passe de l'utilisateur (au minimum 6 caractères)
         :param bio: Courte biographie de l'utilisateur
         :param promo: Année de promotion de l'utilisateur
         :param spe: spécialité suivie par l'utilisateur lors du master 1
@@ -126,10 +123,6 @@ class User(UserMixin, db.Model):
             erreurs.append("L'email est obligatoire")
         if not login:
             erreurs.append("Le login est obligatoire")
-
-
-        # On vérifie que personne n'a utilisé cet email ou ce login
-
 
         # Si on a au moins une erreur
         if len(erreurs) > 0:

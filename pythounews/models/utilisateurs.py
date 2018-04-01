@@ -121,11 +121,11 @@ class User(UserMixin, db.Model):
         """
         erreurs = []
         if not nom:
-            erreurs.append("Le nom est obligatoire")
+            erreurs.append("le nom est obligatoire")
         if not email:
-            erreurs.append("L'email est obligatoire")
+            erreurs.append("l'email est obligatoire")
         if not login:
-            erreurs.append("Le login est obligatoire")
+            erreurs.append("le login est obligatoire")
 
 
         # On vérifie que personne n'a utilisé cet email ou ce login

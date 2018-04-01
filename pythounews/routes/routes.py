@@ -138,7 +138,7 @@ def modif_profil(user_id) :
         return redirect("/")
 
     else:
-        flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+        flash("Les erreurs suivantes ont été rencontrées : " + ", ".join(donnees), "danger")
         nouvel_utilisateur = User.query.get(user_id)
         return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
 

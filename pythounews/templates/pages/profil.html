@@ -8,8 +8,7 @@
         <div class="col-4">
             <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
         </div>
-
-        <div class="col-8">
+        <div class="col-8 container bg-light">
             <div class="row">
                 <div class="col-6">Mon prénom et mon nom :</div>
                 <div class="col-6">{{current_user.user_nom}}</div>
@@ -18,40 +17,44 @@
                 <div class="col-6">Mon pseudo :</div>
                 <div class="col-6">{{current_user.user_login}}</div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="container bg-light">
+
         <div class="row d-flex justify-content-center">
-            <div class="col-3">Mes études :</div>
-            <div class="col-3">{{current_user.user_bio}}</div>
+            <div class="col-6">Mes études :</div>
+            <div class="col-6">{{current_user.user_bio}}</div>
         </div>
 
         <div class="row d-flex justify-content-center">
-            <div class="col-3">Ma promo :</div>
-            <div class="col-3">{{current_user.user_promo}}</div>
+            <div class="col-6">Ma promo :</div>
+            <div class="col-6">{{current_user.user_promo}}</div>
         </div>
 
         <div class="row d-flex justify-content-center">
-            <div class="col-3" >Ma spécialité :</div>
-            <div class="col-3">{{current_user.user_spe}}</div>
+            <div class="col-6" >Ma spécialité :</div>
+            <div class="col-6">{{current_user.user_spe}}</div>
         </div>
 
         <div class="row d-flex justify-content-center">
-            <div class="col-3">Mon email :</div>
-            <div class="col-3">{{current_user.user_email}}</div>
+            <div class="col-6">Mon email :</div>
+            <div class="col-6">{{current_user.user_email}}</div>
+
         </div>
-    </div><br/>
-<div class="div text-center">
+            <br/>
+<div class="row d-flex justify-content-around">
     <a type="submit" class="btn btn-success" href="{{url_for('modif_profil', user_id=current_user.user_id)}}">Modifier mon profil</a>
 </div>
+        </div>
+        </div>
+
+    </div>
 <div>
 <h2 style="text-align:center">Vos publications</h2>
     <div class="row d-flex justify-content-around">
             {% if publications%}
               {% for item in publications%}
         <div class="col-4 bg-light border border-white">
-              <p class="align-middle">Publiée le {{item["date"]}} <!-- Date du jour --> par <a href="{{url_for ('afficher_profil_utilisateur', user_id = item["auteur"].user_id)}}">{{item["auteur"].user_login}}</a> <br/>
+              <p class="align-middle">Publiée le {{item["date"]}} <!-- Date du jour --> par
+                  <a href="{{url_for ('afficher_profil_utilisateur', user_id = item['auteur'].user_id)}}">{{item["auteur"].user_login}}</a>
+                  <br/>
                 {{item["titre"]}}<br/> <!-- Titre donné par l'utilisateur -->
                 {{item["texte"]}}<br/> <!-- commentaire donné par l'utilisateur -->
                 <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
@@ -65,6 +68,7 @@
             {% endif %}
           </div>
           </div>
+</div>
 </body>
 </html>
 

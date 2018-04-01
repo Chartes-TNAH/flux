@@ -124,23 +124,27 @@ def modif_profil(user_id) :
     :type user_id: integer
     :return: page html de modification du profil de l'utilisateur
     """
-    statut, donnees = User.modif_profil(
-        user_id=user_id,
-        email=request.form.get("email", None),
-        login=request.form.get("login", None),
-        nom=request.form.get("nom", None),
-        bio=request.form.get("bio", None),
-        spe=request.form.get("spe", None),
-        promo=request.form.get("promo", None)
-    )
-    if statut is True:
-        flash("Votre modification a bien été acceptée", "success")
-        return redirect("/")
 
+    if request.method == "POST":
+        statut, donnees = User.modif_profil(
+            user_id=user_id,
+            email=request.form.get("email", None),
+            login=request.form.get("login", None),
+            nom=request.form.get("nom", None),
+            bio=request.form.get("bio", None),
+            spe=request.form.get("spe", None),
+            promo=request.form.get("promo", None)
+        )
+        if statut is True:
+            flash("Votre modification a bien été acceptée", "success")
+            return redirect("/")
+
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ", ".join(donnees), "danger")
+            nouvel_utilisateur = User.query.get(user_id)
+            return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
     else:
-        flash("Les erreurs suivantes ont été rencontrées : " + ", ".join(donnees), "danger")
-        nouvel_utilisateur = User.query.get(user_id)
-        return render_template("pages/modif_profil.html", user=nouvel_utilisateur)
+        return render_template("pages/modif_profil.html", user=current_user)
 
 
 @app.route("/afficher_profil_utilisateur/<int:user_id>")

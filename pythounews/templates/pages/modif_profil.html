@@ -3,10 +3,9 @@
 <html>
 <body>
 <h1>Mon profil</h1>
-<p>
-  <img src="static/images/pythounou.png" alt="Pythounou lunetté"/>
-</p>
-
+<div>
+            <img src="../static/images/pythounou.png" alt="Pythounou lunetté"/>
+        </div>
 <form class="form" method="POST" action="{{url_for('modif_profil', user_id=current_user.user_id)}}" >
 
   <div class="form-group row">

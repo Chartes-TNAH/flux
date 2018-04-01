@@ -41,13 +41,22 @@ class Sujet_publi(db.Model):
 
     @staticmethod
     def afficher_publi_categorie(motcle):
-        liste_publications = []
-        sujet_publi = Sujet_publi.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).all()
-        print(sujet_publi)
-        for publi in sujet_publi:
-            publications = Publication.query.filter(Publication.publication_id==publi.sujet_publi_publication_id).all()
-            print(publications)
+        """ Permet la récupération des publications selon le mot-clé de la page
 
+        :param motcle: correspond à l'id du mot-clé, correspondant au motcle_id du chemin de la page
+        :type motscle: int
+        :return liste_publications : liste des publications correspondantes au mot-clé sélectionné par l'utilisateur
+        :type liste_publications : list
+
+        """
+        liste_publications = []
+        #Récupère le sujet de la publication en fonction du mot clé sélectionné
+        sujet_publi = Sujet_publi.query.filter(Sujet_publi.sujet_publi_motscles_id == motcle.motscles_id).all()
+        #On boucle le sujet de la publication
+        for publi in sujet_publi:
+            #On récupère toutes les publications ayant pour mot-clé le même précédement sélectionné
+            publications = Publication.query.filter(Publication.publication_id==publi.sujet_publi_publication_id).all()
+            #POur chaque publication, on récupère tous les éléments nécessaires pour chaque publication
             for item in publications:
                 titre = item.publication_nom
                 date = item.publication_date
@@ -56,8 +65,8 @@ class Sujet_publi(db.Model):
                 auteur = User.query.get(item.publi_user_id)
                 description_url = item.publication_description_url
                 titre_url = item.publication_titre_url
-
-                liste_publications.append(
+                #On insère au début de la liste la publication, pour qu'elles soient en ordre décroissant
+                liste_publications.insert(0,
                     {"titre": titre, "date": date, "lien": lien, "texte": texte, "titre_url": titre_url,
                      "description_url": description_url, "auteur": auteur})
         return liste_publications

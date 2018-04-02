@@ -56,6 +56,12 @@ class User(UserMixin, db.Model):
             erreurs.append("Le mot de passe fourni est vide ou trop court")
         if not promo:
             erreurs.append("La promo fournie est vide")
+        #Permet d'afficher un message d'erreur si la promotion inscrite n'est pas comprise entre 2005 et 2030.
+        if (int(promo)<2005)or(int(promo)>2030):
+            erreurs.append("La promo doit être comprise entre 2005 et 2030")
+        #Si la spécialité n'est pas sélectionnée, un message d'erreur d'affiche.
+        if spe == "not_selected":
+            erreurs.append("Veuillez sélectionner votre spécialité")
 
 
         # On vérifie que personne n'a utilisé cet email ou ce login
@@ -124,6 +130,12 @@ class User(UserMixin, db.Model):
             erreurs.append("l'email est obligatoire")
         if not login:
             erreurs.append("le login est obligatoire")
+        #Permet d'afficher un message d'erreur si la promotion inscrite n'est pas comprise entre 2005 et 2030.
+        if (int(promo)<2005)or(int(promo)>2030):
+            erreurs.append("La promo doit être comprise entre 2005 et 2030")
+        #Si la spécialité n'est pas sélectionnée, un message d'erreur d'affiche.
+        if spe == "not_selected":
+            erreurs.append("Veuillez sélectionner votre spécialité")
 
         # Si on a au moins une erreur
         if len(erreurs) > 0:
@@ -135,7 +147,7 @@ class User(UserMixin, db.Model):
         utilisateur.user_email = email
         utilisateur.user_login = login
         utilisateur.user_bio = bio
-        utilisateur.use_spe = spe
+        utilisateur.user_spe = spe
         utilisateur.user_promo = promo
 
         try:

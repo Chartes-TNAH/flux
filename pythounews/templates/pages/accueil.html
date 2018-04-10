@@ -2,7 +2,7 @@
 
 <html>
 <body>
-<h1>PythouNews</h1>
+<h1><img class="logo" src="static/images/pythounews_logo.jpg" alt="PythouNews"/></h1>
 <h2>L'actualité du master TNAH de l'Ecole nationale des chartes</h2>
 {% if current_user.is_authenticated %}
 <div>
@@ -38,7 +38,7 @@
             <p class="align-middle">
                 <span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a
                         href="{{flux_rss[5]}}" class="text-success">{{flux_rss[4]}}</a></span><br/>
-                <span style="font-size:0.9em;">{{flux_rss[0]}}<br/>
+                <span style="font-size:0.9em;">{{flux_rss[0]|safe }}<br/>
       {{flux_rss[1]|safe}}<br/>
       <a href="{{flux_rss[2]}}" class="text-success ">En savoir plussss</a><br/>
       {{flux_rss[3]}}</span>

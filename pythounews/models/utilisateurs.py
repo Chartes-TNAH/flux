@@ -130,9 +130,12 @@ class User(UserMixin, db.Model):
             erreurs.append("l'email est obligatoire")
         if not login:
             erreurs.append("le login est obligatoire")
-        #Permet d'afficher un message d'erreur si la promotion inscrite n'est pas comprise entre 2005 et 2030.
-        if (int(promo)<2005)or(int(promo)>2030):
-            erreurs.append("La promo doit être comprise entre 2005 et 2030")
+        if not promo:
+            erreurs.append("La promo fournie est vide")
+        # Permet d'afficher un message d'erreur si la promotion inscrite n'est pas comprise entre 2005 et 2030.
+        if promo:
+            if (int(promo) < 2005) or (int(promo) > 2030):
+                erreurs.append("La promo doit être comprise entre 2005 et 2030")  
         #Si la spécialité n'est pas sélectionnée, un message d'erreur d'affiche.
         if spe == "not_selected":
             erreurs.append("Veuillez sélectionner votre spécialité")

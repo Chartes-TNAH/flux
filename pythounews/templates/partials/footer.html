@@ -19,7 +19,7 @@
                     <li><a class="text-success" href="{{url_for('accueil')}}">Accueil</a></li>
                     {% if current_user.is_authenticated %}
                     <li><a class="text-success" href="{{url_for('afficherpublis')}}">Publications</a></li>
-                    <li><a class="text-success" href="{{url_for('rss')}}">Flux rss</a></li>
+                    <li><a class="text-success" href="{{url_for('afficherrss')}}">Flux rss</a></li>
                     {% endif %}
                 </ul>
             </div>

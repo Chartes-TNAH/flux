@@ -252,11 +252,11 @@ def afficherpublisCategorie(motscles_id):
     motscles = Motscles.query.all()
     publications = Sujet_publi.afficher_publi_categorie(motcle)
 
-    return render_template("pages/afficherpublisCategories.html", publications=publications, motscles=motscles)
+    return render_template("pages/afficherpublisCategories.html", publications=publications, motscles=motscles, motcle=motcle)
 
 
 @app.route('/rss')
-def rss():
+def afficherrss():
     """ Route permettant l'affichage de l'ensemble des flux rss entrés dans la base
 
     :return: page html des flux rss
@@ -267,7 +267,7 @@ def rss():
 
 
 @app.route('/rss/<int:motscles_id>')
-def afficherrss(motscles_id):
+def afficherrssCategorie(motscles_id):
     """ Route permettant l'affichage des flux rss par mots clés entrés dans la base
 
     :return: page html des flux rss par mots clefs

@@ -2,12 +2,12 @@
 
 <html>
 <body>
-<h1>Les publications</h1>
+<h1>motcle.motscles_nom</h1>
 <div class="row d-flex justify-content-around">
-    <a href="{{url_for ('afficherpublis')}}" type="button" class="btn btn-success">Toutes les publications</a>
+    <a href="{{url_for ('afficherpublis')}}" role="button" class="btn btn-success">Toutes les publications</a>
 
     {% for mot in motscles %}
-    <a href="{{url_for ('afficherpublisCategorie', motscles_id=mot.motscles_id)}}" type="button" class="btn btn-success">{{mot.motscles_nom}}</a>
+    <a href="{{url_for ('afficherpublisCategorie', motscles_id=mot.motscles_id)}}" role="button" class="btn btn-success">{{mot.motscles_nom}}</a>
     {% endfor %}
 </div>
 

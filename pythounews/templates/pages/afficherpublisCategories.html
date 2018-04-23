@@ -2,7 +2,7 @@
 
 <html>
 <body>
-<h1>motcle.motscles_nom</h1>
+<h1>{{motcle.motscles_nom}}</h1>
 <div class="row d-flex justify-content-around">
     <a href="{{url_for ('afficherpublis')}}" role="button" class="btn btn-success">Toutes les publications</a>
 
@@ -11,21 +11,8 @@
     {% endfor %}
 </div>
 
-<div class="row d-flex justify-content-around">
-    {% if publications%}
-    {% for item in publications%}
-    <div class="col-4 bg-light border border-white">
-        <p class="align-middle">Publiée le {{item["date"]}} <!-- Date du jour --> par <a href="{{url_for ('afficher_profil_utilisateur', user_id = item['auteur'].user_id)}}">{{item["auteur"].user_login}}</a> <br/>
-            {{item["titre"]}}<br/> <!-- Titre donné par l'utilisateur -->
-            {{item["texte"]}}<br/> <!-- commentaire donné par l'utilisateur -->
-            <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
-            {{item["description_url"]}} <!-- description automatique -->
-        </p>
-    </div>
+{% include "partials/publications.html" %}
 
-    {% endfor %}
-    {% endif %}
-</div>
 </body>
 </html>
 

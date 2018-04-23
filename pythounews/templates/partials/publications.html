@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+
 </head>
 <body>
-$END$
+
+<div class="row d-flex justify-content-around">
+    {% if publications%}
+    {% for item in publications%}
+    <div class="col-4 bg-light border border-white">
+        <p class="align-middle">Publiée le {{item["date"]}} <!-- Date du jour --> par
+            <a href="{{url_for ('afficher_profil_utilisateur', user_id = item['auteur'].user_id)}}">{{item["auteur"].user_login}}</a>
+            <br/></p>
+        <p class="titre_boite">{{item["titre"]}}</p><br/> <!-- Titre donné par l'utilisateur -->
+        <p class="com_boite">{{item["texte"]}}</p><br/> <!-- commentaire donné par l'utilisateur -->
+            {% if item["titre_url"] == None %}
+            <a href="{{item['lien']}}">{{item["lien"]}}</a> <br/>
+            {% else %}
+            <a href="{{item['lien']}}">{{item["titre_url"]}}</a> <br/> <!-- item 2 : url item 4 titre de l'url -->
+            {% endif %}
+            {% if item["description_url"] == None %}
+            {% else %}
+        <p>{{item["description_url"]}}</p> <!-- description automatique -->
+            {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
 </body>
 </html>

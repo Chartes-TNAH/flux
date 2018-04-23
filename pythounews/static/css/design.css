@@ -31,3 +31,20 @@ div
     width : 30%;
     height : auto;
 }
+
+.titre_boite
+{
+   font-weight : bold;
+   text-align : center;
+}
+
+.com_boite
+{
+    font-style : italic;
+}
+
+
+.vert
+{
+    color : #218838;
+}

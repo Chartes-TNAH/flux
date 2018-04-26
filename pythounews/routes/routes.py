@@ -232,7 +232,15 @@ def afficherpublis():
 
     :return: page html publications
     """
-    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=1, per_page=8)
+
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    pagination = Publication.query.order_by(Publication.publication_date.desc()).paginate(page=page, per_page=3)
     publications = Publication.afficher_publications(pagination)
     motscles = Motscles.query.all()
 

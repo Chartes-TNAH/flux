@@ -23,7 +23,7 @@
               <span>
                 <!-- rss[5] correspond au lien vers la page de l'institution ayant fourni le flux rss
                 et rss[4], qui correspond au 5e élément de la liste rss, renvoie le nom de l'institution -->
-                <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a href="{{rss[5]}}">{{rss[4]}}</a>
+                <img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a target="_blank" href="{{rss[5]}}">{{rss[4]}}</a>
               </span>
           <br/>
           <!-- rss[0], premier élément de la liste, renvoie le titre de la dernière actualité -->
@@ -31,7 +31,7 @@
             <!-- rss[1] renvoie le sujet de l'actualité. L'ajout de "|safe" permet l'interprétation des balises html qui étaient contenu à l'origine directement dans le texte du sujet -->
                 {{rss[1]|safe}}<br/>
             <!-- rss[2] permet de faire le lien vers la page qui développe l'actualité -->
-                <a href="{{rss[2]}}" class="text-success">En savoir plussss</a><br/>
+                <a href="{{rss[2]}}" target="_blank" class="text-success">En savoir plussss</a><br/>
             <!-- rss[3] récupère et affiche la date de l'actualité -->
                 {{rss[3]}}
               </span>

@@ -9,7 +9,7 @@
 
 {% include "partials/publications.html" %}
 
-<div class="col-12"><a href="{{url_for('afficherpublis')}}" target="_blank" class="btn btn-success btn-sm btn-block">Plus de publications ici</a></div>
+<div class="col-12"><a href="{{url_for('afficherpublis')}}" class="btn btn-success btn-sm btn-block">Plus de publications ici</a></div>
 
     {% else %}
 
@@ -23,10 +23,10 @@
         <div class="col-4 bg-light p-3 m-3">
             <p class="align-middle">
                 <span><img src="http://www.icone-png.com/png/22/22319.png" style="width : 20px;"><a
-                        href="{{flux_rss[5]}}" class="text-success">{{flux_rss[4]}}</a></span><br/>
+                        href="{{flux_rss[5]}}" target="_blank" class="text-success">{{flux_rss[4]}}</a></span><br/>
                 <span style="font-size:0.9em;">{{flux_rss[0]|safe }}<br/>
       {{flux_rss[1]|safe}}<br/>
-      <a href="{{flux_rss[2]}}" class="text-success ">En savoir plussss</a><br/>
+      <a href="{{flux_rss[2]}}" target="_blank" class="text-success ">En savoir plussss</a><br/>
       {{flux_rss[3]}}</span>
             </p>
         </div>
@@ -35,7 +35,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12"><a href="{{url_for('afficherrss')}}" target="_blank" class="btn btn-success btn-sm btn-block">Plus de
+        <div class="col-12"><a href="{{url_for('afficherrss')}}" class="btn btn-success btn-sm btn-block">Plus de
             flux par ici</a></div>
     </div>
 
@@ -59,7 +59,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12"><a href="{{url_for('reseauxsociaux')}}" target="_blank" class="btn btn-success btn-sm btn-block">Plus d'infos des réseaux sociaux par ici</a></div>
+        <div class="col-12"><a href="{{url_for('reseauxsociaux')}}" class="btn btn-success btn-sm btn-block">Plus d'infos des réseaux sociaux par ici</a></div>
     </div>
 
 </div>
